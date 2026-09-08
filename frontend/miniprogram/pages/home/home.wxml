@@ -1,0 +1,50 @@
+﻿<!--首页-->
+<view class="container">
+  <!-- Banner轮播 -->
+  <swiper class="banner" indicator-dots circular autoplay interval="4000">
+    <swiper-item wx:for="{{banners}}" wx:key="id">
+      <image src="{{item.image_url}}" mode="aspectFill" bindtap="onBannerTap" data-url="{{item.link_url}}"></image>
+    </swiper-item>
+  </swiper>
+
+  <!-- 金刚区入口 -->
+  <view class="nav-grid">
+    <view class="nav-item" bindtap="goToModule" data-type="yi">
+      <image src="/static/nav/yi.png" mode="aspectFit"></image>
+      <text>衣</text>
+    </view>
+    <view class="nav-item" bindtap="goToModule" data-type="shi">
+      <image src="/static/nav/shi.png" mode="aspectFit"></image>
+      <text>食</text>
+    </view>
+    <view class="nav-item" bindtap="goToModule" data-type="zhu">
+      <image src="/static/nav/zhu.png" mode="aspectFit"></image>
+      <text>住</text>
+    </view>
+    <view class="nav-item" bindtap="goToModule" data-type="xing">
+      <image src="/static/nav/xing.png" mode="aspectFit"></image>
+      <text>行</text>
+    </view>
+    <view class="nav-item" bindtap="goToModule" data-type="shequ">
+      <image src="/static/nav/shequ.png" mode="aspectFit"></image>
+      <text>社区</text>
+    </view>
+  </view>
+
+  <!-- 热门推荐 -->
+  <view class="section">
+    <view class="section-title">热门推荐</view>
+    <scroll-view scroll-x class="recommend-scroll">
+      <view class="recommend-item" wx:for="{{hotProducts}}" wx:key="id" bindtap="goToDetail" data-type="{{item.type}}" data-id="{{item.id}}">
+        <image src="{{item.image}}" mode="aspectFill" class="recommend-img"></image>
+        <text class="recommend-name">{{item.title}}</text>
+        <text class="recommend-price">¥{{item.price}}</text>
+      </view>
+    </scroll-view>
+  </view>
+
+  <!-- 公告 -->
+  <view class="notice-bar" wx:if="{{announcement}}">
+    <text>{{announcement}}</text>
+  </view>
+</view>
