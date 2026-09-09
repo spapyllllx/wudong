@@ -246,3 +246,45 @@
   color: #fff;
   border-color: #8e2f2f;
 }
+.rev-item {
+  display: flex;
+  padding: 14rpx 0;
+  border-bottom: 2rpx solid #f7f7f7;
+}
+.rev-img {
+  width: 110rpx;
+  height: 110rpx;
+  border-radius: 12rpx;
+  background: #f2f3f5;
+  flex: none;
+}
+.rev-info {
+  flex: 1;
+  margin-left: 18rpx;
+  min-width: 0;
+}
+.rev-title {
+  font-size: 28rpx;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.rev-stars {
+  color: #e6a23c;
+  font-size: 22rpx;
+  margin: 6rpx 0;
+}
+.rev-content {
+  font-size: 26rpx;
+  color: #444;
+  line-height: 1.5;
+}
+.rev-reply {
+  background: #f4f4f5;
+  border-radius: 8rpx;
+  padding: 10rpx;
+  font-size: 23rpx;
+  color: #666;
+  margin-top: 8rpx;
+}

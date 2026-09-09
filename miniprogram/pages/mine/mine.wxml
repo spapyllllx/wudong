@@ -63,6 +63,21 @@
     <view class="empty-line" wx:if="{{!orders.length}}">暂无订单,去首页逛逛吧</view>
   </view>
 
+  <!-- 我的评价 -->
+  <view class="panel" wx:if="{{logged}}">
+    <view class="panel-title">我的评价({{reviews.length}})</view>
+    <view class="rev-item" wx:for="{{reviews}}" wx:key="id">
+      <image class="rev-img" src="{{item.main_image}}" mode="aspectFill" bindtap="goDetail" data-id="{{item.product_id}}" />
+      <view class="rev-info">
+        <view class="rev-title" bindtap="goDetail" data-id="{{item.product_id}}">{{item.title}}</view>
+        <view class="rev-stars">评分:{{item.rating}} 分 · {{item.created_at}}</view>
+        <view class="rev-content">{{item.content}}</view>
+        <view class="rev-reply" wx:if="{{item.reply_content}}">商家回复:{{item.reply_content}}</view>
+      </view>
+    </view>
+    <view class="empty-line" wx:if="{{!reviews.length}}">还没有评价过,去支持下单的商品吧</view>
+  </view>
+
   <!-- 评价 -->
   <view class="mask" wx:if="{{evalVisible}}" bindtap="hideEval"></view>
   <view class="sheet" wx:if="{{evalVisible}}">

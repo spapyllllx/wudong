@@ -73,4 +73,13 @@ export class AppClothingProductController extends BaseController {
   async submitReview(@Body() body) {
     return this.ok(await this.clothingReviewService.submit(this.ctx.user.id, body));
   }
+
+  @Get('/my-reviews', { summary: '我的评价(分页)' })
+  async myReviewList(@Query() query) {
+    const page = Math.max(parseInt(query.page) || 1, 1);
+    const size = Math.min(Math.max(parseInt(query.size) || 10, 1), 50);
+    return this.ok(
+      await this.clothingReviewService.myReviews(this.ctx.user.id, page, size)
+    );
+  }
 }

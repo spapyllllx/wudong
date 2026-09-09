@@ -96,6 +96,43 @@ export class ClothingReviewService extends BaseService {
   }
 
   /**
+   * 我的评价(分页,需登录)
+   */
+  async myReviews(userId: number, page: number, size: number) {
+    const offset = (page - 1) * size;
+    const rows: any[] = await this.nativeQuery(
+      `SELECT r.id, r.order_id, r.product_id, r.rating, r.content, r.images,
+              r.reply_content, r.replied_at, r.created_at,
+              p.title, p.main_image
+       FROM product_reviews r
+       LEFT JOIN products p ON p.id = r.product_id
+       WHERE r.user_id = ?
+       ORDER BY r.id DESC LIMIT ?,?`,
+      [userId, offset, size]
+    );
+    const totalRows: any[] = await this.nativeQuery(
+      `SELECT COUNT(*) total FROM product_reviews WHERE user_id = ?`,
+      [userId]
+    );
+    return {
+      list: rows.map((row: any) => ({
+        id: Number(row.id),
+        order_id: Number(row.order_id),
+        product_id: Number(row.product_id),
+        title: row.title,
+        main_image: row.main_image,
+        rating: row.rating,
+        content: row.content,
+        images: transformerJson.from(row.images),
+        reply_content: row.reply_content,
+        replied_at: row.replied_at,
+        created_at: row.created_at,
+      })),
+      pagination: { page, size, total: Number(totalRows[0]?.total || 0) },
+    };
+  }
+
+  /**
    * 商品评价分页(公开)
    */
   async reviewPage(query: any) {

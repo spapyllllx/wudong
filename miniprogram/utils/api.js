@@ -49,5 +49,6 @@ module.exports = {
   cartUpdate: (id, quantity) => request('POST', '/clothing/cart/update', { id, quantity }),
   cartRemove: (ids) => request('POST', '/clothing/cart/remove', { ids }),
   // 评价
-  reviewSubmit: (data) => request('POST', '/clothing/product/review', data)
+  reviewSubmit: (data) => request('POST', '/clothing/product/review', data),
+  myReviews: () => request('GET', '/clothing/product/my-reviews', { page: 1, size: 20 })
 };

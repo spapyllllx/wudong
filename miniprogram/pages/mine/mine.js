@@ -7,6 +7,7 @@ Page({
     loginForm: { phone: '13800000000', password: '123456' },
     favorites: [],
     orders: [],
+    reviews: [],
     statusText: {
       pending: '待支付',
       paid: '已支付',
@@ -22,6 +23,7 @@ Page({
     if (logged) {
       this.loadFav();
       this.loadOrders();
+      this.loadReviews();
     }
   },
 
@@ -55,7 +57,7 @@ Page({
   logout() {
     app.globalData.token = '';
     wx.removeStorageSync('app_token');
-    this.setData({ logged: false, favorites: [], orders: [] });
+    this.setData({ logged: false, favorites: [], orders: [], reviews: [] });
   },
 
   async loadFav() {
@@ -69,6 +71,13 @@ Page({
     try {
       const res = await api.myOrders();
       this.setData({ orders: res.list || [] });
+    } catch (e) {}
+  },
+
+  async loadReviews() {
+    try {
+      const res = await api.myReviews();
+      this.setData({ reviews: res.list || [] });
     } catch (e) {}
   },
 
