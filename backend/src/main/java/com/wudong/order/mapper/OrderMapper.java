@@ -1,4 +1,4 @@
-﻿package com.wudong.order.mapper;
+package com.wudong.order.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wudong.order.model.Order;

@@ -1,4 +1,4 @@
-﻿package com.wudong.user.mapper;
+package com.wudong.user.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wudong.user.model.SysUser;

@@ -1,4 +1,4 @@
-﻿package com.wudong.common.interceptor;
+package com.wudong.common.interceptor;
 
 import com.wudong.common.util.JwtUtil;
 import com.wudong.common.util.RequestContextUtil;

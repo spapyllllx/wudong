@@ -1,4 +1,4 @@
-﻿package com.wudong.admin.controller;
+package com.wudong.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.wudong.common.result.Result;

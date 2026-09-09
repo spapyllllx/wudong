@@ -1,4 +1,4 @@
-﻿package com.wudong.yi.controller;
+package com.wudong.yi.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;

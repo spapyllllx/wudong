@@ -1,4 +1,4 @@
-﻿package com.wudong.order.model;
+package com.wudong.order.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

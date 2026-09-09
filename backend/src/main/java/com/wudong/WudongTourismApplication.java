@@ -1,4 +1,4 @@
-﻿package com.wudong;
+package com.wudong;
 
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;

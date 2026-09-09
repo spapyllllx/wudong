@@ -12,6 +12,17 @@ export default defineConfig({
   },
   server: {
     port: 3000,
+    watch: {
+      ignored: [
+        '**/node_modules/**',
+        '**/.git/**',
+        '**/AppData/**',
+        '**/BaiduYunKernel/**',
+        '**/.workbuddy/**',
+        '**/Windows/**',
+        '**/ProgramData/**',
+      ]
+    },
     proxy: {
       '/api': {
         target: 'http://localhost:8080',

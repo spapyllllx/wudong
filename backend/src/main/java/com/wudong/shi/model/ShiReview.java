@@ -36,6 +36,8 @@ public class ShiReview implements Serializable {
 
     private LocalDateTime replyTime;
 
+    private Integer status;
+
     @TableField(fill = FieldFill.INSERT)
     private LocalDateTime createTime;
 }

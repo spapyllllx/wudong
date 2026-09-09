@@ -1,4 +1,4 @@
-﻿package com.wudong.common.result;
+package com.wudong.common.result;
 
 import lombok.Data;
 import java.io.Serializable;

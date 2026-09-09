@@ -1,4 +1,4 @@
-﻿package com.wudong.yi.model;
+package com.wudong.yi.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

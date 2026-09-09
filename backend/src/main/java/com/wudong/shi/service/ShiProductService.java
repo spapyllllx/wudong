@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
  * 农产品服务
  */
 @Service
-public class Shi ProductService extends ServiceImpl<ShiProductMapper, ShiProduct> {
+public class ShiProductService extends ServiceImpl<ShiProductMapper, ShiProduct> {
 }

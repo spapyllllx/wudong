@@ -1,4 +1,4 @@
-﻿package com.wudong.common.exception;
+package com.wudong.common.exception;
 
 import com.wudong.common.result.Result;
 import org.springframework.web.bind.MethodArgumentNotValidException;

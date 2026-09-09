@@ -1,4 +1,4 @@
-﻿package com.wudong.admin.model;
+package com.wudong.admin.model;
 
 import com.baomidou.mybatisplus.annotation.*;
 import lombok.Data;

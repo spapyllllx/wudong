@@ -1,7 +1,7 @@
 ﻿import { createRouter, createWebHistory } from 'vue-router'
 import Login from '@/views/Login.vue'
 import Layout from '@/views/Layout.vue'
-import Dashboard from '@/views/Dashboard.vue'
+import Dashboard from '@/views/Dashboard/Dashboard.vue'
 import UserList from '@/views/User/UserList.vue'
 import MerchantList from '@/views/Merchant/MerchantList.vue'
 import OrderList from '@/views/Order/OrderList.vue'

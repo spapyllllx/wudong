@@ -1,4 +1,4 @@
-﻿package com.wudong.common.config;
+package com.wudong.common.config;
 
 import com.wudong.common.interceptor.JwtInterceptor;
 import org.springframework.beans.factory.annotation.Autowired;
