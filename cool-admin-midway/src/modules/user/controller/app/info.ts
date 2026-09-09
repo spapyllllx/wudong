@@ -19,6 +19,13 @@ export class AppUserInfoController extends BaseController {
 
   @Get('/person', { summary: '获取用户信息' })
   async person() {
+    console.log('ctx.user:', this.ctx.user);
+    console.log('ctx.user.id:', this.ctx.user?.id);
+
+    if (!this.ctx.user || !this.ctx.user.id) {
+      throw new Error('用户未登录或token无效');
+    }
+
     return this.ok(await this.userInfoService.person(this.ctx.user.id));
   }
 

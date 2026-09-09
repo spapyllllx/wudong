@@ -98,9 +98,19 @@ export class AppUserLoginController extends BaseController {
   @CoolTag(TagTypes.IGNORE_TOKEN)
   @Post('/password', { summary: '密码登录' })
   async password(
-    @Body('phone') phone: string,
+    @Body('username') username: string,
     @Body('password') password: string
   ) {
-    return this.ok(await this.userLoginService.password(phone, password));
+    return this.ok(await this.userLoginService.password(username, password));
+  }
+
+  @CoolTag(TagTypes.IGNORE_TOKEN)
+  @Post('/register', { summary: '用户注册' })
+  async register(
+    @Body('username') username: string,
+    @Body('password') password: string,
+    @Body('phone') phone?: string
+  ) {
+    return this.ok(await this.userLoginService.register(username, password, phone));
   }
 }

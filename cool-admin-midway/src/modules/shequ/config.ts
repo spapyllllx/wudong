@@ -6,14 +6,12 @@ import { ModuleConfig } from '@cool-midway/core';
 export default () => {
   return {
     // 模块名称
-    name: 'demo模块',
+    name: '社区模块 - UGC照片分享',
     // 模块描述
-    description: '演示用',
-    // 中间件，只对本模块有效
+    description: '用户照片分享、帖子发布、评论互动、点赞功能',
+    // 模块中间件
     middlewares: [],
-    // 中间件，全局有效
+    // 全局中间件
     globalMiddlewares: [],
-    // 模块加载顺序，默认为0，值越大越优先加载
-    order: 0,
   } as ModuleConfig;
 };

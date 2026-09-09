@@ -14,6 +14,12 @@ export default {
   koa: {
     port: availablePort(8001),
   },
+  // CORS 跨域配置
+  cors: {
+    origin: '*', // 允许所有域名跨域访问（开发环境）
+    allowMethods: 'GET,HEAD,PUT,POST,DELETE,PATCH,OPTIONS',
+    credentials: true,
+  },
   // 开启异步上下文管理
   asyncContextManager: {
     enable: true,
