@@ -1,0 +1,9 @@
+{
+  "product_categories": [
+    { "id": 1, "parentId": 0, "name": "银饰", "icon": "", "sort": 1, "status": "active" },
+    { "id": 2, "parentId": 0, "name": "蜡染", "icon": "", "sort": 2, "status": "active" },
+    { "id": 3, "parentId": 0, "name": "刺绣", "icon": "", "sort": 3, "status": "active" },
+    { "id": 4, "parentId": 0, "name": "苗族服饰", "icon": "", "sort": 4, "status": "active" },
+    { "id": 5, "parentId": 0, "name": "其他", "icon": "", "sort": 5, "status": "active" }
+  ]
+}
