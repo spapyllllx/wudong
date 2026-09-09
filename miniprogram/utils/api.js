@@ -42,5 +42,12 @@ module.exports = {
   orderPay: (orderId) => request('POST', '/clothing/order/pay', { orderId }),
   orderCancel: (orderId) => request('POST', '/clothing/order/cancel', { orderId }),
   orderConfirm: (orderId) => request('POST', '/clothing/order/confirm', { orderId }),
-  myOrders: () => request('GET', '/clothing/order/list', { page: 1, size: 20 })
+  myOrders: () => request('GET', '/clothing/order/list', { page: 1, size: 20 }),
+  // 购物车
+  cartAdd: (skuId, quantity) => request('POST', '/clothing/cart/add', { skuId, quantity }),
+  cartList: () => request('GET', '/clothing/cart/list'),
+  cartUpdate: (id, quantity) => request('POST', '/clothing/cart/update', { id, quantity }),
+  cartRemove: (ids) => request('POST', '/clothing/cart/remove', { ids }),
+  // 评价
+  reviewSubmit: (data) => request('POST', '/clothing/product/review', data)
 };

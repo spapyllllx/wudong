@@ -85,5 +85,34 @@ Page({
 
   goDetail(e) {
     wx.navigateTo({ url: '/pages/detail/detail?id=' + e.currentTarget.dataset.id });
+  },
+
+  // ---------- 评价 ----------
+  openEval(e) {
+    const d = e.currentTarget.dataset;
+    this.setData({
+      evalVisible: true,
+      evalOrder: { orderId: Number(d.order), productId: Number(d.product), rating: 5, content: '' }
+    });
+  },
+  hideEval() {
+    this.setData({ evalVisible: false });
+  },
+  pickStar(e) {
+    this.setData({ 'evalOrder.rating': Number(e.currentTarget.dataset.v) });
+  },
+  onEvalContent(e) {
+    this.setData({ 'evalOrder.content': e.detail.value });
+  },
+  async submitEval() {
+    const { orderId, productId, rating, content } = this.data.evalOrder;
+    if (!content.trim()) return wx.showToast({ title: '请输入评价内容', icon: 'none' });
+    try {
+      await api.reviewSubmit({ orderId, productId, rating, content: content.trim() });
+      wx.showToast({ title: '评价成功', icon: 'success' });
+      this.setData({ evalVisible: false });
+    } catch (e) {
+      wx.showToast({ title: e.message || '评价失败', icon: 'none' });
+    }
   }
 });

@@ -50,6 +50,9 @@ feat 实体 / feat 服务层 / feat admin 接口 / feat app 接口 / docs SQL / 
 1. **下单闭环已落地(先行版)**:按设计文档 3.2.7 将公共订单 orders/product_order_items/product_order_logistics 先行落地(实体+`database/clothing_order_module.sql`,头部注明核心组合并约定;order_refunds 未落地,退款功能未提供)。衣订单状态机 pending→(模拟支付)paid→completed、pending 可取消回补库存;下单行锁防超卖、明细与收货快照。实测:下单扣库存→支付累加销量→确认收货→取消回补 全链路通过。
 2. **管理后台页面全部完成**:商品管理(查看详情/SKU 图片可视化编辑 SKU 行)/分类管理/评价管理(回复)/库存管理(按 SKU 调库存)/订单管理(product 订单分页)/商城预览(游客:分类/搜索/排序/详情/购买)。菜单由 clothing/menu.json 自动注入(6 页面+按钮权限),首次启动或删除 `init_menu_clothing` 标记后重启导入。
 3. **商城预览为演示闭环**:内置"游客登录"(测试账号 13800000000/123456,仅本地演示,生产须移除);/app 接口因管理端请求拦截器强制覆盖 Authorization,商城页使用独立 axios 实例携带 C 端 token;vue 代理已加 `/app/` 转发规则(src/config/proxy.ts)。
+4. **三端齐备(2026-09-09 第三轮)**:仓库内新增 `pc-web`(Vue3 独立游客商城,端口 3000,连 /app 接口)与 `miniprogram`(原生微信小程序,零依赖,微信开发者工具导入,baseUrl 在 app.js 可配)。三端共用后端与数据。
+5. **购物车与结算**:公共 carts 表按设计文档 3.2.8 先行落地(`database/clothing_cart_module.sql`,合并约定同订单);接口 /app/clothing/cart add|update|remove|list;下单 create 支持多 SKU(items 数组,兼容旧单 SKU 格式),购物车结算一次生成订单;PC/小程序均提供加入购物车、数量调整、删除、结算。
+6. **评价归属校验已落地**(订单表落地后补齐):评价须订单存在、属于该用户、包含该商品且已支付(paid/completed),同单同商品不可重复评;PC 我的订单与小程序「我的」均提供"去评价"入口。
 
 ## 五、后续 TODO
 

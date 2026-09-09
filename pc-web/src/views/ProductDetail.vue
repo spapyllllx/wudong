@@ -57,6 +57,7 @@
 
 					<div class="op-row">
 						<el-button size="large" type="danger" style="width: 200px" :disabled="!token" @click="doBuy">立即购买</el-button>
+						<el-button size="large" :disabled="!token" @click="doAddCart">加入购物车</el-button>
 						<el-button size="large" :type="favorited ? 'warning' : 'default'" @click="doFav" :disabled="!token">
 							{{ favorited ? '♥ 已收藏' : '♡ 收藏' }}
 						</el-button>
@@ -154,6 +155,16 @@ async function doFav() {
 		const fav = await api.favorite(id);
 		favorited.value = fav;
 		ElMessage.success(fav ? '收藏成功' : '已取消收藏');
+	} catch (e) {
+		ElMessage.error(e.message);
+	}
+}
+
+async function doAddCart() {
+	if (!buy.skuId) return ElMessage.warning('请先选择规格');
+	try {
+		const res = await api.cartAdd(buy.skuId, buy.quantity);
+		ElMessage.success(`已加入购物车(当前 ${res.quantity} 件)`);
 	} catch (e) {
 		ElMessage.error(e.message);
 	}

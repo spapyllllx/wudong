@@ -3,6 +3,8 @@ import { Init, Provide } from '@midwayjs/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
 import { transformerJson } from '../entity/common';
+import { ProductOrderEntity } from '../entity/order';
+import { ProductOrderItemEntity } from '../entity/orderItem';
 import { ProductEntity } from '../entity/product';
 import { ProductReviewEntity } from '../entity/review';
 
@@ -17,6 +19,12 @@ export class ClothingReviewService extends BaseService {
   @InjectEntityModel(ProductEntity)
   productEntity: Repository<ProductEntity>;
 
+  @InjectEntityModel(ProductOrderEntity)
+  orderEntity: Repository<ProductOrderEntity>;
+
+  @InjectEntityModel(ProductOrderItemEntity)
+  orderItemEntity: Repository<ProductOrderItemEntity>;
+
   @Init()
   async init() {
     await super.init();
@@ -25,13 +33,31 @@ export class ClothingReviewService extends BaseService {
 
   /**
    * 提交评价(需登录)
-   * 说明:order 表(核心组统一订单)交付前,暂不校验订单存在与归属,
-   * 仅落库 order_id;订单模块落地后须补"该订单存在、属于该用户且含该商品"校验。
+   * 校验:订单存在、属于该用户、包含该商品(即"买了才能评"),同单同商品不可重复评。
    */
   async submit(userId: number, body: any) {
     const { orderId, productId, rating, content = '', images } = body || {};
     if (!orderId || !productId) {
       throw new CoolCommException('缺少订单或商品参数');
+    }
+    // 订单归属与商品包含校验
+    const order = await this.orderEntity.findOneBy({ id: orderId });
+    if (!order || order.userId !== userId || order.orderType !== 'product') {
+      throw new CoolCommException('订单不存在或不属于当前用户');
+    }
+    if (order.status !== 'paid' && order.status !== 'completed') {
+      throw new CoolCommException('订单支付后才能评价');
+    }
+    const item = await this.orderItemEntity.findOneBy({
+      orderId,
+      productId,
+    });
+    if (!item) {
+      throw new CoolCommException('该订单未包含此商品');
+    }
+    const already = await this.reviewEntity.findOneBy({ orderId, productId, userId });
+    if (already) {
+      throw new CoolCommException('该商品已评价,请勿重复提交');
     }
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       throw new CoolCommException('评分须为1-5的整数');
@@ -42,11 +68,9 @@ export class ClothingReviewService extends BaseService {
     if (images && (!Array.isArray(images) || images.length > 9)) {
       throw new CoolCommException('评价图片最多9张');
     }
-    const product = await this.productEntity.findOne({
-      where: { id: productId, status: 'on_sale' },
-    });
+    const product = await this.productEntity.findOneBy({ id: productId });
     if (!product) {
-      throw new CoolCommException('商品不存在或已下架');
+      throw new CoolCommException('商品不存在');
     }
     const res = await this.reviewEntity.insert({
       userId,

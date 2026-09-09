@@ -180,3 +180,69 @@
   color: #8e2f2f;
   background: #fdf6f5;
 }
+.mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 20;
+}
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 30rpx;
+  z-index: 21;
+  padding-bottom: calc(30rpx + env(safe-area-inset-bottom));
+}
+.sheet-title {
+  font-weight: 600;
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+}
+.stars {
+  display: flex;
+  align-items: center;
+  margin-bottom: 20rpx;
+}
+.star {
+  font-size: 56rpx;
+  color: #ddd;
+  margin-right: 12rpx;
+}
+.star.on {
+  color: #f5a623;
+}
+.star-tip {
+  margin-left: 16rpx;
+  color: #999;
+}
+.content {
+  width: 100%;
+  height: 160rpx;
+  border: 2rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 16rpx;
+  font-size: 28rpx;
+  box-sizing: border-box;
+}
+.sheet-btns {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 24rpx;
+}
+.sheet-btn {
+  flex: 1;
+  text-align: center;
+  border: 2rpx solid #dcdfe6;
+  border-radius: 44rpx;
+  padding: 18rpx 0;
+  color: #666;
+}
+.sheet-btn.main {
+  background: #8e2f2f;
+  color: #fff;
+  border-color: #8e2f2f;
+}

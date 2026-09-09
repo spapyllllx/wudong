@@ -66,6 +66,17 @@ Page({
     }
   },
 
+  async doAddCart() {
+    if (!this.data.buy.skuId) return wx.showToast({ title: '请先选择规格', icon: 'none' });
+    if (!this.ensureLogin()) return;
+    try {
+      const res = await api.cartAdd(this.data.buy.skuId, this.data.buy.quantity);
+      wx.showToast({ title: '已加入购物车(' + res.quantity + '件)', icon: 'success' });
+    } catch (e) {
+      this.handleErr(e);
+    }
+  },
+
   ensureLogin() {
     if (app.globalData.token) return true;
     wx.showModal({

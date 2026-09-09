@@ -1,0 +1,44 @@
+<view class="page">
+  <view wx:if="{{list.length}}" class="cart-list">
+    <view class="item" wx:for="{{list}}" wx:key="id">
+      <image class="img" src="{{item.main_image}}" mode="aspectFill" bindtap="goDetail" data-id="{{item.product_id}}" />
+      <view class="info">
+        <view class="title" bindtap="goDetail" data-id="{{item.product_id}}">{{item.title}}</view>
+        <view class="sku">{{item.sku_name}}</view>
+        <view class="foot">
+          <text class="price">¥{{item.price}}</text>
+          <view class="qty">
+            <view class="qty-btn" bindtap="qty" data-id="{{item.id}}" data-d="-1">-</view>
+            <text class="num">{{item.quantity}}</text>
+            <view class="qty-btn" bindtap="qty" data-id="{{item.id}}" data-d="1">+</view>
+          </view>
+          <view class="del" bindtap="remove" data-id="{{item.id}}">删除</view>
+        </view>
+      </view>
+    </view>
+  </view>
+  <view wx:else class="empty">
+    <view class="empty-icon">🛒</view>
+    <view>购物车空空如也</view>
+    <view class="go" bindtap="goHome">去逛逛</view>
+  </view>
+
+  <!-- 结算条 -->
+  <view class="bar" wx:if="{{list.length}}">
+    <view class="total">共 {{count}} 件 · 合计 <text class="price">¥{{total}}</text></view>
+    <view class="checkout" bindtap="showCheckout">去结算</view>
+  </view>
+
+  <!-- 收货与提交 -->
+  <view class="mask" wx:if="{{checkoutVisible}}" bindtap="hideCheckout"></view>
+  <view class="sheet" wx:if="{{checkoutVisible}}">
+    <view class="sheet-title">填写收货信息并提交订单</view>
+    <input class="line" placeholder="收货人" value="{{form.consignee}}" bindinput="onForm" data-k="consignee" />
+    <input class="line" placeholder="手机号" value="{{form.phone}}" bindinput="onForm" data-k="phone" />
+    <input class="line" placeholder="详细地址(省市区+街道)" value="{{form.detail}}" bindinput="onForm" data-k="detail" />
+    <view class="sheet-btns">
+      <view class="sheet-btn" bindtap="hideCheckout">取消</view>
+      <view class="sheet-btn main" bindtap="submit">提交订单 ¥{{total}}</view>
+    </view>
+  </view>
+</view>

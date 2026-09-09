@@ -18,6 +18,9 @@
 					</span>
 				</div>
 				<div class="user">
+					<el-button v-if="token" size="small" type="warning" plain @click="openCart">
+						购物车<el-badge v-if="cartCount" :value="cartCount" style="margin-left: 6px" />
+					</el-button>
 					<el-button v-if="!token" size="small" type="primary" plain @click="loginVisible = true">登录</el-button>
 					<template v-else>
 						<el-button size="small" @click="openOrders">我的订单</el-button>
@@ -78,6 +81,48 @@
 			</template>
 		</el-dialog>
 
+		<!-- 购物车 -->
+		<el-drawer v-model="cartVisible" title="购物车" size="480px">
+			<div v-loading="cartLoading">
+				<div v-for="c in cartListData" :key="c.id" class="cart-item">
+					<img v-if="c.main_image" :src="c.main_image" class="cart-img" @click="router.push(`/product/${c.product_id}`)" />
+					<div class="cart-info">
+						<div class="cart-title" @click="router.push(`/product/${c.product_id}`)">{{ c.title }}</div>
+						<div class="cart-sub">{{ c.sku_name }}</div>
+						<div class="cart-foot">
+							<span class="cart-price">¥{{ c.price }}</span>
+							<div class="cart-qty">
+								<el-button size="small" circle @click="qtyChange(c, -1)">-</el-button>
+								<span style="min-width: 36px; text-align: center">{{ c.quantity }}</span>
+								<el-button size="small" circle @click="qtyChange(c, 1)">+</el-button>
+							</div>
+							<el-button size="small" link type="danger" @click="removeCart(c)">删除</el-button>
+						</div>
+					</div>
+				</div>
+				<el-empty v-if="!cartLoading && !cartListData.length" description="购物车空空如也" />
+			</div>
+			<template #footer>
+				<div class="cart-footer" v-if="cartListData.length">
+					<span class="cart-total">共 {{ cartCount }} 件 · 合计 <b style="color: #e54d42">¥{{ cartTotal }}</b></span>
+					<el-button type="danger" size="large" @click="cartCheckoutVisible = true">去结算</el-button>
+				</div>
+			</template>
+		</el-drawer>
+
+		<!-- 购物车结算:收货信息 -->
+		<el-dialog v-model="cartCheckoutVisible" title="结算(收货信息)" width="420px">
+			<el-form label-width="70px">
+				<el-form-item label="收货人"><el-input v-model="checkout.consignee" placeholder="收货人姓名" /></el-form-item>
+				<el-form-item label="手机号"><el-input v-model="checkout.phone" placeholder="11位手机号" /></el-form-item>
+				<el-form-item label="详细地址"><el-input v-model="checkout.detail" type="textarea" :rows="2" placeholder="省市区+街道门牌" /></el-form-item>
+			</el-form>
+			<template #footer>
+				<el-button @click="cartCheckoutVisible = false">再逛逛</el-button>
+				<el-button type="danger" :loading="checking" @click="doCartCheckout">提交订单 ¥{{ cartTotal }}</el-button>
+			</template>
+		</el-dialog>
+
 		<!-- 我的订单 -->
 		<el-dialog v-model="orderVisible" title="我的订单" width="720px">
 			<div v-loading="orderLoading">
@@ -101,11 +146,25 @@
 							<el-button v-if="o.status === 'pending'" size="small" type="danger" @click="orderOp(o, 'cancel')">取消订单</el-button>
 							<el-button v-if="o.status === 'pending'" size="small" type="success" @click="orderOp(o, 'pay')">模拟支付</el-button>
 							<el-button v-if="o.status === 'paid'" size="small" type="primary" @click="orderOp(o, 'confirm')">确认收货</el-button>
+							<el-button v-if="['paid', 'completed'].includes(o.status)" size="small" type="warning" plain @click="openEval(o)">去评价</el-button>
 						</div>
 					</div>
 				</div>
 				<el-empty v-if="!orderLoading && !orders.length" description="暂无订单" />
 			</div>
+		</el-dialog>
+
+		<!-- 评价弹窗 -->
+		<el-dialog v-model="evalVisible" title="评价商品" width="440px">
+			<div class="eval-product">{{ evalOrder?.items?.[0]?.product_name }}</div>
+			<div style="margin: 12px 0">
+				<el-rate v-model="evalRating" />
+			</div>
+			<el-input v-model="evalContent" type="textarea" :rows="4" maxlength="500" show-word-limit placeholder="说说商品如何吧" />
+			<template #footer>
+				<el-button @click="evalVisible = false">取消</el-button>
+				<el-button type="warning" @click="submitEval">提交评价</el-button>
+			</template>
 		</el-dialog>
 	</div>
 </template>
@@ -113,10 +172,82 @@
 <script setup>
 import { api, DEMO_ACCOUNT } from '../api';
 import { ElMessage } from 'element-plus';
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { useRouter } from 'vue-router';
 
 const router = useRouter();
+
+// ---------- 购物车 ----------
+const cartVisible = ref(false);
+const cartLoading = ref(false);
+const cartListData = ref([]);
+const cartCheckoutVisible = ref(false);
+const checking = ref(false);
+const checkout = reactive({ consignee: '', phone: '', detail: '' });
+
+const cartCount = computed(() => cartListData.value.reduce((s, c) => s + c.quantity, 0));
+const cartTotal = computed(() =>
+	cartListData.value.reduce((s, c) => s + Number(c.price) * c.quantity, 0).toFixed(2)
+);
+
+async function loadCart() {
+	if (!token.value) return;
+	try {
+		cartListData.value = await api.cartList();
+	} catch (e) {}
+}
+
+async function openCart() {
+	cartVisible.value = true;
+	cartLoading.value = true;
+	try {
+		cartListData.value = await api.cartList();
+	} catch (e) {
+		ElMessage.error(e.message);
+	} finally {
+		cartLoading.value = false;
+	}
+}
+
+async function qtyChange(c, d) {
+	const q = c.quantity + d;
+	if (q <= 0) return;
+	try {
+		await api.cartUpdate(c.id, q);
+		await loadCart();
+	} catch (e) {
+		ElMessage.error(e.message);
+	}
+}
+
+async function removeCart(c) {
+	try {
+		await api.cartRemove([c.id]);
+		await loadCart();
+	} catch (e) {
+		ElMessage.error(e.message);
+	}
+}
+
+async function doCartCheckout() {
+	if (!checkout.consignee || !checkout.phone || !checkout.detail) {
+		return ElMessage.warning('请填写完整收货信息');
+	}
+	const items = cartListData.value.map((c) => ({ skuId: c.sku_id, quantity: c.quantity }));
+	checking.value = true;
+	try {
+		const orderId = await api.orderCreate({ items, ...checkout, province: '', city: '', district: '' });
+		await api.cartRemove(cartListData.value.map((c) => c.id));
+		ElMessage.success(`下单成功!订单号 ${orderId}`);
+		cartCheckoutVisible.value = false;
+		cartVisible.value = false;
+		await openOrders();
+	} catch (e) {
+		ElMessage.error(e.message);
+	} finally {
+		checking.value = false;
+	}
+}
 const categories = ref([]);
 const list = ref([]);
 const total = ref(0);
@@ -198,11 +329,45 @@ async function orderOp(o, op) {
 	}
 }
 
+// ---------- 评价 ----------
+const evalVisible = ref(false);
+const evalOrder = ref(null);
+const evalRating = ref(5);
+const evalContent = ref('');
+
+function openEval(o) {
+	evalOrder.value = o;
+	evalRating.value = 5;
+	evalContent.value = '';
+	evalVisible.value = true;
+}
+
+async function submitEval() {
+	if (!evalContent.value.trim()) return ElMessage.warning('请输入评价内容');
+	try {
+		const it = evalOrder.value.items[0];
+		await api.reviewSubmit({ orderId: evalOrder.value.id, productId: it.product_id, rating: evalRating.value, content: evalContent.value.trim() });
+		ElMessage.success('评价成功,感谢分享!');
+		evalVisible.value = false;
+		await openOrders();
+		load();
+	} catch (e) {
+		ElMessage.error(e.message);
+	}
+}
+
 onMounted(async () => {
 	try {
 		categories.value = await api.categories();
 	} catch (e) {}
 	load();
+	if (token.value) loadCart();
+});
+
+// 登录成功后刷新购物车角标
+watch(token, t => {
+	if (t) loadCart();
+	else cartListData.value = [];
 });
 </script>
 
@@ -410,5 +575,58 @@ onMounted(async () => {
 }
 .order-total {
 	font-weight: 600;
+}
+.cart-item {
+	display: flex;
+	gap: 12px;
+	padding: 12px 0;
+	border-bottom: 1px dashed #f0f0f0;
+}
+.cart-img {
+	width: 72px;
+	height: 72px;
+	border-radius: 8px;
+	object-fit: cover;
+	cursor: pointer;
+	flex: none;
+}
+.cart-info {
+	flex: 1;
+	min-width: 0;
+}
+.cart-title {
+	font-weight: 600;
+	cursor: pointer;
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}
+.cart-sub {
+	color: #999;
+	font-size: 12px;
+	margin: 4px 0 8px;
+}
+.cart-foot {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+}
+.cart-price {
+	color: #e54d42;
+	font-weight: 700;
+	margin-right: auto;
+}
+.cart-qty {
+	display: flex;
+	align-items: center;
+}
+.cart-footer {
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding-top: 8px;
+}
+.cart-total {
+	font-size: 15px;
 }
 </style>

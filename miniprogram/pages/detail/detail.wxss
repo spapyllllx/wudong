@@ -133,6 +133,15 @@
 .op-fav.on {
   color: #e54d42;
 }
+.cart-btn {
+  border: 2rpx solid #e54d42;
+  color: #e54d42;
+  background: #fff;
+  border-radius: 44rpx;
+  padding: 16rpx 30rpx;
+  font-size: 28rpx;
+  margin-right: 16rpx;
+}
 .buy-btn {
   flex: 1;
   background: linear-gradient(90deg, #e54d42, #d63b30);

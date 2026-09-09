@@ -1,0 +1,161 @@
+.page {
+  padding-bottom: 140rpx;
+}
+.cart-list {
+  padding: 20rpx;
+}
+.item {
+  display: flex;
+  background: #fff;
+  border-radius: 16rpx;
+  padding: 20rpx;
+  margin-bottom: 16rpx;
+}
+.img {
+  width: 160rpx;
+  height: 160rpx;
+  border-radius: 12rpx;
+  background: #f2f3f5;
+  flex: none;
+}
+.info {
+  flex: 1;
+  margin-left: 20rpx;
+  min-width: 0;
+}
+.title {
+  font-size: 30rpx;
+  font-weight: 600;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.sku {
+  color: #999;
+  font-size: 24rpx;
+  margin: 8rpx 0;
+}
+.foot {
+  display: flex;
+  align-items: center;
+  margin-top: 16rpx;
+}
+.price {
+  color: #e54d42;
+  font-size: 32rpx;
+  font-weight: 700;
+  margin-right: auto;
+}
+.qty {
+  display: flex;
+  align-items: center;
+  border: 2rpx solid #eee;
+  border-radius: 8rpx;
+}
+.qty-btn {
+  width: 56rpx;
+  height: 48rpx;
+  text-align: center;
+  line-height: 44rpx;
+  font-size: 28rpx;
+}
+.num {
+  min-width: 60rpx;
+  text-align: center;
+  font-size: 26rpx;
+}
+.del {
+  color: #999;
+  font-size: 24rpx;
+  margin-left: 20rpx;
+}
+.bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  padding: 16rpx 24rpx calc(16rpx + env(safe-area-inset-bottom));
+  box-shadow: 0 -4rpx 16rpx rgba(0, 0, 0, 0.06);
+  z-index: 10;
+}
+.total {
+  flex: 1;
+  font-size: 26rpx;
+}
+.total .price {
+  font-size: 36rpx;
+}
+.checkout {
+  background: linear-gradient(90deg, #e54d42, #d63b30);
+  color: #fff;
+  padding: 18rpx 60rpx;
+  border-radius: 44rpx;
+  font-size: 30rpx;
+}
+.empty {
+  text-align: center;
+  color: #999;
+  padding: 160rpx 0;
+}
+.empty-icon {
+  font-size: 90rpx;
+  margin-bottom: 20rpx;
+}
+.go {
+  display: inline-block;
+  margin-top: 24rpx;
+  border: 2rpx solid #8e2f2f;
+  color: #8e2f2f;
+  border-radius: 40rpx;
+  padding: 12rpx 60rpx;
+}
+.mask {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.4);
+  z-index: 20;
+}
+.sheet {
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #fff;
+  border-radius: 24rpx 24rpx 0 0;
+  padding: 30rpx;
+  z-index: 21;
+  padding-bottom: calc(30rpx + env(safe-area-inset-bottom));
+}
+.sheet-title {
+  font-weight: 600;
+  font-size: 30rpx;
+  margin-bottom: 20rpx;
+}
+.line {
+  border: 2rpx solid #eee;
+  border-radius: 12rpx;
+  padding: 18rpx 20rpx;
+  margin-bottom: 16rpx;
+  font-size: 28rpx;
+}
+.sheet-btns {
+  display: flex;
+  gap: 20rpx;
+  margin-top: 20rpx;
+}
+.sheet-btn {
+  flex: 1;
+  text-align: center;
+  border: 2rpx solid #dcdfe6;
+  border-radius: 44rpx;
+  padding: 18rpx 0;
+  color: #666;
+}
+.sheet-btn.main {
+  background: #e54d42;
+  color: #fff;
+  border-color: #e54d42;
+}

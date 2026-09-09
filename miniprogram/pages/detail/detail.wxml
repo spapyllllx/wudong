@@ -49,6 +49,7 @@
   <!-- 操作条 -->
   <view class="op-bar">
     <view class="op-fav {{favorited ? 'on' : ''}}" bindtap="doFav">{{favorited ? '♥ 已收藏' : '♡ 收藏'}}</view>
+    <view class="cart-btn" bindtap="doAddCart">加入购物车</view>
     <button class="buy-btn" bindtap="doBuy">立即购买</button>
   </view>
 

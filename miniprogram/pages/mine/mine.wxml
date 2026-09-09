@@ -56,9 +56,25 @@
           <view wx:if="{{item.status === 'pending'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="cancel">取消</view>
           <view wx:if="{{item.status === 'pending'}}" class="mini-btn pay" bindtap="orderOp" data-id="{{item.id}}" data-op="pay">模拟支付</view>
           <view wx:if="{{item.status === 'paid'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="confirm">确认收货</view>
+          <view wx:if="{{item.status === 'paid' || item.status === 'completed'}}" class="mini-btn pay" bindtap="openEval" data-order="{{item.id}}" data-product="{{item.items[0].product_id}}">去评价</view>
         </view>
       </view>
     </view>
     <view class="empty-line" wx:if="{{!orders.length}}">暂无订单,去首页逛逛吧</view>
+  </view>
+
+  <!-- 评价 -->
+  <view class="mask" wx:if="{{evalVisible}}" bindtap="hideEval"></view>
+  <view class="sheet" wx:if="{{evalVisible}}">
+    <view class="sheet-title">评价商品(订单 {{evalOrder.orderId}})</view>
+    <view class="stars">
+      <text class="star {{evalOrder.rating >= i ? 'on' : ''}}" wx:for="{{[1,2,3,4,5]}}" wx:key="*this" bindtap="pickStar" data-v="{{item}}">★</text>
+      <text class="star-tip">{{evalOrder.rating || 0}} 分</text>
+    </view>
+    <textarea class="content" placeholder="说说商品如何吧(≤500字)" maxlength="500" value="{{evalOrder.content}}" bindinput="onEvalContent" />
+    <view class="sheet-btns">
+      <view class="sheet-btn" bindtap="hideEval">取消</view>
+      <view class="sheet-btn main" bindtap="submitEval">提交评价</view>
+    </view>
   </view>
 </view>

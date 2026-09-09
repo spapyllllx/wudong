@@ -46,15 +46,14 @@ export class ClothingOrderService extends BaseService {
   }
 
   /**
-   * 创建商品订单(事务)
-   * body: { skuId, quantity, consignee, phone, province, city, district, detail, remark? }
+   * 创建商品订单(事务,支持多 SKU 结算)
+   * body: { items:[{skuId, quantity}], consignee, phone, province, city, district, detail, remark? }
+   * 兼容旧格式 { skuId, quantity, ... }
    * 校验 SKU 所属商品在售;扣 SKU 库存与商品总库存
    */
   @CoolTransaction({ connectionName: 'default' })
   async create(userId: number, body: any, queryRunner?: QueryRunner) {
     const {
-      skuId,
-      quantity,
       consignee,
       phone,
       province,
@@ -63,30 +62,52 @@ export class ClothingOrderService extends BaseService {
       detail,
       remark = '',
     } = body || {};
-    const qty = Number(quantity);
-    if (!skuId || !Number.isInteger(qty) || qty <= 0) {
-      throw new CoolCommException('请选择商品规格与数量');
-    }
     if (!consignee || !phone || !detail) {
       throw new CoolCommException('请填写收货人/电话/详细地址');
     }
+    // 规格行:多 SKU(items)或单 SKU(skuId)兼容
+    const rawItems = Array.isArray(body?.items)
+      ? body.items
+      : body?.skuId
+        ? [{ skuId: body.skuId, quantity: body.quantity }]
+        : [];
+    if (!rawItems.length) {
+      throw new CoolCommException('请选择商品规格与数量');
+    }
     const mgr = queryRunner.manager;
-    // 行锁读取 SKU,防止并发超卖
-    const sku = await mgr.findOne(ProductSkuEntity, {
-      where: { id: skuId },
-      lock: { mode: 'pessimistic_write' },
-    });
-    if (!sku || sku.status !== 'active') {
-      throw new CoolCommException('商品规格不存在');
+    // 逐行校验(行锁防并发超卖)并扣库存
+    let totalAmount = 0;
+    const snapshots: any[] = [];
+    for (const it of rawItems) {
+      const qty = Number(it.quantity);
+      const skuId = Number(it.skuId);
+      if (!skuId || !Number.isInteger(qty) || qty <= 0) {
+        throw new CoolCommException('商品规格或数量错误');
+      }
+      const sku = await mgr.findOne(ProductSkuEntity, {
+        where: { id: skuId },
+        lock: { mode: 'pessimistic_write' },
+      });
+      if (!sku || sku.status !== 'active') {
+        throw new CoolCommException('商品规格不存在');
+      }
+      const product = await mgr.findOne(ProductEntity, {
+        where: { id: sku.productId, status: 'on_sale' },
+      });
+      if (!product) throw new CoolCommException('商品不存在或已下架');
+      if (sku.stock < qty) {
+        throw new CoolCommException(`「${sku.skuName}」库存不足,剩余 ${sku.stock}`);
+      }
+      totalAmount += Number((Number(sku.price) * qty).toFixed(2));
+      snapshots.push({ sku, product, qty });
+      await mgr.update(ProductSkuEntity, { id: sku.id }, { stock: sku.stock - qty });
+      await mgr.update(
+        ProductEntity,
+        { id: product.id },
+        { stock: product.stock - qty }
+      );
     }
-    const product = await mgr.findOne(ProductEntity, {
-      where: { id: sku.productId, status: 'on_sale' },
-    });
-    if (!product) throw new CoolCommException('商品不存在或已下架');
-    if (sku.stock < qty) {
-      throw new CoolCommException(`「${sku.skuName}」库存不足,剩余 ${sku.stock}`);
-    }
-    const totalAmount = Number((Number(sku.price) * qty).toFixed(2));
+    totalAmount = Number(totalAmount.toFixed(2));
     // 创建订单(雪花式 ID 手工生成)
     const orderId = this.genOrderId();
     await mgr.insert(ProductOrderEntity, {
@@ -99,18 +120,21 @@ export class ClothingOrderService extends BaseService {
       status: 'pending',
       remark,
     } as any);
-    // 明细快照
-    await mgr.insert(ProductOrderItemEntity, {
-      orderId,
-      productId: product.id,
-      skuId: sku.id,
-      productName: product.title,
-      skuName: sku.skuName,
-      image: product.mainImage,
-      price: sku.price,
-      quantity: qty,
-      totalAmount,
-    } as any);
+    // 明细快照(逐行)
+    for (const s of snapshots) {
+      const subTotal = Number((Number(s.sku.price) * s.qty).toFixed(2));
+      await mgr.insert(ProductOrderItemEntity, {
+        orderId,
+        productId: s.product.id,
+        skuId: s.sku.id,
+        productName: s.product.title,
+        skuName: s.sku.skuName,
+        image: s.product.mainImage,
+        price: s.sku.price,
+        quantity: s.qty,
+        totalAmount: subTotal,
+      } as any);
+    }
     // 收货信息快照
     await mgr.insert(ProductOrderLogisticsEntity, {
       orderId,
@@ -122,17 +146,6 @@ export class ClothingOrderService extends BaseService {
       detail,
       shippingFee: 0,
     } as any);
-    // 扣减库存(SKU 与商品总库存同减)
-    await mgr.update(
-      ProductSkuEntity,
-      { id: sku.id },
-      { stock: sku.stock - qty }
-    );
-    await mgr.update(
-      ProductEntity,
-      { id: product.id },
-      { stock: product.stock - qty }
-    );
     return orderId;
   }
 

@@ -35,6 +35,11 @@ export const api = {
 	myOrders: params => http.get('/clothing/order/list', { params }),
 	// 评价(需登录)
 	reviewSubmit: data => http.post('/clothing/product/review', data),
+	// 购物车(需登录)
+	cartList: () => http.get('/clothing/cart/list'),
+	cartAdd: (skuId, quantity) => http.post('/clothing/cart/add', { skuId, quantity }),
+	cartUpdate: (id, quantity) => http.post('/clothing/cart/update', { id, quantity }),
+	cartRemove: ids => http.post('/clothing/cart/remove', { ids }),
 	// 登录(演示账号)
 	login: (phone, password) => http.post('/user/login/password', { phone, password })
 };
