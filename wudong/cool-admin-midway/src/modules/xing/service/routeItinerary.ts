@@ -1,4 +1,4 @@
-﻿import { Provide } from '@midwayjs/core';
+import { Inject, Provide } from '@midwayjs/core';
 import { BaseService } from '@cool-midway/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
@@ -23,7 +23,7 @@ export class XingRouteItineraryService extends BaseService {
     const { keyWord, routeId } = query;
     const find = this.xingRouteItineraryEntity.createQueryBuilder('a');
     if (keyWord) {
-      find.andWhere('a.description LIKE :keyWord', { keyWord: `%${keyWord}%` });
+      find.andWhere('a.description LIKE :keyWord', { keyWord: '%' + keyWord + '%' } );
     }
     if (routeId) {
       find.andWhere('a.routeId = :routeId', { routeId });

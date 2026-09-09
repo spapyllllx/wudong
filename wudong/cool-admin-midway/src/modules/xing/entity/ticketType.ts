@@ -1,39 +1,39 @@
-ï»¿import { BaseEntity } from '../../base/entity/base';
+import { BaseEntity } from '../../base/entity/base';
 import { Column, Entity, Index } from 'typeorm';
 
 /**
- * ç¥¨ç§è¡¨
+ * Æ±ÖÖ±í
  */
 @Entity('xing_ticket_type')
 export class XingTicketTypeEntity extends BaseEntity {
   @Index()
-  @Column({ comment: 'æ‰€å±æ™¯åŒºID' })
+  @Column({ comment: 'ËùÊô¾°ÇøID' })
   scenicId: number;
 
-  @Column({ comment: 'ç¥¨ç§åç§°ï¼Œå¦‚ï¼šæˆäººç¥¨ã€å­¦ç”Ÿç¥¨', length: 100 })
+  @Column({ comment: 'Æ±ÖÖÃû³Æ£¬Èç£º³ÉÈËÆ±¡¢Ñ§ÉúÆ±', length: 100 })
   name: string;
 
-  @Column({ comment: 'å”®ä»·ï¼ˆå…ƒï¼‰', type: 'decimal', precision: 10, scale: 2 })
+  @Column({ comment: 'ÊÛ¼Û£¨Ôª£©', type: 'decimal', precision: 10, scale: 2 })
   price: number;
 
-  @Column({ comment: 'åŸä»·ï¼ˆå…ƒï¼‰ï¼Œç”¨äºå±•ç¤ºæŠ˜æ‰£', type: 'decimal', precision: 10, scale: 2, nullable: true })
+  @Column({ comment: 'Ô­¼Û£¨Ôª£©£¬ÓÃÓÚÕ¹Ê¾ÕÛ¿Û', type: 'decimal', precision: 10, scale: 2, nullable: true })
   originalPrice: number;
 
-  @Column({ comment: 'åº“å­˜ï¼Œ-1è¡¨ç¤ºä¸é™', default: 0 })
+  @Column({ comment: '¿â´æ£¬-1±íÊ¾²»ÏŞ', default: -1 })
   stock: number;
 
-  @Column({ comment: 'æœ‰æ•ˆå¤©æ•°ï¼Œ1=å½“æ—¥æœ‰æ•ˆ', default: 1 })
+  @Column({ comment: 'ÓĞĞ§ÌìÊı£¬1=µ±ÈÕÓĞĞ§', default: 1 })
   validDays: number;
 
-  @Column({ comment: 'å¹´é¾„é™åˆ¶è¯´æ˜', length: 50, nullable: true })
+  @Column({ comment: 'ÄêÁäÏŞÖÆËµÃ÷', length: 50, nullable: true })
   ageLimit: string;
 
-  @Column({ comment: 'ç¥¨ç§æè¿°', type: 'text', nullable: true })
+  @Column({ comment: 'Æ±ÖÖÃèÊö', type: 'text', nullable: true })
   description: string;
 
-  @Column({ comment: 'ç¥¨ç§å±•ç¤ºå›¾', nullable: true })
+  @Column({ comment: 'Æ±ÖÖÕ¹Ê¾Í¼', nullable: true })
   coverImage: string;
 
-  @Column({ comment: 'çŠ¶æ€ï¼š0ç¦ç”¨ 1å¯ç”¨', default: 1 })
+  @Column({ comment: '×´Ì¬£º0½ûÓÃ 1ÆôÓÃ', default: 1 })
   status: number;
 }
