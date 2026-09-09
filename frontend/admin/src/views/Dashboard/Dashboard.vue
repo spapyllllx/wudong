@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="dashboard">
     <h2>数据看板</h2>
     <el-row :gutter="20">

@@ -1,4 +1,4 @@
-﻿package com.wudong.common.util;
+package com.wudong.common.util;
 
 import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.context.request.RequestContextHolder;

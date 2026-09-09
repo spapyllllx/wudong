@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="scenic-list">
     <h2>景区管理</h2>
     <el-table :data="scenics" border stripe>

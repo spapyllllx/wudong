@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="merchant-list">
     <h2>商家管理</h2>
     <el-table :data="merchants" border stripe>

@@ -1,4 +1,4 @@
-﻿// main.js - PC端入口
+// main.js - PC端入口
 import { createApp } from 'vue'
 import { createPinia } from 'pinia'
 import ElementPlus from 'element-plus'

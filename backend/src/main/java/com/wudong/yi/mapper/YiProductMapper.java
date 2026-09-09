@@ -1,4 +1,4 @@
-﻿package com.wudong.yi.mapper;
+package com.wudong.yi.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wudong.yi.model.YiProduct;

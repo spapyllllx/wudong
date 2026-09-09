@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="order-list">
     <h2>订单管理</h2>
     <el-table :data="orders" border stripe>

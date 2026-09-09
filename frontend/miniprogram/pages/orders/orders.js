@@ -1,4 +1,4 @@
-﻿// 我的订单
+// 我的订单
 const app = getApp()
 
 Page({

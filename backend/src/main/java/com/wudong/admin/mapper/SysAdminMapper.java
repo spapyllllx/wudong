@@ -1,4 +1,4 @@
-﻿package com.wudong.admin.mapper;
+package com.wudong.admin.mapper;
 
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.wudong.admin.model.SysAdmin;

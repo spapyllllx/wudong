@@ -1,4 +1,4 @@
-﻿<!--购物车-->
+<!--购物车-->
 <view class="cart-container">
   <view class="cart-empty" wx:if="{{cartList.length === 0}}">
     <image src="/static/images/empty-cart.png" mode="aspectFit"></image>

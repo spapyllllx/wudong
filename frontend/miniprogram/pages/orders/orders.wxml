@@ -1,4 +1,4 @@
-﻿<!--我的订单-->
+<!--我的订单-->
 <view class="orders-container">
   <view class="order-tabs">
     <view class="tab-item {{currentTab === 0 ? 'active' : ''}}" bindtap="switchTab" data-index="0">全部</view>

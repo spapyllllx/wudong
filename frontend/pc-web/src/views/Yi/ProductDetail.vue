@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="product-detail">
     <el-page-header @back="$router.back()" title="返回" />
     <el-row :gutter="40" style="margin-top: 20px;">

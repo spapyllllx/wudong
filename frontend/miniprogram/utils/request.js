@@ -1,4 +1,4 @@
-﻿// 封装请求
+// 封装请求
 const app = getApp()
 
 function request(url, data, method = 'GET') {

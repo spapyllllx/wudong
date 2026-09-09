@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="content-audit">
     <h2>内容审核</h2>
     <el-tabs v-model="activeTab">

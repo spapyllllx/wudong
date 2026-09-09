@@ -1,4 +1,4 @@
-﻿package com.wudong.common.interceptor;
+package com.wudong.common.interceptor;
 
 import com.wudong.common.util.JwtUtil;
 import com.wudong.common.util.RequestContextUtil;
@@ -30,6 +30,10 @@ public class JwtInterceptor implements HandlerInterceptor {
         // 管理员接口需要单独验证
         String uri = request.getRequestURI();
         if (uri.startsWith("/api/admin")) {
+            // 管理员登录接口放行
+            if (uri.equals("/api/admin/login")) {
+                return true;
+            }
             if (token == null || !jwtUtil.validateToken(token)) {
                 response.setStatus(401);
                 response.setContentType("application/json;charset=UTF-8");

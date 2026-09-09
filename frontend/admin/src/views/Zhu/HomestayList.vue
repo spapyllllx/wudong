@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="homestay-list">
     <h2>民宿管理</h2>
     <el-table :data="homestays" border stripe>

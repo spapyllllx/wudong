@@ -1,4 +1,4 @@
-﻿/* 购物车样式 */
+/* 购物车样式 */
 .cart-container {
   min-height: 100vh;
   background: #f5f5f5;

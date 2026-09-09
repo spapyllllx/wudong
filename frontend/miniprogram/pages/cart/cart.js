@@ -1,4 +1,4 @@
-﻿// 购物车
+// 购物车
 const app = getApp()
 
 Page({

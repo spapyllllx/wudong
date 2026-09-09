@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="product-list">
     <h1>非遗商品</h1>
     <el-row :gutter="20">

@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="restaurant-list">
     <h2>餐厅管理</h2>
     <el-table :data="restaurants" border stripe>

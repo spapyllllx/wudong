@@ -1,4 +1,4 @@
-﻿package com.wudong.yi.service;
+package com.wudong.yi.service;
 
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.wudong.yi.mapper.YiProductMapper;

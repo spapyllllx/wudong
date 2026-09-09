@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <el-container class="layout">
     <el-aside width="200px">
       <div class="logo">乌东文旅</div>

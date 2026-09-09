@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="log-list">
     <h2>游记管理</h2>
     <el-table :data="logs" border stripe>

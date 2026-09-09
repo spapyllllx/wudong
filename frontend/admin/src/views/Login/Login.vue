@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="login-container">
     <el-card class="login-card">
       <template #header>
@@ -23,6 +23,7 @@
 import { ref, reactive } from 'vue'
 import { useRouter } from 'vue-router'
 import { ElMessage } from 'element-plus'
+import request from '@/utils/request'
 
 const router = useRouter()
 const formRef = ref(null)
@@ -39,15 +40,20 @@ const rules = {
 
 const handleLogin = async () => {
   await formRef.value.validate(async (valid) => {
-    if (valid) {
-      // TODO: 调用登录API
-      if (form.username === 'admin' && form.password === 'admin123') {
-        localStorage.setItem('token', 'mock-admin-token')
-        ElMessage.success('登录成功')
-        router.push('/dashboard')
-      } else {
-        ElMessage.error('用户名或密码错误')
-      }
+    if (!valid) {
+      return
+    }
+    const res = await request.post('/admin/login', {
+      username: form.username,
+      password: form.password
+    })
+    if (res && res.code === 200) {
+      localStorage.setItem('token', res.data.token)
+      localStorage.setItem('username', res.data.username)
+      ElMessage.success(res.message || '登录成功')
+      router.push('/dashboard')
+    } else {
+      ElMessage.error((res && res.message) || '用户名或密码错误')
     }
   })
 }

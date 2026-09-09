@@ -1,4 +1,4 @@
-﻿package com.wudong.common.util;
+package com.wudong.common.util;
 
 import io.jsonwebtoken.*;
 import io.jsonwebtoken.security.Keys;

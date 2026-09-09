@@ -1,6 +1,7 @@
-﻿package com.wudong.admin.controller;
+package com.wudong.admin.controller;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import cn.hutool.crypto.digest.BCrypt;
 import com.wudong.common.result.Result;
 import com.wudong.common.util.JwtUtil;
 import com.wudong.admin.model.SysAdmin;
@@ -45,8 +46,7 @@ public class AdminAuthController {
             return Result.error(401, "用户名或密码错误");
         }
 
-        // TODO: 验证密码（使用BCrypt）
-        if (!password.equals(admin.getPassword())) {
+        if (!BCrypt.checkpw(password, admin.getPassword())) {
             return Result.error(401, "用户名或密码错误");
         }
 

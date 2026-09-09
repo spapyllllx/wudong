@@ -1,4 +1,4 @@
-﻿// router/index.js - PC端路由配置
+// router/index.js - PC端路由配置
 import { createRouter, createWebHistory } from 'vue-router'
 
 const routes = [
@@ -24,47 +24,56 @@ const routes = [
   {
     path: '/shi',
     name: 'Shi',
-    component: () => import('@/views/Shi/RestaurantList.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Shi/RestaurantList.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/shi/:id',
     name: 'ShiDetail',
-    component: () => import('@/views/Shi/RestaurantDetail.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Shi/RestaurantDetail.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/zhu',
     name: 'Zhu',
-    component: () => import('@/views/Zhu/HomestayList.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Zhu/HomestayList.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/zhu/:id',
     name: 'ZhuDetail',
-    component: () => import('@/views/Zhu/HomestayDetail.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Zhu/HomestayDetail.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/xing',
     name: 'Xing',
-    component: () => import('@/views/Xing/ScenicList.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Xing/ScenicList.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/xing/:id',
     name: 'XingDetail',
-    component: () => import('@/views/Xing/ScenicDetail.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Xing/ScenicDetail.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/shequ',
     name: 'Shequ',
-    component: () => import('@/views/Shequ/LogList.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Shequ/LogList.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/shequ/:id',
     name: 'ShequDetail',
-    component: () => import('@/views/Shequ/LogDetail.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Shequ/LogDetail.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/profile',
     name: 'Profile',
-    component: () => import('@/views/Profile.vue')
+    // TODO: 待实现 - 替换为真实页面 @/views/Profile.vue
+    component: () => import('@/views/UnderConstruction.vue')
   },
   {
     path: '/admin',

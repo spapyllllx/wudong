@@ -1,4 +1,4 @@
-﻿// 个人中心
+// 个人中心
 const app = getApp()
 
 Page({

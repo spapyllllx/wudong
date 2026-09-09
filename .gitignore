@@ -1,0 +1,46 @@
+# ============ 乌东文旅 wudong 平台根 .gitignore ============
+# 覆盖仓库内两套系统:自研平台(backend/frontend)与 Cool-Admin(cool-admin-midway/cool-admin-vue)
+
+# ---------- 编辑器 / 系统 ----------
+.idea/
+.vscode/
+*.iml
+*.swp
+.DS_Store
+Thumbs.db
+
+# ---------- 日志 / 临时文件 ----------
+*.log
+npm-debug.log*
+yarn-error.log*
+logs/
+tmp/
+run/
+
+# ---------- Node / pnpm 依赖 ----------
+node_modules/
+.pnpm-store/
+
+# ---------- 构建产物 ----------
+dist/
+build/
+coverage/
+*.tsbuildinfo
+
+# Java / Maven 构建产物
+target/
+*.class
+
+# ---------- 环境配置(可能含密钥,不要提交) ----------
+.env
+.env.local
+.env.*.local
+
+# ---------- 本地上传 / 数据目录 ----------
+uploads/
+public/uploads/*
+data/
+
+# ---------- 微信小程序(开发者工具生成) ----------
+project.private.config.json
+miniprogram_npm/

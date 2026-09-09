@@ -1,4 +1,4 @@
-﻿-- 乌东文旅衣食住行综合服务平台 - 数据库初始化脚本
+-- 乌东文旅衣食住行综合服务平台 - 数据库初始化脚本
 -- 创建数据库
 CREATE DATABASE IF NOT EXISTS wudong_tourism DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 USE wudong_tourism;
@@ -742,7 +742,7 @@ CREATE TABLE admin_sensitive_word (
 
 -- 插入默认管理员账号 (密码: admin123)
 INSERT INTO sys_admin (username, password, real_name, status) VALUES
-('admin', '.zmdr9k7uOCQb376NoUnuTJ8iAt6Z5EHsM8lE9lBOsl7iKTVKIUi', '系统管理员', 1);
+('admin', '$2a$10$AJFknwQLC8GPRczxRZusT.hReOud.Nq/Xt.vyueYcR0SAZYp5W1du', '系统管理员', 1);
 
 -- 插入默认角色
 INSERT INTO sys_role (role_name, role_code, permissions) VALUES

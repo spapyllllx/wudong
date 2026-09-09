@@ -1,4 +1,4 @@
-﻿<template>
+<template>
   <div class="home">
     <!-- 导航栏 -->
     <el-header class="header">
