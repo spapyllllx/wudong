@@ -133,6 +133,56 @@
 				]
 			},
 			{
+				"name": "库存管理",
+				"router": "/clothing/stock",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-goods",
+				"orderNum": 4,
+				"viewPath": "modules/clothing/views/stock.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "库存调整",
+						"router": null,
+						"perms": "clothing:product:update,clothing:product:detail,clothing:product:page,clothing:product:info",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			},
+			{
+				"name": "商城预览",
+				"router": "/clothing/mall",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-goods",
+				"orderNum": 5,
+				"viewPath": "modules/clothing/views/mall.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "浏览",
+						"router": null,
+						"perms": "clothing:product:page,clothing:product:info",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			},
+			{
 				"name": "评价管理",
 				"router": "/clothing/review",
 				"perms": null,

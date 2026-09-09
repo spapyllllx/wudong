@@ -29,7 +29,14 @@
 			<cl-pagination />
 		</cl-row>
 
-		<!-- 商品详情(SKU/图片)弹窗 -->
+		<!-- SKU/图片 可视化编辑(组件) -->
+		<sku-edit
+			v-model:visible="skuVisible"
+			:product="currentProduct"
+			@saved="Crud?.value?.refresh()"
+		/>
+
+		<!-- 商品详情(只读) -->
 		<cl-dialog v-model="visible" title="商品详情" width="720px">
 			<template v-if="detail">
 				<el-descriptions :column="2" border>
@@ -49,32 +56,9 @@
 					<el-descriptions-item label="工艺介绍" :span="2">{{ detail.craft_intro || '-' }}</el-descriptions-item>
 				</el-descriptions>
 
-				<h4 style="margin: 14px 0 6px">商品图片({{ (detail.images || []).length }})</h4>
-				<div v-if="detail.images?.length">
-					<el-image
-						v-for="(img, i) in detail.images"
-						:key="i"
-						:src="img"
-						style="width: 72px; height: 72px; margin-right: 8px; border-radius: 4px"
-						fit="cover"
-						:preview-src-list="detail.images"
-						preview-teleported
-					/>
-				</div>
-				<el-empty v-else description="暂无图片" :image-size="60" />
-
-				<h4 style="margin: 14px 0 6px">SKU({{ (detail.skus || []).length }})</h4>
-				<el-table :data="detail.skus || []" size="small" border>
-					<el-table-column prop="sku_name" label="SKU名称" min-width="150" />
-					<el-table-column prop="price" label="价格" width="90">
-						<template #default="{ row }">¥{{ row.price }}</template>
-					</el-table-column>
-					<el-table-column prop="stock" label="库存" width="70" />
-					<el-table-column prop="sales" label="销量" width="70" />
-					<el-table-column label="属性" min-width="130">
-						<template #default="{ row }">{{ JSON.stringify(row.attrs || {}) }}</template>
-					</el-table-column>
-				</el-table>
+				<h4 style="margin: 14px 0 6px">商品详情(HTML)</h4>
+				<div v-if="detail.detail" style="border: 1px solid #ebeef5; border-radius: 4px; padding: 10px" v-html="detail.detail" />
+				<el-empty v-else description="暂无详情内容" :image-size="50" />
 			</template>
 		</cl-dialog>
 
@@ -89,8 +73,8 @@ defineOptions({
 
 import { useCool } from '/@/cool';
 import { useCrud, useSearch, useTable, useUpsert } from '@cool-vue/crud';
-import { ElMessage } from 'element-plus';
 import { computed, onMounted, reactive, ref } from 'vue';
+import SkuEdit from './components/sku-edit.vue';
 
 const { service } = useCool();
 
@@ -102,7 +86,7 @@ const options = reactive({
 	categories: [] as any[]
 });
 
-// 分类下拉选项({label,value})
+// 分类下拉选项
 const categoryOptions = computed(() =>
 	options.categories.map((c: any) => ({ label: c.name, value: c.id }))
 );
@@ -115,50 +99,6 @@ onMounted(async () => {
 		options.categories = [];
 	}
 });
-
-/**
- * SKU/图片以 JSON 文本域录入(便于快速演示):
- * skus:   [{"skuName":"银饰-手镯-中号","price":298,"stock":60,"attrs":{"尺寸":"中号"}}]
- * images: [{"url":"http://host/upload/xxx.png","sort":1}]
- * 留空 = 不提交该数组(新增则无子表,编辑则保留原 SKU/图片)
- */
-function parseList(text: string): any[] | undefined {
-	const str = (text || '').trim();
-	if (!str) return undefined;
-	try {
-		const arr = JSON.parse(str);
-		if (!Array.isArray(arr)) throw new Error('not array');
-		return arr;
-	} catch (e) {
-		ElMessage.error('SKU/图片 JSON 格式错误,请检查输入');
-		throw e;
-	}
-}
-
-// 包装 service:提交前把 JSON 文本转数组
-const crudService: any = {
-	...service.clothing.product,
-	add: (data: any) => {
-		const body: any = { ...data };
-		const skus = parseList(body.skusJson);
-		const images = parseList(body.imagesJson);
-		if (skus !== undefined) body.skus = skus;
-		if (images !== undefined) body.images = images;
-		delete body.skusJson;
-		delete body.imagesJson;
-		return service.clothing.product.add(body);
-	},
-	update: (data: any) => {
-		const body: any = { ...data };
-		const skus = parseList(body.skusJson);
-		const images = parseList(body.imagesJson);
-		if (skus !== undefined) body.skus = skus;
-		if (images !== undefined) body.images = images;
-		delete body.skusJson;
-		delete body.imagesJson;
-		return service.clothing.product.update(body);
-	}
-};
 
 // cl-table
 const Table = useTable({
@@ -212,13 +152,20 @@ const Table = useTable({
 		},
 		{
 			type: 'op',
-			width: 160,
+			width: 230,
 			buttons: [
 				{
-					label: '详情',
+					label: '查看',
 					type: 'success',
 					onClick({ scope }) {
 						showDetail(scope.row);
+					}
+				},
+				{
+					label: 'SKU/图片',
+					type: 'primary',
+					onClick({ scope }) {
+						openSkuEdit(scope.row);
 					}
 				}
 			]
@@ -226,7 +173,7 @@ const Table = useTable({
 	]
 });
 
-// cl-upsert(编辑主字段由默认 edit 自动回显 info;SKU/图片留空则后端保留)
+// cl-upsert(新增/编辑主字段;SKU/图片用 SKU/图片 按钮可视化维护)
 const Upsert = useUpsert({
 	items: [
 		{
@@ -302,32 +249,7 @@ const Upsert = useUpsert({
 			prop: 'detail',
 			component: {
 				name: 'el-input',
-				props: { type: 'textarea', rows: 3 }
-			}
-		},
-		{
-			label: 'SKU列表(JSON,留空=编辑时不修改)',
-			prop: 'skusJson',
-			component: {
-				name: 'el-input',
-				props: {
-					type: 'textarea',
-					rows: 3,
-					placeholder:
-						'[{"skuName":"银饰-手镯-中号","price":298,"stock":60,"attrs":{"尺寸":"中号"}}]'
-				}
-			}
-		},
-		{
-			label: '商品图片(JSON,留空=编辑时不修改)',
-			prop: 'imagesJson',
-			component: {
-				name: 'el-input',
-				props: {
-					type: 'textarea',
-					rows: 3,
-					placeholder: '[{"url":"http://host/upload/xxx.png","sort":1}]'
-				}
+				props: { type: 'textarea', rows: 4 }
 			}
 		}
 	]
@@ -363,14 +285,14 @@ const Search = useSearch({
 // cl-crud
 const Crud = useCrud(
 	{
-		service: crudService
+		service: service.clothing.product
 	},
 	app => {
 		app.refresh();
 	}
 );
 
-// ---------- 详情弹窗 ----------
+// ---------- 详情(只读) ----------
 const visible = ref(false);
 const detail = ref<any>(null);
 
@@ -378,5 +300,14 @@ async function showDetail(row: any) {
 	const res: any = await service.clothing.product.detail({ id: row.id });
 	detail.value = res;
 	visible.value = true;
+}
+
+// ---------- SKU/图片 编辑 ----------
+const skuVisible = ref(false);
+const currentProduct = ref<any>(null);
+
+function openSkuEdit(row: any) {
+	currentProduct.value = row;
+	skuVisible.value = true;
 }
 </script>
