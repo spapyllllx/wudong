@@ -41,6 +41,9 @@ uploads/
 public/uploads/*
 data/
 
+# 根目录散落的数据库导出文件(勿再误提交)
+init_database(1).sql
+
 # ---------- 微信小程序(开发者工具生成) ----------
 project.private.config.json
 miniprogram_npm/
