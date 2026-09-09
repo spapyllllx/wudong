@@ -6,21 +6,48 @@
     <view class="search-btn" bindtap="doSearch">搜索</view>
   </view>
 
-  <!-- 分类 -->
-  <scroll-view class="cats" scroll-x enable-flex>
-    <view class="cat {{query.category_id === 0 ? 'on' : ''}}" bindtap="setCat" data-id="0">全部</view>
-    <view class="cat {{query.category_id === c.id ? 'on' : ''}}" wx:for="{{categories}}" wx:key="id"
-      bindtap="setCat" data-id="{{c.id}}">{{c.name}}</view>
-  </scroll-view>
+  <!-- 轮播图 -->
+  <swiper wx:if="{{banners.length}}" class="banner" indicator-dots autoplay circular
+    indicator-color="rgba(255,255,255,.6)" indicator-active-color="#fff">
+    <swiper-item wx:for="{{banners}}" wx:key="id" bindtap="goBanner" data-item="{{item}}">
+      <image class="banner-img" src="{{item.image}}" mode="aspectFill" />
+      <view class="banner-title">{{item.title}}</view>
+    </swiper-item>
+  </swiper>
 
-  <!-- 排序 -->
+  <!-- 金刚区:分类快捷入口 -->
+  <view class="grid-nav" wx:if="{{categories.length}}">
+    <view class="nav-cell" wx:for="{{categories}}" wx:key="id" bindtap="setCat" data-id="{{item.id}}">
+      <view class="nav-icon" style="background: {{navColors[item.id % navColors.length]}}">{{item.name[0]}}</view>
+      <view class="nav-name">{{item.name}}</view>
+    </view>
+    <view class="nav-cell" bindtap="setCat" data-id="0">
+      <view class="nav-icon all">全</view>
+      <view class="nav-name">全部</view>
+    </view>
+  </view>
+
+  <!-- 热卖推荐 -->
+  <view class="hot-title" wx:if="{{hotList.length}}">🔥 热卖推荐</view>
+  <view class="hot-scroll" wx:if="{{hotList.length}}">
+    <view class="hot-card" wx:for="{{hotList}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="hot-img" src="{{item.main_image}}" mode="aspectFill" />
+      <view class="hot-name">{{item.title}}</view>
+      <view class="hot-foot">
+        <text class="hot-price">¥{{item.price}}</text>
+        <text class="hot-sales">已售{{item.sales}}</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 分类筛选 -->
   <view class="sorts">
     <view class="sort {{query.sort === 'time' ? 'on' : ''}}" bindtap="setSort" data-sort="time">最新</view>
     <view class="sort {{query.sort === 'sales' ? 'on' : ''}}" bindtap="setSort" data-sort="sales">销量</view>
     <view class="sort {{query.sort === 'price' ? 'on' : ''}}" bindtap="setSort" data-sort="price">价格</view>
   </view>
 
-  <!-- 商品双列 -->
+  <!-- 商品列表 -->
   <view class="grid" wx:if="{{list.length}}">
     <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
       <image class="img" src="{{item.main_image}}" mode="aspectFill" />
@@ -31,7 +58,6 @@
           <text class="price">¥{{item.price}}</text>
           <text class="sales" wx:if="{{item.sales}}">已售{{item.sales}}</text>
         </view>
-        <view class="rate" wx:if="{{item.rating}}">⭐ {{item.rating}}({{item.review_count}})</view>
       </view>
     </view>
   </view>

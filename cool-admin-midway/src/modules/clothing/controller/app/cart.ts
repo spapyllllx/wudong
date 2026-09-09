@@ -21,8 +21,13 @@ export class AppClothingCartController extends BaseController {
 
   @Post('/add', { summary: '加入购物车' })
   async addCartItem(@Body('skuId') skuId: number, @Body('quantity') quantity: number) {
+    // quantity 缺省按 1;显式传 0/负数交由 service 校验拒绝(此前 || 1 会把 0 静默当 1)
     return this.ok(
-      await this.clothingCartService.addCart(this.ctx.user.id, skuId, quantity || 1)
+      await this.clothingCartService.addCart(
+        this.ctx.user.id,
+        skuId,
+        quantity === undefined || quantity === null ? 1 : quantity
+      )
     );
   }
 

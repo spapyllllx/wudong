@@ -64,17 +64,23 @@ Page({
   },
 
   async submit() {
+    if (this.submitting) return; // 防双击重复下单
     const { consignee, phone, detail } = this.data.form;
     if (!consignee || !phone || !detail) {
       return wx.showToast({ title: '请填写完整收货信息', icon: 'none' });
     }
     const items = this.data.list.map((c) => ({ skuId: c.sku_id, quantity: c.quantity }));
+    const cartIds = this.data.list.map((c) => c.id);
     wx.showLoading({ title: '提交中' });
+    this.submitting = true;
     try {
       const orderId = await api.orderCreate({ items, consignee, phone, province: '', city: '', district: '', detail });
-      await api.cartRemove(this.data.list.map((c) => c.id));
       wx.hideLoading();
       this.setData({ checkoutVisible: false, list: [] });
+      // 清购物车失败不覆盖"下单成功"(否则会误导用户重试、造成重复下单)
+      try {
+        await api.cartRemove(cartIds);
+      } catch (e) {}
       wx.showModal({
         title: '下单成功',
         content: '订单号:' + orderId + ',请到「我的-订单」模拟支付',
@@ -84,6 +90,8 @@ Page({
     } catch (e) {
       wx.hideLoading();
       wx.showToast({ title: e.message || '下单失败', icon: 'none' });
+    } finally {
+      this.submitting = false;
     }
   },
 

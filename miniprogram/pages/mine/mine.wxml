@@ -8,7 +8,7 @@
       <view class="sub" wx:if="{{logged}}">138****0000</view>
       <view class="sub" wx:else>登录后体验收藏/下单</view>
     </view>
-    <view wx:if="{{!logged}}" class="login-btn" bindtap="showLogin">演示登录</view>
+    <view wx:if="{{!logged}}" class="login-btn" bindtap="doLogin">演示登录</view>
     <view wx:else class="login-btn" bindtap="logout">退出</view>
   </view>
 
@@ -53,10 +53,17 @@
       <view class="order-foot">
         <text class="order-total">合计 ¥{{item.total_amount}}</text>
         <view class="order-ops">
-          <view wx:if="{{item.status === 'pending'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="cancel">取消</view>
-          <view wx:if="{{item.status === 'pending'}}" class="mini-btn pay" bindtap="orderOp" data-id="{{item.id}}" data-op="pay">模拟支付</view>
-          <view wx:if="{{item.status === 'paid'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="confirm">确认收货</view>
-          <view wx:if="{{item.status === 'paid' || item.status === 'completed'}}" class="mini-btn pay" bindtap="openEval" data-order="{{item.id}}" data-product="{{item.items[0].product_id}}">去评价</view>
+          <block wx:if="{{item.refunding}}">
+            <view class="mini-btn pay">退款处理中…</view>
+          </block>
+          <block wx:else>
+            <view class="mini-btn" wx:if="{{item.refundRejected}}">退款被驳回</view>
+            <view wx:if="{{item.status === 'pending'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="cancel">取消</view>
+            <view wx:if="{{item.status === 'pending'}}" class="mini-btn pay" bindtap="orderOp" data-id="{{item.id}}" data-op="pay">模拟支付</view>
+            <view wx:if="{{item.status === 'shipped'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="confirm">确认收货</view>
+            <view wx:if="{{item.status === 'completed'}}" class="mini-btn pay" bindtap="openEval" data-order="{{item.id}}" data-product="{{item.items[0].product_id}}">去评价</view>
+            <view wx:if="{{item.status === 'paid' || item.status === 'completed'}}" class="mini-btn" bindtap="openRefund" data-order="{{item}}">申请退款</view>
+          </block>
         </view>
       </view>
     </view>
@@ -90,6 +97,18 @@
     <view class="sheet-btns">
       <view class="sheet-btn" bindtap="hideEval">取消</view>
       <view class="sheet-btn main" bindtap="submitEval">提交评价</view>
+    </view>
+  </view>
+
+  <!-- 申请退款 -->
+  <view class="mask" wx:if="{{refundVisible}}" bindtap="hideRefund"></view>
+  <view class="sheet" wx:if="{{refundVisible}}">
+    <view class="sheet-title">申请退款(订单 {{refundForm.orderId}})</view>
+    <view class="tip">全额退款将在商家审核通过后原路退回(演示环境即时到账)</view>
+    <textarea class="content" placeholder="请填写退款原因(必填)" maxlength="500" value="{{refundForm.reason}}" bindinput="onRefundReason" />
+    <view class="sheet-btns">
+      <view class="sheet-btn" bindtap="hideRefund">取消</view>
+      <view class="sheet-btn main" bindtap="submitRefund">提交申请</view>
     </view>
   </view>
 </view>

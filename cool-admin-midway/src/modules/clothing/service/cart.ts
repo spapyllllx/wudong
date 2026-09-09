@@ -48,8 +48,16 @@ export class ClothingCartService extends BaseService {
       skuId,
     });
     if (exist) {
-      await this.cartEntity.update(exist.id, { quantity: exist.quantity + qty });
-      return { id: exist.id, quantity: exist.quantity + qty };
+      const merged = exist.quantity + qty;
+      // 合并路径同样受库存上限约束(此前可无限累加,直到结算才被拦)
+      if (sku.stock !== null && merged > sku.stock) {
+        throw new CoolCommException(`库存不足,仅剩 ${sku.stock}`);
+      }
+      await this.cartEntity.update(exist.id, { quantity: merged });
+      return { id: exist.id, quantity: merged };
+    }
+    if (sku.stock !== null && qty > sku.stock) {
+      throw new CoolCommException(`库存不足,仅剩 ${sku.stock}`);
     }
     const res = await this.cartEntity.insert({
       userId,
@@ -68,23 +76,31 @@ export class ClothingCartService extends BaseService {
     if (!Number.isInteger(qty) || qty <= 0) {
       throw new CoolCommException('数量错误');
     }
-    const cart = await this.cartEntity.findOneBy({ id: cartId, userId });
+    // 修复:id 必须为正整数,否则 [object Object]/NaN 会直拼进 SQL 抛原生报错
+    const cid = Number(cartId);
+    if (!Number.isInteger(cid) || cid <= 0) {
+      throw new CoolCommException('参数错误');
+    }
+    const cart = await this.cartEntity.findOneBy({ id: cid, userId });
     if (!cart) throw new CoolCommException('购物车项不存在');
     const sku = await this.skuEntity.findOneBy({ id: cart.skuId });
     if (sku && qty > sku.stock) {
       throw new CoolCommException(`库存不足,仅剩 ${sku.stock}`);
     }
-    await this.cartEntity.update(cartId, { quantity: qty });
+    await this.cartEntity.update(cid, { quantity: qty });
   }
 
   /** 删除(支持批量) */
   async remove(userId: number, ids: number[]) {
     if (!ids?.length) throw new CoolCommException('请选择要删除的项');
+    // 修复:过滤非法元素,防止 [object Object] 等直拼进 SQL 抛原生报错
+    const clean = ids.map((v) => Number(v)).filter((n) => Number.isInteger(n) && n > 0);
+    if (!clean.length) throw new CoolCommException('请选择要删除的项');
     await this.cartEntity
       .createQueryBuilder()
       .delete()
       .where('user_id = :userId', { userId })
-      .andWhere('id IN (:...ids)', { ids })
+      .andWhere('id IN (:...ids)', { ids: clean })
       .execute();
   }
 

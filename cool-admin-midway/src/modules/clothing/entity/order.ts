@@ -85,7 +85,7 @@ export class ProductOrderEntity {
     name: 'status',
     length: 20,
     default: 'pending',
-    comment: 'pending/paid/cancelled/completed/refunded',
+    comment: 'pending/paid/shipped/cancelled/completed/refunded',
   })
   status: string;
 

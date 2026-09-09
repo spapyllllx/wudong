@@ -1,16 +1,37 @@
 // C 端接口封装
 function request(method, path, data = {}) {
   const app = getApp();
+  const { baseUrl } = app.globalData;
+
+  // 图片 URL 统一处理:库内可能存 127.0.0.1:8001 绝对地址或 /upload 相对地址,
+  // 一律按小程序当前 baseUrl 重组,保证真机预览(改局域网 IP)图片也能加载
+  function normalizeImgUrl(v) {
+    if (typeof v === 'string') {
+      if (v.indexOf('/upload/') === 0) return baseUrl + v;
+      if (/^https?:\/\/(127\.0\.0\.1|localhost):8001\/upload\//.test(v)) {
+        return baseUrl + '/upload/' + v.slice(v.indexOf('/upload/') + 8);
+      }
+      return v;
+    }
+    if (Array.isArray(v)) return v.map(normalizeImgUrl);
+    if (v && typeof v === 'object') {
+      Object.keys(v).forEach((k) => {
+        v[k] = normalizeImgUrl(v[k]);
+      });
+    }
+    return v;
+  }
+
   return new Promise((resolve, reject) => {
     wx.request({
-      url: app.globalData.baseUrl + '/app' + path,
+      url: baseUrl + '/app' + path,
       method,
       data,
       header: app.globalData.token ? { Authorization: app.globalData.token } : {},
       success(res) {
         const body = res.data || {};
         if (body.code === 1000) {
-          resolve(body.data);
+          resolve(normalizeImgUrl(body.data));
         } else if (res.statusCode === 401) {
           reject({ message: '登录失效,请重新登录', auth: true });
         } else {
@@ -50,5 +71,14 @@ module.exports = {
   cartRemove: (ids) => request('POST', '/clothing/cart/remove', { ids }),
   // 评价
   reviewSubmit: (data) => request('POST', '/clothing/product/review', data),
-  myReviews: () => request('GET', '/clothing/product/my-reviews', { page: 1, size: 20 })
+  myReviews: () => request('GET', '/clothing/product/my-reviews', { page: 1, size: 20 }),
+  // 退款
+  refundApply: (data) => request('POST', '/clothing/refund/apply', data),
+  refundList: () => request('GET', '/clothing/refund/list', { page: 1, size: 20 }),
+  // 收货地址(user 模块既有接口)
+  addressList: () => request('POST', '/user/address/page', { page: 1, size: 50 }),
+  addressDefault: () => request('GET', '/user/address/default'),
+  addressAdd: (data) => request('POST', '/user/address/add', data),
+  addressUpdate: (data) => request('POST', '/user/address/update', data),
+  addressDelete: (id) => request('POST', '/user/address/delete', { ids: [id] })
 };

@@ -29,19 +29,23 @@ export class ClothingFavoriteService extends BaseService {
    * @returns true=已收藏, false=已取消收藏
    */
   async toggle(userId: number, productId: number): Promise<boolean> {
+    const pid = Number(productId);
+    if (!Number.isInteger(pid) || pid <= 0) {
+      throw new CoolCommException('商品不存在或已下架');
+    }
     const product = await this.productEntity.findOne({
-      where: { id: productId, status: 'on_sale' },
+      where: { id: pid, status: 'on_sale' },
     });
     if (!product) {
       throw new CoolCommException('商品不存在或已下架');
     }
-    const exists = await this.favoriteEntity.findOneBy({ userId, productId });
+    const exists = await this.favoriteEntity.findOneBy({ userId, productId: pid });
     if (exists) {
-      await this.favoriteEntity.delete({ userId, productId });
+      await this.favoriteEntity.delete({ userId, productId: pid });
       return false;
     }
     try {
-      await this.favoriteEntity.insert({ userId, productId });
+      await this.favoriteEntity.insert({ userId, productId: pid });
       return true;
     } catch (err) {
       // 并发重复收藏:唯一键兜底,按已收藏处理

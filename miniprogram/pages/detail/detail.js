@@ -45,11 +45,27 @@ Page({
   },
 
   pickSku(e) {
-    this.setData({ 'buy.skuId': Number(e.currentTarget.dataset.id) });
+    const id = Number(e.currentTarget.dataset.id);
+    const sku = (this.data.detail.skus || []).find((x) => x.id === id);
+    if (!sku) return;
+    if (!sku.stock || sku.stock <= 0) {
+      return wx.showToast({ title: '该规格暂无库存', icon: 'none' });
+    }
+    this.setData({ 'buy.skuId': id, 'buy.quantity': 1 });
   },
   qty(e) {
-    const q = Math.max(1, this.data.buy.quantity + Number(e.currentTarget.dataset.d));
+    const sku = (this.data.detail.skus || []).find((x) => x.id === this.data.buy.skuId);
+    const max = sku && sku.stock > 0 ? sku.stock : 99;
+    const q = Math.min(
+      Math.max(1, this.data.buy.quantity + Number(e.currentTarget.dataset.d)),
+      max
+    );
     this.setData({ 'buy.quantity': q });
+  },
+  /** 当前选中规格(数量上限/库存判断用) */
+  currentSku() {
+    const { skus = [] } = this.data.detail || {};
+    return skus.find((x) => x.id === this.data.buy.skuId);
   },
   onInput(e) {
     this.setData({ ['buy.' + e.currentTarget.dataset.k]: e.detail.value });
@@ -68,6 +84,8 @@ Page({
 
   async doAddCart() {
     if (!this.data.buy.skuId) return wx.showToast({ title: '请先选择规格', icon: 'none' });
+    const sku = this.currentSku();
+    if (!sku || sku.stock <= 0) return wx.showToast({ title: '该规格暂无库存', icon: 'none' });
     if (!this.ensureLogin()) return;
     try {
       const res = await api.cartAdd(this.data.buy.skuId, this.data.buy.quantity);
@@ -91,6 +109,11 @@ Page({
 
   async doBuy() {
     if (!this.data.buy.skuId) return wx.showToast({ title: '请先选择规格', icon: 'none' });
+    const sku = this.currentSku();
+    if (!sku || sku.stock <= 0) return wx.showToast({ title: '该规格暂无库存', icon: 'none' });
+    if (this.data.buy.quantity > sku.stock) {
+      return wx.showToast({ title: '超出库存,最多可买' + sku.stock + '件', icon: 'none' });
+    }
     if (!this.data.buy.consignee || !this.data.buy.phone || !this.data.buy.detail) {
       return wx.showToast({ title: '请填写完整收货信息', icon: 'none' });
     }

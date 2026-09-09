@@ -37,7 +37,12 @@ export class ClothingReviewService extends BaseService {
    */
   async submit(userId: number, body: any) {
     const { orderId, productId, rating, content = '', images } = body || {};
-    if (!orderId || !productId) {
+    if (
+      !Number.isInteger(Number(orderId)) ||
+      Number(orderId) <= 0 ||
+      !Number.isInteger(Number(productId)) ||
+      Number(productId) <= 0
+    ) {
       throw new CoolCommException('缺少订单或商品参数');
     }
     // 订单归属与商品包含校验
@@ -45,8 +50,8 @@ export class ClothingReviewService extends BaseService {
     if (!order || order.userId !== userId || order.orderType !== 'product') {
       throw new CoolCommException('订单不存在或不属于当前用户');
     }
-    if (order.status !== 'paid' && order.status !== 'completed') {
-      throw new CoolCommException('订单支付后才能评价');
+    if (order.status !== 'completed') {
+      throw new CoolCommException('订单确认收货后才能评价');
     }
     const item = await this.orderItemEntity.findOneBy({
       orderId,
@@ -62,7 +67,7 @@ export class ClothingReviewService extends BaseService {
     if (!Number.isInteger(rating) || rating < 1 || rating > 5) {
       throw new CoolCommException('评分须为1-5的整数');
     }
-    if (content.length > 500) {
+    if (String(content).length > 500) {
       throw new CoolCommException('评价内容不能超过500字');
     }
     if (images && (!Array.isArray(images) || images.length > 9)) {
@@ -90,7 +95,7 @@ export class ClothingReviewService extends BaseService {
     const review = await this.reviewEntity.findOneBy({ id });
     if (!review) throw new CoolCommException('评价不存在');
     await this.reviewEntity.update(id, {
-      replyContent: replyContent || null,
+      replyContent: replyContent ? replyContent.trim().slice(0, 500) : null,
       repliedAt: new Date(),
     });
   }
@@ -102,7 +107,9 @@ export class ClothingReviewService extends BaseService {
     const offset = (page - 1) * size;
     const rows: any[] = await this.nativeQuery(
       `SELECT r.id, r.order_id, r.product_id, r.rating, r.content, r.images,
-              r.reply_content, r.replied_at, r.created_at,
+              r.reply_content,
+              DATE_FORMAT(r.replied_at, '%Y-%m-%d %H:%i:%s') replied_at,
+              DATE_FORMAT(r.created_at, '%Y-%m-%d %H:%i:%s') created_at,
               p.title, p.main_image
        FROM product_reviews r
        LEFT JOIN products p ON p.id = r.product_id
@@ -138,13 +145,17 @@ export class ClothingReviewService extends BaseService {
   async reviewPage(query: any) {
     const page = Math.max(parseInt(query.page) || 1, 1);
     const size = Math.min(Math.max(parseInt(query.size) || 10, 1), 50);
-    const productId = query.product_id || query.productId;
-    const rating = query.rating;
+    const productId = Number(query.product_id || query.productId);
+    // 非法商品 id:直接空列表(避免 NaN 拼进 SQL 抛原生报错)
+    if (!Number.isInteger(productId) || productId <= 0) {
+      return { list: [], pagination: { page, size, total: 0 } };
+    }
+    const rating = Number(query.rating);
     const where: string[] = ['r.product_id = ?'];
-    const params: any[] = [Number(productId)];
-    if (rating) {
+    const params: any[] = [productId];
+    if (Number.isInteger(rating) && rating >= 1 && rating <= 5) {
       where.push('r.rating = ?');
-      params.push(Number(rating));
+      params.push(rating);
     }
     const whereSql = where.join(' AND ');
     const offset = (page - 1) * size;
@@ -154,7 +165,9 @@ export class ClothingReviewService extends BaseService {
     );
     const list: any[] = await this.nativeQuery(
       `SELECT r.id, r.product_id, r.rating, r.content, r.images,
-              r.reply_content, r.replied_at, r.created_at,
+              r.reply_content,
+              DATE_FORMAT(r.replied_at, '%Y-%m-%d %H:%i:%s') replied_at,
+              DATE_FORMAT(r.created_at, '%Y-%m-%d %H:%i:%s') created_at,
               u.nickName u_nickname, u.avatarUrl u_avatar_url
        FROM product_reviews r
        LEFT JOIN user_info u ON u.id = r.user_id

@@ -22,10 +22,10 @@
   <view class="panel" wx:if="{{detail.skus.length}}">
     <view class="panel-title">选择规格</view>
     <view class="skus">
-      <view class="sku {{buy.skuId === s.id ? 'on' : ''}}" wx:for="{{detail.skus}}" wx:key="id"
-        bindtap="pickSku" data-id="{{s.id}}">
+      <view class="sku {{buy.skuId === s.id ? 'on' : ''}} {{s.stock <= 0 ? 'sold-out' : ''}}" wx:for="{{detail.skus}}" wx:for-item="s" wx:key="id"
+        bindtap="pickSku" data-id="{{s.id}}" data-stock="{{s.stock}}">
         <view>{{s.sku_name}}</view>
-        <view class="sku-meta">¥{{s.price}} · 库存{{s.stock}}</view>
+        <view class="sku-meta">{{s.stock > 0 ? '¥' + s.price + ' · 库存' + s.stock : '暂无库存'}}</view>
       </view>
     </view>
     <view class="qty-row">

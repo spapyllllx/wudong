@@ -8,9 +8,15 @@ Page({
     favorites: [],
     orders: [],
     reviews: [],
+    addresses: [],
+    addrVisible: false,
+    addrForm: { id: null, contact: '', phone: '', province: '', city: '', district: '', address: '', isDefault: false },
+    refundVisible: false,
+    refundForm: { orderId: null, reason: '' },
     statusText: {
       pending: '待支付',
       paid: '已支付',
+      shipped: '已发货',
       cancelled: '已取消',
       completed: '已完成',
       refunded: '已退款'
@@ -24,6 +30,7 @@ Page({
       this.loadFav();
       this.loadOrders();
       this.loadReviews();
+      this.loadAddresses();
     }
   },
 
@@ -69,8 +76,24 @@ Page({
 
   async loadOrders() {
     try {
-      const res = await api.myOrders();
-      this.setData({ orders: res.list || [] });
+      const [oRes, rfRes] = await Promise.all([api.myOrders(), api.refundList()]);
+      const refundMap = {};
+      for (const rf of rfRes.list || []) {
+        refundMap[rf.order_id] = rf;
+      }
+      const orders = (oRes.list || []).map((o) => {
+        const rf = refundMap[o.id];
+        if (!rf) return o;
+        // 退款中:隐藏取消/支付/确认/评价按钮,展示状态
+        if (rf.status === 'pending' || rf.status === 'approved') {
+          return { ...o, refunding: true };
+        }
+        if (rf.status === 'rejected') {
+          return { ...o, refundRejected: true, rejectReason: rf.reject_reason };
+        }
+        return o;
+      });
+      this.setData({ orders });
     } catch (e) {}
   },
 
@@ -79,6 +102,108 @@ Page({
       const res = await api.myReviews();
       this.setData({ reviews: res.list || [] });
     } catch (e) {}
+  },
+
+  // ---------- 收货地址 ----------
+  async loadAddresses() {
+    try {
+      const res = await api.addressList();
+      this.setData({ addresses: res.list || [] });
+    } catch (e) {}
+  },
+
+  openAddrForm() {
+    this.setData({
+      addrVisible: true,
+      addrForm: { id: null, contact: '', phone: '', province: '', city: '', district: '', address: '', isDefault: false }
+    });
+  },
+  editAddr(e) {
+    const a = e.currentTarget.dataset.item;
+    this.setData({
+      addrVisible: true,
+      addrForm: {
+        id: a.id,
+        contact: a.contact,
+        phone: a.phone,
+        province: a.province,
+        city: a.city,
+        district: a.district,
+        address: a.address,
+        isDefault: !!a.isDefault
+      }
+    });
+  },
+  hideAddr() {
+    this.setData({ addrVisible: false });
+  },
+  onAddr(e) {
+    const k = e.currentTarget.dataset.k;
+    const v = k === 'isDefault' ? e.detail.value : e.detail.value;
+    this.setData({ ['addrForm.' + k]: v });
+  },
+  onAddrSwitch(e) {
+    this.setData({ 'addrForm.isDefault': e.detail.value });
+  },
+  async saveAddr() {
+    const f = this.data.addrForm;
+    if (!f.contact || !f.phone || !f.address) {
+      return wx.showToast({ title: '请填写完整地址信息', icon: 'none' });
+    }
+    try {
+      if (f.id) {
+        await api.addressUpdate({ id: f.id, ...f });
+      } else {
+        await api.addressAdd(f);
+      }
+      wx.showToast({ title: '保存成功', icon: 'success' });
+      this.setData({ addrVisible: false });
+      this.loadAddresses();
+    } catch (e) {
+      wx.showToast({ title: e.message || '保存失败', icon: 'none' });
+    }
+  },
+  async delAddr(e) {
+    const id = Number(e.currentTarget.dataset.id);
+    wx.showModal({
+      title: '删除地址',
+      content: '确定删除该收货地址吗?',
+      success: async (r) => {
+        if (!r.confirm) return;
+        try {
+          await api.addressDelete(id);
+          this.loadAddresses();
+        } catch (e) {}
+      }
+    });
+  },
+
+  // ---------- 退款 ----------
+  openRefund(e) {
+    const o = e.currentTarget.dataset.order;
+    if (!o || !o.id) return;
+    this.setData({
+      refundVisible: true,
+      refundForm: { orderId: o.id, reason: '' }
+    });
+  },
+  hideRefund() {
+    this.setData({ refundVisible: false });
+  },
+  onRefundReason(e) {
+    this.setData({ 'refundForm.reason': e.detail.value });
+  },
+  async submitRefund() {
+    const { orderId, reason } = this.data.refundForm;
+    if (!reason.trim()) return wx.showToast({ title: '请填写退款原因', icon: 'none' });
+    try {
+      await api.refundApply({ orderId, reason: reason.trim() });
+      wx.showToast({ title: '退款申请已提交', icon: 'success' });
+      this.setData({ refundVisible: false });
+      this.loadOrders();
+    } catch (e) {
+      wx.showToast({ title: e.message || '提交失败', icon: 'none' });
+    }
   },
 
   async orderOp(e) {
