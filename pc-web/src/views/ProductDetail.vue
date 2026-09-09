@@ -23,8 +23,8 @@
 					<h1 class="title">{{ detail.title }}</h1>
 					<div class="sub">{{ detail.subtitle }}</div>
 					<div class="price-row">
-						<span class="price">¥{{ detail.price }}</span>
-						<span class="market" v-if="detail.market_price">¥{{ detail.market_price }}</span>
+						<span class="price">{{ detail.price }}元</span>
+						<span class="market" v-if="detail.market_price">{{ detail.market_price }}元</span>
 						<span class="sales">⭐ {{ detail.rating }} 分 · {{ detail.review_count }} 条评价 · 已售 {{ detail.sales }}</span>
 					</div>
 					<div class="craft" v-if="detail.craft_intro">🪡 工艺介绍:{{ detail.craft_intro }}</div>
@@ -35,7 +35,7 @@
 						<div class="skus">
 							<div v-for="s in detail.skus" :key="s.id" class="sku" :class="{ on: buy.skuId === s.id }" @click="buy.skuId = s.id">
 								{{ s.sku_name }}
-								<div class="sku-meta">¥{{ s.price }} · 库存{{ s.stock }}</div>
+								<div class="sku-meta">{{ s.price }}元 · 库存{{ s.stock }}</div>
 							</div>
 						</div>
 					</div>

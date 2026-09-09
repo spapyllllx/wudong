@@ -8,7 +8,7 @@
 
 		<cl-row>
 			<cl-table ref="Table">
-				<template #slot-content="{ scope }">
+				<template #column-content="{ scope }">
 					<span>{{ scope.row.content }}</span>
 					<span v-if="scope.row.images?.length" style="margin-left: 6px">
 						<el-image
@@ -78,8 +78,7 @@ const Table = useTable({
 		{
 			label: '评价内容',
 			prop: 'content',
-			minWidth: 200,
-			name: 'slot-content'
+			minWidth: 200
 		},
 		{
 			label: '商品ID',

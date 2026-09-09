@@ -39,8 +39,8 @@
 					<div class="mall-card-title">{{ p.title }}</div>
 					<div class="mall-card-sub">{{ p.subtitle || '非遗手工 · 匠心之作' }}</div>
 					<div class="mall-card-foot">
-						<span class="mall-price">¥{{ p.price }}</span>
-						<span v-if="p.market_price" class="mall-market">¥{{ p.market_price }}</span>
+						<span class="mall-price">{{ p.price }}元</span>
+						<span v-if="p.market_price" class="mall-market">{{ p.market_price }}元</span>
 						<span class="mall-rate" v-if="p.rating">⭐ {{ p.rating }}({{ p.review_count }})</span>
 						<span class="mall-sales">已售 {{ p.sales }}</span>
 					</div>
@@ -64,8 +64,8 @@
 					<div class="detail-cat">{{ detail.category_name }}</div>
 					<div class="detail-title">{{ detail.title }}</div>
 					<div class="detail-price-row">
-						<span class="detail-price">¥{{ detail.price }}</span>
-						<span v-if="detail.market_price" class="detail-market">¥{{ detail.market_price }}</span>
+						<span class="detail-price">{{ detail.price }}元</span>
+						<span v-if="detail.market_price" class="detail-market">{{ detail.market_price }}元</span>
 						<span class="detail-rate">⭐ {{ detail.rating }} · {{ detail.review_count }} 条评价 · 已售 {{ detail.sales }}</span>
 					</div>
 					<div v-if="detail.craft_intro" class="detail-craft">工艺介绍:{{ detail.craft_intro }}</div>
@@ -76,7 +76,7 @@
 						<div class="skus-list">
 							<div v-for="s in detail.skus" :key="s.id" class="sku-chip" :class="{ selected: buy.skuId === s.id }" @click="buy.skuId = s.id">
 								{{ s.sku_name }}
-								<div class="sku-meta">¥{{ s.price }} · 库存{{ s.stock }}</div>
+								<div class="sku-meta">{{ s.price }}元 · 库存{{ s.stock }}</div>
 							</div>
 						</div>
 						<div class="buy-row">
@@ -135,15 +135,15 @@
 							<div>{{ it.product_name }}</div>
 							<div class="order-item-sub">{{ it.sku_name }} × {{ it.quantity }}</div>
 						</div>
-						<span class="order-item-price">¥{{ it.total_amount }}</span>
+						<span class="order-item-price">{{ it.total_amount }}元</span>
 					</div>
 					<div class="order-foot">
 						<span class="order-addr" v-if="o.logistics">收货:{{ o.logistics.consignee }} {{ o.logistics.phone }} {{ o.logistics.detail }}</span>
-						<span class="order-total">合计:¥{{ o.total_amount }}</span>
+						<span class="order-total">合计:{{ o.total_amount }}元</span>
 						<div class="order-ops">
 							<el-button v-if="o.status === 'pending'" size="small" type="danger" @click="orderOp(o, 'cancel')">取消</el-button>
 							<el-button v-if="o.status === 'pending'" size="small" type="success" @click="orderOp(o, 'pay')">模拟支付</el-button>
-							<el-button v-if="o.status === 'paid'" size="small" type="primary" @click="orderOp(o, 'confirm')">确认收货</el-button>
+							<el-button v-if="o.status === 'shipped'" size="small" type="primary" @click="orderOp(o, 'confirm')">确认收货</el-button>
 						</div>
 					</div>
 				</div>
@@ -161,6 +161,7 @@ defineOptions({
 import axios from 'axios';
 import { ElMessage } from 'element-plus';
 import { onMounted, reactive, ref } from 'vue';
+import { normalizeImgUrl } from '/@/cool/service/request';
 
 /**
  * app 端接口直连(经 vite /app/ 代理到后端)。
@@ -177,7 +178,7 @@ async function call(method: 'get' | 'post', url: string, data?: any, withToken =
 	if (withToken && appToken.value) headers.Authorization = appToken.value;
 	const res: any = await api.request({ method, url, data, params: method === 'get' ? data : undefined, headers });
 	const body = res.data;
-	if (body?.code === 1000) return body.data;
+	if (body?.code === 1000) return normalizeImgUrl(body.data);
 	throw new Error(body?.message || '请求失败');
 }
 
@@ -310,11 +311,11 @@ async function loadOrders() {
 }
 
 function orderStatusText(s: string) {
-	return ({ pending: '待支付', paid: '已支付', cancelled: '已取消', completed: '已完成', refunded: '已退款' } as any)[s] || s;
+	return ({ pending: '待支付', paid: '已支付', shipped: '已发货', cancelled: '已取消', completed: '已完成', refunded: '已退款' } as any)[s] || s;
 }
 
 function orderStatusType(s: string) {
-	return ({ pending: 'warning', paid: 'primary', cancelled: 'info', completed: 'success', refunded: 'danger' } as any)[s] || 'info';
+	return ({ pending: 'warning', paid: 'primary', shipped: 'primary', cancelled: 'info', completed: 'success', refunded: 'danger' } as any)[s] || 'info';
 }
 
 async function orderOp(o: any, op: 'pay' | 'cancel' | 'confirm') {

@@ -351,6 +351,433 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
+	interface BannerEntity {
+		/**
+		 * ID
+		 */
+		id?: BigInt;
+
+		/**
+		 * 标题
+		 */
+		title?: string;
+
+		/**
+		 * 图片URL
+		 */
+		image?: string;
+
+		/**
+		 * 跳转类型: url/product/post等
+		 */
+		linkType?: string;
+
+		/**
+		 * 跳转值
+		 */
+		linkValue?: string;
+
+		/**
+		 * 位置: home/category等
+		 */
+		position?: string;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 状态
+		 */
+		status?: string;
+
+		/**
+		 * 生效开始
+		 */
+		startTime?: Date;
+
+		/**
+		 * 生效结束
+		 */
+		endTime?: Date;
+
+		/**
+		 * 创建时间
+		 */
+		createdAt?: Date;
+
+		/**
+		 * 更新时间
+		 */
+		updatedAt?: Date;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ProductCategoryEntity {
+		/**
+		 * ID
+		 */
+		id?: BigInt;
+
+		/**
+		 * 父分类ID，0为顶级
+		 */
+		parentId?: BigInt;
+
+		/**
+		 * 分类名称
+		 */
+		name?: string;
+
+		/**
+		 * 分类图标
+		 */
+		icon?: string;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 状态: active/inactive
+		 */
+		status?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createdAt?: Date;
+
+		/**
+		 * 更新时间
+		 */
+		updatedAt?: Date;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ProductOrderEntity {
+		/**
+		 * 订单号(雪花算法生成)
+		 */
+		id?: BigInt;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: BigInt;
+
+		/**
+		 * product/restaurant/homestay/ticket/route
+		 */
+		orderType?: string;
+
+		/**
+		 * 订单总金额
+		 */
+		totalAmount?: number;
+
+		/**
+		 * 实付金额
+		 */
+		paidAmount?: number;
+
+		/**
+		 * 优惠金额
+		 */
+		discountAmount?: number;
+
+		/**
+		 * 支付方式: wechat/alipay
+		 */
+		paymentMethod?: string;
+
+		/**
+		 * 支付流水号
+		 */
+		paymentNo?: string;
+
+		/**
+		 * pending/paid/shipped/cancelled/completed/refunded
+		 */
+		status?: string;
+
+		/**
+		 * 订单备注
+		 */
+		remark?: string;
+
+		/**
+		 * 支付时间
+		 */
+		paidAt?: Date;
+
+		/**
+		 * 完成时间
+		 */
+		completedAt?: Date;
+
+		/**
+		 * 取消时间
+		 */
+		cancelledAt?: Date;
+
+		/**
+		 * 创建时间
+		 */
+		createdAt?: Date;
+
+		/**
+		 * 更新时间
+		 */
+		updatedAt?: Date;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ProductEntity {
+		/**
+		 * ID
+		 */
+		id?: BigInt;
+
+		/**
+		 * 分类ID
+		 */
+		categoryId?: BigInt;
+
+		/**
+		 * 商家ID
+		 */
+		merchantId?: BigInt;
+
+		/**
+		 * 商品标题
+		 */
+		title?: string;
+
+		/**
+		 * 副标题
+		 */
+		subtitle?: string;
+
+		/**
+		 * 主图
+		 */
+		mainImage?: string;
+
+		/**
+		 * 售价
+		 */
+		price?: number;
+
+		/**
+		 * 市场价
+		 */
+		marketPrice?: number;
+
+		/**
+		 * 总库存
+		 */
+		stock?: number;
+
+		/**
+		 * 销量
+		 */
+		sales?: number;
+
+		/**
+		 * 商品详情(富文本)
+		 */
+		detail?: string;
+
+		/**
+		 * 工艺介绍
+		 */
+		craftIntro?: string;
+
+		/**
+		 * 传承人ID(可选)
+		 */
+		inheritorId?: BigInt;
+
+		/**
+		 * 状态: on_sale/off_sale
+		 */
+		status?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createdAt?: Date;
+
+		/**
+		 * 更新时间
+		 */
+		updatedAt?: Date;
+
+		/**
+		 * 删除时间(软删除)
+		 */
+		deletedAt?: Date;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ProductRefundEntity {
+		/**
+		 * ID
+		 */
+		id?: BigInt;
+
+		/**
+		 * 订单ID
+		 */
+		orderId?: BigInt;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: BigInt;
+
+		/**
+		 * 退款金额
+		 */
+		refundAmount?: number;
+
+		/**
+		 * 退款原因
+		 */
+		reason?: string;
+
+		/**
+		 * 凭证图片
+		 */
+		images?: any;
+
+		/**
+		 * pending/approved/rejected/completed
+		 */
+		status?: string;
+
+		/**
+		 * 驳回原因
+		 */
+		rejectReason?: string;
+
+		/**
+		 * 处理人ID
+		 */
+		handlerId?: BigInt;
+
+		/**
+		 * 处理时间
+		 */
+		handledAt?: Date;
+
+		/**
+		 * 退款流水号
+		 */
+		refundNo?: string;
+
+		/**
+		 * 退款完成时间
+		 */
+		refundedAt?: Date;
+
+		/**
+		 * 创建时间
+		 */
+		createdAt?: Date;
+
+		/**
+		 * 更新时间
+		 */
+		updatedAt?: Date;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ProductReviewEntity {
+		/**
+		 * ID
+		 */
+		id?: BigInt;
+
+		/**
+		 * 订单ID
+		 */
+		orderId?: BigInt;
+
+		/**
+		 * 商品ID
+		 */
+		productId?: BigInt;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: BigInt;
+
+		/**
+		 * 评分 1-5
+		 */
+		rating?: number;
+
+		/**
+		 * 评价内容
+		 */
+		content?: string;
+
+		/**
+		 * 评价图片JSON数组
+		 */
+		images?: any;
+
+		/**
+		 * 商家回复
+		 */
+		replyContent?: string;
+
+		/**
+		 * 回复时间
+		 */
+		repliedAt?: Date;
+
+		/**
+		 * 创建时间
+		 */
+		createdAt?: Date;
+
+		/**
+		 * 更新时间
+		 */
+		updatedAt?: Date;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
 	interface DemoGoodsEntity {
 		/**
 		 * ID
@@ -1016,6 +1443,36 @@ declare namespace Eps {
 		list: BaseSysUserEntity[];
 	}
 
+	interface ClothingBannerPageResponse {
+		pagination: PagePagination;
+		list: BannerEntity[];
+	}
+
+	interface ClothingCategoryPageResponse {
+		pagination: PagePagination;
+		list: ProductCategoryEntity[];
+	}
+
+	interface ClothingOrderPageResponse {
+		pagination: PagePagination;
+		list: ProductOrderEntity[];
+	}
+
+	interface ClothingProductPageResponse {
+		pagination: PagePagination;
+		list: ProductEntity[];
+	}
+
+	interface ClothingRefundPageResponse {
+		pagination: PagePagination;
+		list: ProductRefundEntity[];
+	}
+
+	interface ClothingReviewPageResponse {
+		pagination: PagePagination;
+		list: ProductReviewEntity[];
+	}
+
 	interface DemoGoodsPageResponse {
 		pagination: PagePagination;
 		list: DemoGoodsEntity[];
@@ -1548,6 +2005,300 @@ declare namespace Eps {
 			page: boolean;
 			add: boolean;
 		};
+
+		request: Request;
+	}
+
+	interface ClothingBanner {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<BannerEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<BannerEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ClothingBannerPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface ClothingCategory {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductCategoryEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ProductCategoryEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ClothingCategoryPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface ClothingOrder {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 发货(填物流公司/单号)
+		 */
+		ship(data?: any): Promise<any>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ClothingOrderPageResponse>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductOrderEntity>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: { delete: string; ship: string; page: string; info: string };
+
+		/**
+		 * 权限状态
+		 */
+		_permission: { delete: boolean; ship: boolean; page: boolean; info: boolean };
+
+		request: Request;
+	}
+
+	interface ClothingProduct {
+		/**
+		 * 修改商品(含SKU/图片全量替换)
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 删除商品(级联删除SKU/图片)
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 商品完整信息(编辑回显)
+		 */
+		detail(data?: any): Promise<any>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ClothingProductPageResponse>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ProductEntity[]>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductEntity>;
+
+		/**
+		 * 新增商品(含SKU/图片)
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			update: string;
+			delete: string;
+			detail: string;
+			page: string;
+			list: string;
+			info: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			update: boolean;
+			delete: boolean;
+			detail: boolean;
+			page: boolean;
+			list: boolean;
+			info: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface ClothingRefund {
+		/**
+		 * 退款通过(订单refunded+回补库存)
+		 */
+		approve(data?: any): Promise<any>;
+
+		/**
+		 * 驳回退款
+		 */
+		reject(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ClothingRefundPageResponse>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductRefundEntity>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: { approve: string; reject: string; delete: string; page: string; info: string };
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			approve: boolean;
+			reject: boolean;
+			delete: boolean;
+			page: boolean;
+			info: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface ClothingReview {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 商家回复评价
+		 */
+		reply(data?: any): Promise<any>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ClothingReviewPageResponse>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductReviewEntity>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: { delete: string; reply: string; page: string; info: string };
+
+		/**
+		 * 权限状态
+		 */
+		_permission: { delete: boolean; reply: boolean; page: boolean; info: boolean };
 
 		request: Request;
 	}
@@ -2186,8 +2937,6 @@ declare namespace Eps {
 
 	type Request = (options: RequestOptions) => Promise<any>;
 
-	type DictKey = "brand" | "occupation";
-
 	type Service = {
 		request: Request;
 
@@ -2203,6 +2952,14 @@ declare namespace Eps {
 				role: BaseSysRole;
 				user: BaseSysUser;
 			};
+		};
+		clothing: {
+			banner: ClothingBanner;
+			category: ClothingCategory;
+			order: ClothingOrder;
+			product: ClothingProduct;
+			refund: ClothingRefund;
+			review: ClothingReview;
 		};
 		demo: { goods: DemoGoods; tenant: DemoTenant };
 		dict: { info: DictInfo; type: DictType };

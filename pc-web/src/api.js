@@ -9,10 +9,28 @@ http.interceptors.request.use(config => {
 	return config;
 });
 
+// 图片 URL 统一处理(修复:库内硬编码 127.0.0.1:8001,经局域网 IP 访问页面时裂图)
+function normalizeImgUrl(v, base = `http://${location.hostname}:8001`) {
+	if (typeof v === 'string') {
+		if (v.startsWith('/upload/')) return base + v;
+		if (/^https?:\/\/(127\.0\.0\.1|localhost):8001\/upload\//.test(v)) {
+			return base + '/upload/' + v.slice(v.indexOf('/upload/') + 8);
+		}
+		return v;
+	}
+	if (Array.isArray(v)) return v.map(x => normalizeImgUrl(x, base));
+	if (v && typeof v === 'object') {
+		Object.keys(v).forEach(k => {
+			v[k] = normalizeImgUrl(v[k], base);
+		});
+	}
+	return v;
+}
+
 http.interceptors.response.use(
 	res => {
 		const { code, data, message } = res.data || {};
-		if (code === 1000) return data;
+		if (code === 1000) return normalizeImgUrl(data);
 		return Promise.reject(new Error(message || '请求失败'));
 	},
 	err => Promise.reject(new Error(err.response?.data?.message || err.message || '网络错误'))

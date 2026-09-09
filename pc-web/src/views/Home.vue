@@ -54,8 +54,8 @@
 						<div class="title">{{ p.title }}</div>
 						<div class="sub">{{ p.subtitle }}</div>
 						<div class="foot">
-							<span class="price">¥{{ p.price }}</span>
-							<span class="market" v-if="p.market_price">¥{{ p.market_price }}</span>
+							<span class="price">{{ p.price }}元</span>
+							<span class="market" v-if="p.market_price">{{ p.market_price }}元</span>
 							<span class="meta" v-if="p.rating">⭐{{ p.rating }}({{ p.review_count }})</span>
 							<span class="meta">已售 {{ p.sales }}</span>
 						</div>
@@ -90,7 +90,7 @@
 						<div class="cart-title" @click="router.push(`/product/${c.product_id}`)">{{ c.title }}</div>
 						<div class="cart-sub">{{ c.sku_name }}</div>
 						<div class="cart-foot">
-							<span class="cart-price">¥{{ c.price }}</span>
+							<span class="cart-price">{{ c.price }}元</span>
 							<div class="cart-qty">
 								<el-button size="small" circle @click="qtyChange(c, -1)">-</el-button>
 								<span style="min-width: 36px; text-align: center">{{ c.quantity }}</span>
@@ -104,7 +104,7 @@
 			</div>
 			<template #footer>
 				<div class="cart-footer" v-if="cartListData.length">
-					<span class="cart-total">共 {{ cartCount }} 件 · 合计 <b style="color: #e54d42">¥{{ cartTotal }}</b></span>
+					<span class="cart-total">共 {{ cartCount }} 件 · 合计 <b style="color: #e54d42">{{ cartTotal }}元</b></span>
 					<el-button type="danger" size="large" @click="cartCheckoutVisible = true">去结算</el-button>
 				</div>
 			</template>
@@ -119,7 +119,7 @@
 			</el-form>
 			<template #footer>
 				<el-button @click="cartCheckoutVisible = false">再逛逛</el-button>
-				<el-button type="danger" :loading="checking" @click="doCartCheckout">提交订单 ¥{{ cartTotal }}</el-button>
+				<el-button type="danger" :loading="checking" @click="doCartCheckout">提交订单 {{ cartTotal }}元</el-button>
 			</template>
 		</el-dialog>
 
@@ -138,15 +138,15 @@
 							<div>{{ it.product_name }}</div>
 							<div class="order-sub">{{ it.sku_name }} × {{ it.quantity }}</div>
 						</div>
-						<span class="order-price">¥{{ it.total_amount }}</span>
+						<span class="order-price">{{ it.total_amount }}元</span>
 					</div>
 					<div class="order-foot">
-						<span class="order-total">合计 ¥{{ o.total_amount }}</span>
+						<span class="order-total">合计 {{ o.total_amount }}元</span>
 						<div>
 							<el-button v-if="o.status === 'pending'" size="small" type="danger" @click="orderOp(o, 'cancel')">取消订单</el-button>
 							<el-button v-if="o.status === 'pending'" size="small" type="success" @click="orderOp(o, 'pay')">模拟支付</el-button>
-							<el-button v-if="o.status === 'paid'" size="small" type="primary" @click="orderOp(o, 'confirm')">确认收货</el-button>
-							<el-button v-if="['paid', 'completed'].includes(o.status)" size="small" type="warning" plain @click="openEval(o)">去评价</el-button>
+							<el-button v-if="o.status === 'shipped'" size="small" type="primary" @click="orderOp(o, 'confirm')">确认收货</el-button>
+							<el-button v-if="o.status === 'completed'" size="small" type="warning" plain @click="openEval(o)">去评价</el-button>
 						</div>
 					</div>
 				</div>
@@ -303,8 +303,8 @@ function logout() {
 	ElMessage.info('已退出');
 }
 
-const statusText = s => ({ pending: '待支付', paid: '已支付', cancelled: '已取消', completed: '已完成' })[s] || s;
-const statusType = s => ({ pending: 'warning', paid: 'primary', cancelled: 'info', completed: 'success' })[s];
+const statusText = s => ({ pending: '待支付', paid: '已支付', shipped: '已发货', cancelled: '已取消', completed: '已完成', refunded: '已退款' })[s] || s;
+const statusType = s => ({ pending: 'warning', paid: 'primary', shipped: 'primary', cancelled: 'info', completed: 'success', refunded: 'danger' })[s];
 
 async function openOrders() {
 	orderVisible.value = true;

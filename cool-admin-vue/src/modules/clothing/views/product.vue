@@ -10,7 +10,7 @@
 		<cl-row>
 			<cl-table ref="Table">
 				<!-- 主图 -->
-				<template #slot-image="{ scope }">
+				<template #column-main_image="{ scope }">
 					<el-image
 						v-if="scope.row.main_image"
 						:src="scope.row.main_image"
@@ -42,8 +42,8 @@
 				<el-descriptions :column="2" border>
 					<el-descriptions-item label="商品标题">{{ detail.title }}</el-descriptions-item>
 					<el-descriptions-item label="分类">{{ detail.category_name || '-' }}</el-descriptions-item>
-					<el-descriptions-item label="售价">¥{{ detail.price }}</el-descriptions-item>
-					<el-descriptions-item label="市场价">¥{{ detail.market_price || '-' }}</el-descriptions-item>
+					<el-descriptions-item label="售价">{{ detail.price }}元</el-descriptions-item>
+					<el-descriptions-item label="市场价">{{ detail.market_price ? detail.market_price + '元' : '-' }}</el-descriptions-item>
 					<el-descriptions-item label="总库存">{{ detail.stock }}</el-descriptions-item>
 					<el-descriptions-item label="销量">{{ detail.sales }}</el-descriptions-item>
 					<el-descriptions-item label="状态">
@@ -110,8 +110,7 @@ const Table = useTable({
 		{
 			label: '主图',
 			prop: 'main_image',
-			width: 90,
-			name: 'slot-image'
+			width: 90
 		},
 		{
 			label: '商品标题',
@@ -152,13 +151,20 @@ const Table = useTable({
 		},
 		{
 			type: 'op',
-			width: 230,
+			width: 300,
 			buttons: [
 				{
 					label: '查看',
 					type: 'success',
 					onClick({ scope }) {
 						showDetail(scope.row);
+					}
+				},
+				{
+					label: '修改',
+					type: 'warning',
+					onClick({ scope }) {
+						editProduct(scope.row);
 					}
 				},
 				{
@@ -173,8 +179,36 @@ const Table = useTable({
 	]
 });
 
+/**
+ * 列表行(snake_case 键)→ upsert 表单(camelCase 键),供「修改」回显。
+ * 说明:行数据来自 page 接口的 a.*(snake_case),而表单 prop 是 camelCase,
+ * 且 categoryId/mainImage/marketPrice/craftIntro 等字段没有同名兜底,
+ * 需在此显式转换后经 onInfo 回填(避免自动 info 回显把这几项清空)。
+ */
+function mapRowToForm(row: any) {
+	const num = (v: any) => (v === null || v === undefined ? undefined : Number(v));
+	return {
+		id: row.id,
+		title: row.title ?? '',
+		subtitle: row.subtitle ?? '',
+		categoryId: row.category_id,
+		mainImage: row.main_image || '',
+		price: num(row.price),
+		marketPrice: num(row.market_price),
+		stock: num(row.stock) ?? 0,
+		status: row.status || 'on_sale',
+		craftIntro: row.craft_intro || '',
+		detail: row.detail || ''
+	};
+}
+
 // cl-upsert(新增/编辑主字段;SKU/图片用 SKU/图片 按钮可视化维护)
 const Upsert = useUpsert({
+	// 「修改」走 edit() 的 info 回显流程,这里改为直接回填当前行(不再请求 info 接口,
+	// 避免 snake_case 键无法命中表单 camelCase prop 导致主图/分类/市场价等丢失)
+	onInfo(data, { done }) {
+		done(mapRowToForm(data));
+	},
 	items: [
 		{
 			label: '商品标题',
@@ -300,6 +334,11 @@ async function showDetail(row: any) {
 	const res: any = await service.clothing.product.detail({ id: row.id });
 	detail.value = res;
 	visible.value = true;
+}
+
+// ---------- 修改(主字段,update 模式;回显键转换见 Upsert.onInfo) ----------
+function editProduct(row: any) {
+	(Upsert.value as any)?.edit(row);
 }
 
 // ---------- SKU/图片 编辑 ----------

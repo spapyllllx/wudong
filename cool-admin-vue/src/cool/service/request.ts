@@ -14,6 +14,34 @@ const request = axios.create({
 	withCredentials: false // 不携带凭证
 });
 
+/**
+ * 图片 URL 统一处理(修复:库内上传图片硬编码 127.0.0.1:8001,
+ * 页面经局域网 IP 访问时裂图)。
+ * - 绝对地址 http(s)://127.0.0.1:8001/upload/... 与相对地址 /upload/...
+ *   一律按当前访问主机(如 10.x.x.x:9000 的 hostname + 8001)重组
+ * - 其它 URL(外部链接等)原样保留
+ */
+export function normalizeImgUrl(data: any): any {
+	const base = `http://${location.hostname}:8001`;
+	const walk = (v: any): any => {
+		if (typeof v === 'string') {
+			if (v.startsWith('/upload/')) return base + v;
+			if (/^https?:\/\/(127\.0\.0\.1|localhost):8001\/upload\//.test(v)) {
+				return base + '/upload/' + v.slice(v.indexOf('/upload/') + 8);
+			}
+			return v;
+		}
+		if (Array.isArray(v)) return v.map(walk);
+		if (v && typeof v === 'object') {
+			for (const k of Object.keys(v)) {
+				v[k] = walk(v[k]);
+			}
+		}
+		return v;
+	};
+	return walk(data);
+}
+
 // 配置 NProgress
 NProgress.configure({
 	showSpinner: true // 显示加载指示器
@@ -128,7 +156,7 @@ request.interceptors.response.use(
 
 		switch (code) {
 			case 1000:
-				return data; // 成功返回数据
+				return normalizeImgUrl(data); // 成功返回数据(图片地址按访问主机归一化)
 			default:
 				return Promise.reject({ code, message }); // 处理错误
 		}
