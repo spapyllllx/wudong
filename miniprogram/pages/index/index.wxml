@@ -1,0 +1,44 @@
+<view class="page">
+  <!-- 搜索 -->
+  <view class="search-bar">
+    <input class="search-input" placeholder="搜索非遗好物,如:银饰" confirm-type="search"
+      bindinput="onKeyword" bindconfirm="doSearch" value="{{keyword}}" />
+    <view class="search-btn" bindtap="doSearch">搜索</view>
+  </view>
+
+  <!-- 分类 -->
+  <scroll-view class="cats" scroll-x enable-flex>
+    <view class="cat {{query.category_id === 0 ? 'on' : ''}}" bindtap="setCat" data-id="0">全部</view>
+    <view class="cat {{query.category_id === c.id ? 'on' : ''}}" wx:for="{{categories}}" wx:key="id"
+      bindtap="setCat" data-id="{{c.id}}">{{c.name}}</view>
+  </scroll-view>
+
+  <!-- 排序 -->
+  <view class="sorts">
+    <view class="sort {{query.sort === 'time' ? 'on' : ''}}" bindtap="setSort" data-sort="time">最新</view>
+    <view class="sort {{query.sort === 'sales' ? 'on' : ''}}" bindtap="setSort" data-sort="sales">销量</view>
+    <view class="sort {{query.sort === 'price' ? 'on' : ''}}" bindtap="setSort" data-sort="price">价格</view>
+  </view>
+
+  <!-- 商品双列 -->
+  <view class="grid" wx:if="{{list.length}}">
+    <view class="card" wx:for="{{list}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="img" src="{{item.main_image}}" mode="aspectFill" />
+      <view class="info">
+        <view class="title">{{item.title}}</view>
+        <view class="sub">{{item.subtitle || '非遗手工 · 匠心之作'}}</view>
+        <view class="foot">
+          <text class="price">¥{{item.price}}</text>
+          <text class="sales" wx:if="{{item.sales}}">已售{{item.sales}}</text>
+        </view>
+        <view class="rate" wx:if="{{item.rating}}">⭐ {{item.rating}}({{item.review_count}})</view>
+      </view>
+    </view>
+  </view>
+  <view class="empty" wx:else>
+    <view class="empty-icon">🈳</view>
+    <view>暂无商品</view>
+  </view>
+
+  <view class="load-more" bindtap="loadMore">加载更多</view>
+</view>

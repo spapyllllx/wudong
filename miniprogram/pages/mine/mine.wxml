@@ -1,0 +1,64 @@
+<view class="page">
+  <!-- 用户区 -->
+  <view class="user-card">
+    <view class="avatar">{{logged ? '客' : '未'}}</view>
+    <view class="user-info">
+      <view class="name" wx:if="{{logged}}">演示用户</view>
+      <view class="name" wx:else>未登录</view>
+      <view class="sub" wx:if="{{logged}}">138****0000</view>
+      <view class="sub" wx:else>登录后体验收藏/下单</view>
+    </view>
+    <view wx:if="{{!logged}}" class="login-btn" bindtap="showLogin">演示登录</view>
+    <view wx:else class="login-btn" bindtap="logout">退出</view>
+  </view>
+
+  <!-- 登录表单 -->
+  <view class="panel" wx:if="{{!logged}}">
+    <view class="panel-title">演示账号登录(本地联调用)</view>
+    <input class="line" placeholder="手机号" value="{{loginForm.phone}}" bindinput="onLogin" data-k="phone" />
+    <input class="line" password placeholder="密码" value="{{loginForm.password}}" bindinput="onLogin" data-k="password" />
+    <button class="go-btn" bindtap="doLogin">登录</button>
+    <view class="tip">账号 13800000000 / 密码 123456;真机预览需把 app.js 的 baseUrl 改为电脑局域网 IP 并在开发者工具勾选「不校验合法域名」</view>
+  </view>
+
+  <!-- 收藏 -->
+  <view class="panel" wx:if="{{logged}}">
+    <view class="panel-title">我的收藏({{favorites.length}})</view>
+    <view class="fav-item" wx:for="{{favorites}}" wx:key="id" bindtap="goDetail" data-id="{{item.id}}">
+      <image class="fav-img" src="{{item.main_image}}" mode="aspectFill" />
+      <view class="fav-info">
+        <view class="fav-title">{{item.title}}</view>
+        <view class="fav-price">¥{{item.price}}</view>
+      </view>
+    </view>
+    <view class="empty-line" wx:if="{{!favorites.length}}">暂无收藏</view>
+  </view>
+
+  <!-- 我的订单 -->
+  <view class="panel" wx:if="{{logged}}">
+    <view class="panel-title">我的订单({{orders.length}})</view>
+    <view class="order" wx:for="{{orders}}" wx:key="id">
+      <view class="order-head">
+        <text class="order-no">单号 {{item.id}}</text>
+        <text class="order-status {{item.status}}">{{statusText[item.status]}}</text>
+      </view>
+      <view class="order-item" wx:for="{{item.items}}" wx:for-item="it" wx:key="product_id">
+        <image class="order-img" src="{{it.image}}" mode="aspectFill" wx:if="{{it.image}}" />
+        <view class="order-info">
+          <view>{{it.product_name}}</view>
+          <view class="order-sub">{{it.sku_name}} × {{it.quantity}}</view>
+        </view>
+        <text class="order-price">¥{{it.total_amount}}</text>
+      </view>
+      <view class="order-foot">
+        <text class="order-total">合计 ¥{{item.total_amount}}</text>
+        <view class="order-ops">
+          <view wx:if="{{item.status === 'pending'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="cancel">取消</view>
+          <view wx:if="{{item.status === 'pending'}}" class="mini-btn pay" bindtap="orderOp" data-id="{{item.id}}" data-op="pay">模拟支付</view>
+          <view wx:if="{{item.status === 'paid'}}" class="mini-btn" bindtap="orderOp" data-id="{{item.id}}" data-op="confirm">确认收货</view>
+        </view>
+      </view>
+    </view>
+    <view class="empty-line" wx:if="{{!orders.length}}">暂无订单,去首页逛逛吧</view>
+  </view>
+</view>

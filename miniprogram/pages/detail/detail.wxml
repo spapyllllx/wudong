@@ -1,0 +1,71 @@
+<view wx:if="{{detail}}" class="page">
+  <!-- 图集 -->
+  <swiper class="gallery" indicator-dots autoplay circular indicator-color="rgba(255,255,255,.6)">
+    <swiper-item wx:for="{{images}}" wx:key="*this">
+      <image class="gallery-img" src="{{item}}" mode="aspectFill" bindtap="preview" data-url="{{item}}" />
+    </swiper-item>
+  </swiper>
+
+  <view class="panel">
+    <view class="cat">{{detail.category_name}} · 非遗匠心</view>
+    <view class="title">{{detail.title}}</view>
+    <view class="sub">{{detail.subtitle}}</view>
+    <view class="price-row">
+      <text class="price">¥{{detail.price}}</text>
+      <text class="market" wx:if="{{detail.market_price}}">¥{{detail.market_price}}</text>
+      <text class="sales">⭐{{detail.rating}} · {{detail.review_count}}条评价 · 已售{{detail.sales}}</text>
+    </view>
+    <view class="craft" wx:if="{{detail.craft_intro}}">🪡 {{detail.craft_intro}}</view>
+  </view>
+
+  <!-- 规格 -->
+  <view class="panel" wx:if="{{detail.skus.length}}">
+    <view class="panel-title">选择规格</view>
+    <view class="skus">
+      <view class="sku {{buy.skuId === s.id ? 'on' : ''}}" wx:for="{{detail.skus}}" wx:key="id"
+        bindtap="pickSku" data-id="{{s.id}}">
+        <view>{{s.sku_name}}</view>
+        <view class="sku-meta">¥{{s.price}} · 库存{{s.stock}}</view>
+      </view>
+    </view>
+    <view class="qty-row">
+      <text>数量</text>
+      <view class="qty-ops">
+        <view class="qty-btn" bindtap="qty" data-d="-1">-</view>
+        <text class="qty-num">{{buy.quantity}}</text>
+        <view class="qty-btn" bindtap="qty" data-d="1">+</view>
+      </view>
+    </view>
+  </view>
+
+  <!-- 收货 -->
+  <view class="panel">
+    <view class="panel-title">收货信息</view>
+    <input class="line" placeholder="收货人" value="{{buy.consignee}}" bindinput="onInput" data-k="consignee" />
+    <input class="line" placeholder="手机号" value="{{buy.phone}}" bindinput="onInput" data-k="phone" />
+    <input class="line" placeholder="详细地址(省市区+街道)" value="{{buy.detail}}" bindinput="onInput" data-k="detail" />
+  </view>
+
+  <!-- 操作条 -->
+  <view class="op-bar">
+    <view class="op-fav {{favorited ? 'on' : ''}}" bindtap="doFav">{{favorited ? '♥ 已收藏' : '♡ 收藏'}}</view>
+    <button class="buy-btn" bindtap="doBuy">立即购买</button>
+  </view>
+
+  <!-- 评价 -->
+  <view class="panel">
+    <view class="panel-title">用户评价({{reviews.length}})</view>
+    <view wx:if="{{reviews.length}}">
+      <view class="review" wx:for="{{reviews}}" wx:key="id">
+        <view class="rv-head">
+          <text class="rv-user">{{item.user.nickname || '游客'}}</text>
+          <text class="rv-stars">⭐ {{item.rating}}</text>
+          <text class="rv-time">{{item.created_at}}</text>
+        </view>
+        <view class="rv-content">{{item.content}}</view>
+        <view class="rv-reply" wx:if="{{item.reply_content}}">商家回复:{{item.reply_content}}</view>
+      </view>
+    </view>
+    <view wx:else class="no-review">暂无评价,购买后来分享吧</view>
+  </view>
+</view>

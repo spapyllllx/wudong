@@ -1,0 +1,17 @@
+# ============ wudong 仓库根 .gitignore(feature/goods 方向) ============
+
+# Node 依赖与构建产物
+node_modules/
+dist/
+
+# 脱会话方式启动的本地服务日志
+.dev-*.log
+
+# 小程序开发者工具本地文件
+miniprogram/project.private.config.json
+
+# swagger UI 本地静态资源(从 swagger-ui-dist 拷入,调试用勿提交)
+cool-admin-midway/public/swagger-ui/
+
+# 根目录散落的数据库导出文件
+init_database(1).sql
