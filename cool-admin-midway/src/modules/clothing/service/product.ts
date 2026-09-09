@@ -66,6 +66,9 @@ export class ClothingProductService extends BaseService {
       throw new CoolCommException('商品标题与价格必填');
     }
     const { skus = [], images = [], id } = param;
+    if (!Array.isArray(skus) || !Array.isArray(images)) {
+      throw new CoolCommException('skus/images 参数格式错误');
+    }
     const main: any = {};
     for (const key of ClothingProductService.MAIN_FIELDS) {
       if (param[key] !== undefined) main[key] = param[key];
@@ -80,8 +83,13 @@ export class ClothingProductService extends BaseService {
       const exist = await this.productEntity.findOneBy({ id });
       if (!exist) throw new CoolCommException('商品不存在');
       await mgr.update(ProductEntity, { id }, main);
-      await mgr.delete(ProductSkuEntity, { productId: id });
-      await mgr.delete(ProductImageEntity, { productId: id });
+      // 子表为增量语义:请求携带 skus/images 数组才替换(便于管理端只编辑主字段)
+      if (Array.isArray(param.skus)) {
+        await mgr.delete(ProductSkuEntity, { productId: id });
+      }
+      if (Array.isArray(param.images)) {
+        await mgr.delete(ProductImageEntity, { productId: id });
+      }
     } else {
       const saved = await mgr.save(mgr.create(ProductEntity, main));
       productId = saved.id;

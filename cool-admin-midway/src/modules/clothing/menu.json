@@ -1,0 +1,186 @@
+[
+	{
+		"name": "衣模块管理",
+		"router": "/clothing",
+		"perms": null,
+		"type": 0,
+		"icon": "icon-goods",
+		"orderNum": 6,
+		"viewPath": null,
+		"keepAlive": true,
+		"isShow": true,
+		"childMenus": [
+			{
+				"name": "商品管理",
+				"router": "/clothing/product",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-goods",
+				"orderNum": 1,
+				"viewPath": "modules/clothing/views/product.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "新增",
+						"router": null,
+						"perms": "clothing:product:add",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "修改",
+						"router": null,
+						"perms": "clothing:product:update",
+						"type": 2,
+						"icon": null,
+						"orderNum": 2,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "删除",
+						"router": null,
+						"perms": "clothing:product:delete",
+						"type": 2,
+						"icon": null,
+						"orderNum": 3,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "查询",
+						"router": null,
+						"perms": "clothing:product:page,clothing:product:list,clothing:product:info,clothing:product:detail",
+						"type": 2,
+						"icon": null,
+						"orderNum": 4,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			},
+			{
+				"name": "分类管理",
+				"router": "/clothing/category",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-menu",
+				"orderNum": 2,
+				"viewPath": "modules/clothing/views/category.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "新增",
+						"router": null,
+						"perms": "clothing:category:add",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "修改",
+						"router": null,
+						"perms": "clothing:category:update",
+						"type": 2,
+						"icon": null,
+						"orderNum": 2,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "删除",
+						"router": null,
+						"perms": "clothing:category:delete",
+						"type": 2,
+						"icon": null,
+						"orderNum": 3,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "查询",
+						"router": null,
+						"perms": "clothing:category:page,clothing:category:list,clothing:category:info",
+						"type": 2,
+						"icon": null,
+						"orderNum": 4,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			},
+			{
+				"name": "评价管理",
+				"router": "/clothing/review",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-message",
+				"orderNum": 3,
+				"viewPath": "modules/clothing/views/review.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "回复",
+						"router": null,
+						"perms": "clothing:review:reply",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "删除",
+						"router": null,
+						"perms": "clothing:review:delete",
+						"type": 2,
+						"icon": null,
+						"orderNum": 2,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "查询",
+						"router": null,
+						"perms": "clothing:review:page,clothing:review:info",
+						"type": 2,
+						"icon": null,
+						"orderNum": 3,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			}
+		]
+	}
+]

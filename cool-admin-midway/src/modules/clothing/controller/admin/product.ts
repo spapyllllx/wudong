@@ -1,5 +1,6 @@
 import { CoolController, BaseController } from '@cool-midway/core';
 import { Body, Get, Inject, Post, Query } from '@midwayjs/core';
+import { ProductCategoryEntity } from '../../entity/category';
 import { ProductEntity } from '../../entity/product';
 import { ClothingProductService } from '../../service/product';
 
@@ -12,6 +13,14 @@ import { ClothingProductService } from '../../service/product';
   api: ['page', 'list', 'info'],
   entity: ProductEntity,
   pageQueryOp: {
+    select: ['a.*', 'b.name categoryName'],
+    join: [
+      {
+        entity: ProductCategoryEntity,
+        alias: 'b',
+        condition: 'a.category_id = b.id',
+      },
+    ],
     fieldEq: [
       'a.status',
       { column: 'a.category_id', requestParam: 'categoryId' },
