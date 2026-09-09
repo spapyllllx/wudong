@@ -45,9 +45,15 @@ feat 实体 / feat 服务层 / feat admin 接口 / feat app 接口 / docs SQL / 
 - 数值类型实测:bigint/decimal 列 JSON 输出统一为 number,时间输出 `YYYY-MM-DD HH:mm:ss`
 - 未调 admin 登录接口(已知:其空验证码会抛未捕获异常致进程退出,框架缺陷,联调走前端页面);admin 写接口(商品 add/update/delete 含嵌套)留待管理后台页面联调时验证
 
-## 四、后续 TODO
+## 四、后续增补(2026-09-09 第二轮)
 
-- [ ] 订单模块落地后:评价补订单归属校验;SKU 扣减/销量联动与商品下单流程对接
+1. **下单闭环已落地(先行版)**:按设计文档 3.2.7 将公共订单 orders/product_order_items/product_order_logistics 先行落地(实体+`database/clothing_order_module.sql`,头部注明核心组合并约定;order_refunds 未落地,退款功能未提供)。衣订单状态机 pending→(模拟支付)paid→completed、pending 可取消回补库存;下单行锁防超卖、明细与收货快照。实测:下单扣库存→支付累加销量→确认收货→取消回补 全链路通过。
+2. **管理后台页面全部完成**:商品管理(查看详情/SKU 图片可视化编辑 SKU 行)/分类管理/评价管理(回复)/库存管理(按 SKU 调库存)/订单管理(product 订单分页)/商城预览(游客:分类/搜索/排序/详情/购买)。菜单由 clothing/menu.json 自动注入(6 页面+按钮权限),首次启动或删除 `init_menu_clothing` 标记后重启导入。
+3. **商城预览为演示闭环**:内置"游客登录"(测试账号 13800000000/123456,仅本地演示,生产须移除);/app 接口因管理端请求拦截器强制覆盖 Authorization,商城页使用独立 axios 实例携带 C 端 token;vue 代理已加 `/app/` 转发规则(src/config/proxy.ts)。
+
+## 五、后续 TODO
+
+- [ ] 核心组统一订单交付后:以本先行版为基础合并;评价补订单归属校验;接入真实支付
 - [ ] 商家模块落地后:merchant_id 数据迁移与商家数据隔离(@MerchantScope 中间件接入)
-- [ ] 管理后台 Vue 页面(分类/商品/库存/评价)+ 菜单权限(clothing:*:*)
-- [ ] 小程序/PC 商品页(商品不在本仓库,另行交付)
+- [ ] 退款(order_refunds)功能
+- [ ] 小程序/PC 商品页(uni-app 项目不在本仓库,另行交付)
