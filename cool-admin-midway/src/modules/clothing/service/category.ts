@@ -19,12 +19,13 @@ export class ClothingCategoryService extends BaseService {
   }
 
   /**
-   * 前台分类列表(仅 active)
+   * 前台分类列表(仅 active,bigint 主键统一转 number)
    */
   async activeList() {
-    return await this.categoryEntity.find({
+    const list = await this.categoryEntity.find({
       where: { status: 'active' },
       order: { sort: 'ASC', id: 'ASC' },
     });
+    return list.map((item) => ({ ...item, id: Number(item.id) }));
   }
 }

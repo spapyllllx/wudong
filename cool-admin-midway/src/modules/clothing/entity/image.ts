@@ -1,11 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { transformerTime } from './common';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { transformerInt, transformerTime } from './common';
 
 /**
  * 商品图片表 product_images
@@ -17,7 +11,12 @@ export class ProductImageEntity {
   id: number;
 
   @Index('idx_product_id')
-  @Column({ name: 'product_id', type: 'bigint', comment: '商品ID' })
+  @Column({
+    name: 'product_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '商品ID',
+  })
   productId: number;
 
   @Column({ name: 'url', length: 255, comment: '图片URL' })
@@ -26,9 +25,10 @@ export class ProductImageEntity {
   @Column({ name: 'sort', type: 'int', default: 0, comment: '排序' })
   sort: number;
 
-  @CreateDateColumn({
+  @Column({
     name: 'created_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '创建时间',
   })

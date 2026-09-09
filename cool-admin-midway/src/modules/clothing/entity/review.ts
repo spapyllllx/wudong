@@ -1,12 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { transformerJson, transformerTime } from './common';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { transformerInt, transformerJson, transformerTime } from './common';
 
 /**
  * 商品评价表 product_reviews
@@ -18,15 +11,30 @@ export class ProductReviewEntity {
   id: number;
 
   @Index('idx_order_id')
-  @Column({ name: 'order_id', type: 'bigint', comment: '订单ID' })
+  @Column({
+    name: 'order_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '订单ID',
+  })
   orderId: number;
 
   @Index('idx_product_id')
-  @Column({ name: 'product_id', type: 'bigint', comment: '商品ID' })
+  @Column({
+    name: 'product_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '商品ID',
+  })
   productId: number;
 
   @Index('idx_user_id')
-  @Column({ name: 'user_id', type: 'bigint', comment: '用户ID' })
+  @Column({
+    name: 'user_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '用户ID',
+  })
   userId: number;
 
   @Column({ name: 'rating', type: 'tinyint', comment: '评分 1-5' })
@@ -67,17 +75,20 @@ export class ProductReviewEntity {
   })
   repliedAt: Date;
 
-  @CreateDateColumn({
+  @Column({
     name: 'created_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '创建时间',
   })
   createdAt: Date;
 
-  @UpdateDateColumn({
+  @Column({
     name: 'updated_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '更新时间',
   })

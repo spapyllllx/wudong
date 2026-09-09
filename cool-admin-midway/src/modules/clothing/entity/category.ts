@@ -1,12 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-  UpdateDateColumn,
-} from 'typeorm';
-import { transformerTime } from './common';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { transformerInt, transformerTime } from './common';
 
 /**
  * 商品分类表 product_categories
@@ -22,6 +15,7 @@ export class ProductCategoryEntity {
     name: 'parent_id',
     type: 'bigint',
     default: 0,
+    transformer: transformerInt,
     comment: '父分类ID，0为顶级',
   })
   parentId: number;
@@ -29,7 +23,13 @@ export class ProductCategoryEntity {
   @Column({ name: 'name', length: 50, comment: '分类名称' })
   name: string;
 
-  @Column({ name: 'icon', length: 255, default: '', nullable: true, comment: '分类图标' })
+  @Column({
+    name: 'icon',
+    length: 255,
+    default: '',
+    nullable: true,
+    comment: '分类图标',
+  })
   icon: string;
 
   @Index('idx_sort')
@@ -44,17 +44,20 @@ export class ProductCategoryEntity {
   })
   status: string;
 
-  @CreateDateColumn({
+  @Column({
     name: 'created_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '创建时间',
   })
   createdAt: Date;
 
-  @UpdateDateColumn({
+  @Column({
     name: 'updated_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '更新时间',
   })

@@ -1,13 +1,15 @@
 import {
   Column,
-  CreateDateColumn,
   DeleteDateColumn,
   Entity,
   Index,
   PrimaryGeneratedColumn,
-  UpdateDateColumn,
 } from 'typeorm';
-import { transformerDecimal, transformerTime } from './common';
+import {
+  transformerDecimal,
+  transformerInt,
+  transformerTime,
+} from './common';
 
 /**
  * 商品表 products
@@ -20,11 +22,21 @@ export class ProductEntity {
   @PrimaryGeneratedColumn({ type: 'bigint', comment: 'ID' })
   id: number;
 
-  @Column({ name: 'category_id', type: 'bigint', comment: '分类ID' })
+  @Column({
+    name: 'category_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '分类ID',
+  })
   categoryId: number;
 
   @Index('idx_merchant')
-  @Column({ name: 'merchant_id', type: 'bigint', comment: '商家ID' })
+  @Column({
+    name: 'merchant_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '商家ID',
+  })
   merchantId: number;
 
   @Column({ name: 'title', length: 255, comment: '商品标题' })
@@ -70,16 +82,27 @@ export class ProductEntity {
   @Column({ name: 'sales', type: 'int', default: 0, comment: '销量' })
   sales: number;
 
-  @Column({ name: 'detail', type: 'text', nullable: true, comment: '商品详情(富文本)' })
+  @Column({
+    name: 'detail',
+    type: 'text',
+    nullable: true,
+    comment: '商品详情(富文本)',
+  })
   detail: string;
 
-  @Column({ name: 'craft_intro', type: 'text', nullable: true, comment: '工艺介绍' })
+  @Column({
+    name: 'craft_intro',
+    type: 'text',
+    nullable: true,
+    comment: '工艺介绍',
+  })
   craftIntro: string;
 
   @Column({
     name: 'inheritor_id',
     type: 'bigint',
     nullable: true,
+    transformer: transformerInt,
     comment: '传承人ID(可选)',
   })
   inheritorId: number;
@@ -92,17 +115,20 @@ export class ProductEntity {
   })
   status: string;
 
-  @CreateDateColumn({
+  @Column({
     name: 'created_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '创建时间',
   })
   createdAt: Date;
 
-  @UpdateDateColumn({
+  @Column({
     name: 'updated_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
+    onUpdate: 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '更新时间',
   })

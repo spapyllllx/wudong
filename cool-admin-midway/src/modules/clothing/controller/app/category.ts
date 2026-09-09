@@ -20,7 +20,7 @@ export class AppClothingCategoryController extends BaseController {
 
   @CoolTag(TagTypes.IGNORE_TOKEN)
   @Get('/list', { summary: '分类列表(仅启用)' })
-  async list() {
+  async categoryList() {
     return this.ok(await this.clothingCategoryService.activeList());
   }
 }

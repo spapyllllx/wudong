@@ -125,7 +125,12 @@ export class ClothingProductService extends BaseService {
       where: { productId: id },
       order: { sort: 'ASC', id: 'ASC' },
     });
-    return { ...product, skus, images };
+    return {
+      ...product,
+      id: Number(product.id),
+      skus: skus.map((s) => ({ ...s, id: Number(s.id) })),
+      images: images.map((i) => ({ ...i, id: Number(i.id) })),
+    };
   }
 
   /**
@@ -199,8 +204,10 @@ export class ClothingProductService extends BaseService {
     };
   }
 
-  /** 列表行映射:decimal/聚合字段转 number */
+  /** 列表行映射:bigint/decimal/聚合字段转 number */
   private mapListRow(row: any) {
+    row.id = Number(row.id);
+    row.category_id = Number(row.category_id);
     row.price = row.price === null || row.price === undefined ? null : Number(row.price);
     row.market_price =
       row.market_price === null || row.market_price === undefined
@@ -239,7 +246,7 @@ export class ClothingProductService extends BaseService {
     );
     const agg = aggRows[0] || { rating: 0, review_count: 0 };
     return {
-      id: product.id,
+      id: Number(product.id),
       category_id: product.categoryId,
       category_name: category ? category.name : null,
       title: product.title,
@@ -254,13 +261,16 @@ export class ClothingProductService extends BaseService {
       sales: product.sales,
       detail: product.detail,
       craft_intro: product.craftIntro,
-      inheritor_id: product.inheritorId,
+      inheritor_id:
+        product.inheritorId === null || product.inheritorId === undefined
+          ? null
+          : Number(product.inheritorId),
       status: product.status,
       rating: Number(agg.rating || 0),
       review_count: Number(agg.review_count || 0),
       images: images.map((img) => img.url),
       skus: skus.map((s) => ({
-        id: s.id,
+        id: Number(s.id),
         sku_name: s.skuName,
         image: s.image,
         price: Number(s.price),

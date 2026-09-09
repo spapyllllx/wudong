@@ -103,8 +103,8 @@ export class ClothingReviewService extends BaseService {
     );
     return {
       list: list.map((row: any) => ({
-        id: row.id,
-        product_id: row.product_id,
+        id: Number(row.id),
+        product_id: Number(row.product_id),
         rating: row.rating,
         content: row.content,
         images: transformerJson.from(row.images),

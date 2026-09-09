@@ -29,24 +29,24 @@ export class AdminClothingProductController extends BaseController {
   clothingProductService: ClothingProductService;
 
   @Post('/add', { summary: '新增商品(含SKU/图片)' })
-  async add(@Body() body) {
+  async createProduct(@Body() body) {
     return this.ok(await this.clothingProductService.saveProduct(body));
   }
 
   @Post('/update', { summary: '修改商品(含SKU/图片全量替换)' })
-  async update(@Body() body) {
+  async updateProduct(@Body() body) {
     return this.ok(await this.clothingProductService.saveProduct(body));
   }
 
   @Post('/delete', { summary: '删除商品(级联删除SKU/图片)' })
-  async delete() {
+  async removeProduct() {
     const { ids } = this.ctx.request.body;
     await this.clothingProductService.deleteProduct(ids);
     return this.ok();
   }
 
   @Get('/detail', { summary: '商品完整信息(编辑回显)' })
-  async detail(@Query('id') id: number) {
+  async productDetail(@Query('id') id: number) {
     return this.ok(await this.clothingProductService.detailWithChildren(id));
   }
 }

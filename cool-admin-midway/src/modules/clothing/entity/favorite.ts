@@ -1,11 +1,5 @@
-import {
-  Column,
-  CreateDateColumn,
-  Entity,
-  Index,
-  PrimaryGeneratedColumn,
-} from 'typeorm';
-import { transformerTime } from './common';
+import { Column, Entity, Index, PrimaryGeneratedColumn } from 'typeorm';
+import { transformerInt, transformerTime } from './common';
 
 /**
  * 商品收藏表 product_favorites
@@ -17,16 +11,27 @@ export class ProductFavoriteEntity {
   @PrimaryGeneratedColumn({ type: 'bigint', comment: 'ID' })
   id: number;
 
-  @Column({ name: 'user_id', type: 'bigint', comment: '用户ID' })
+  @Column({
+    name: 'user_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '用户ID',
+  })
   userId: number;
 
   @Index('idx_product_id')
-  @Column({ name: 'product_id', type: 'bigint', comment: '商品ID' })
+  @Column({
+    name: 'product_id',
+    type: 'bigint',
+    transformer: transformerInt,
+    comment: '商品ID',
+  })
   productId: number;
 
-  @CreateDateColumn({
+  @Column({
     name: 'created_at',
     type: 'datetime',
+    default: () => 'CURRENT_TIMESTAMP',
     transformer: transformerTime,
     comment: '创建时间',
   })

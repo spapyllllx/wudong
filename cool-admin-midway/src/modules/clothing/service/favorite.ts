@@ -82,8 +82,10 @@ export class ClothingFavoriteService extends BaseService {
     };
   }
 
-  /** 行映射:decimal/聚合字段统一转 number */
+  /** 行映射:bigint/decimal/聚合字段统一转 number */
   private mapRow(row: any) {
+    row.id = Number(row.id);
+    row.category_id = Number(row.category_id);
     row.price = row.price === null || row.price === undefined ? null : Number(row.price);
     row.market_price =
       row.market_price === null || row.market_price === undefined

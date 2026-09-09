@@ -31,30 +31,30 @@ export class AppClothingProductController extends BaseController {
 
   @CoolTag(TagTypes.IGNORE_TOKEN)
   @Get('/list', { summary: '商品分页列表' })
-  async list(@Query() query) {
+  async productList(@Query() query) {
     return this.ok(await this.clothingProductService.appPage(query));
   }
 
   @CoolTag(TagTypes.IGNORE_TOKEN)
   @Get('/search', { summary: '搜索商品' })
-  async search(@Query() query) {
+  async searchProduct(@Query() query) {
     return this.ok(await this.clothingProductService.appSearch(query));
   }
 
   @CoolTag(TagTypes.IGNORE_TOKEN)
   @Get('/detail', { summary: '商品详情' })
-  async detail(@Query('id') id: number) {
+  async productDetail(@Query('id') id: number) {
     return this.ok(await this.clothingProductService.appDetail(id));
   }
 
   @CoolTag(TagTypes.IGNORE_TOKEN)
   @Get('/reviews', { summary: '商品评价分页' })
-  async reviews(@Query() query) {
+  async reviewList(@Query() query) {
     return this.ok(await this.clothingReviewService.reviewPage(query));
   }
 
   @Post('/favorite', { summary: '收藏/取消收藏(toggle)' })
-  async favorite(@Body('productId') productId: number) {
+  async toggleFavorite(@Body('productId') productId: number) {
     return this.ok(
       await this.clothingFavoriteService.toggle(this.ctx.user.id, productId)
     );
@@ -70,7 +70,7 @@ export class AppClothingProductController extends BaseController {
   }
 
   @Post('/review', { summary: '提交评价' })
-  async review(@Body() body) {
+  async submitReview(@Body() body) {
     return this.ok(await this.clothingReviewService.submit(this.ctx.user.id, body));
   }
 }
