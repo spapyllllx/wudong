@@ -253,6 +253,27 @@ export class ClothingOrderService extends BaseService {
     );
   }
 
+  /** 商家发货(admin):写物流公司/单号与发货时间 */
+  async ship(orderId: number, logisticsCompany: string, logisticsNo: string) {
+    const order = await this.orderEntity.findOneBy({ id: orderId });
+    if (!order || order.orderType !== 'product') {
+      throw new CoolCommException('订单不存在');
+    }
+    if (order.status !== 'paid') {
+      throw new CoolCommException('仅已支付订单可发货');
+    }
+    const logi = await this.logisticsEntity.findOneBy({ orderId });
+    if (!logi) throw new CoolCommException('订单收货信息缺失');
+    await this.logisticsEntity.update(
+      logi.id,
+      {
+        logisticsCompany: logisticsCompany?.trim() || null,
+        logisticsNo: logisticsNo?.trim() || null,
+        shippedAt: new Date(),
+      }
+    );
+  }
+
   /** 我的订单(分页,含明细与收货摘要) */
   async myList(userId: number, page: number, size: number) {
     const offset = (page - 1) * size;

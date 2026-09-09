@@ -194,9 +194,83 @@
 				"isShow": true,
 				"childMenus": [
 					{
+						"name": "发货",
+						"router": null,
+						"perms": "clothing:order:ship",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
 						"name": "查询",
 						"router": null,
 						"perms": "clothing:order:page,clothing:order:info",
+						"type": 2,
+						"icon": null,
+						"orderNum": 2,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			},
+			{
+				"name": "退款审核",
+				"router": "/clothing/refund",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-menu",
+				"orderNum": 7,
+				"viewPath": "modules/clothing/views/refund.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "审核",
+						"router": null,
+						"perms": "clothing:refund:approve,clothing:refund:reject",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					},
+					{
+						"name": "查询",
+						"router": null,
+						"perms": "clothing:refund:page,clothing:refund:info",
+						"type": 2,
+						"icon": null,
+						"orderNum": 2,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			},
+			{
+				"name": "轮播管理",
+				"router": "/clothing/banner",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-menu",
+				"orderNum": 8,
+				"viewPath": "modules/clothing/views/banner.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "维护",
+						"router": null,
+						"perms": "clothing:banner:add,clothing:banner:update,clothing:banner:delete,clothing:banner:page,clothing:banner:list,clothing:banner:info",
 						"type": 2,
 						"icon": null,
 						"orderNum": 1,
