@@ -351,73 +351,6 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
-	interface DemoGoodsEntity {
-		/**
-		 * ID
-		 */
-		id?: number;
-
-		/**
-		 * 标题
-		 */
-		title?: string;
-
-		/**
-		 * 价格
-		 */
-		price?: number;
-
-		/**
-		 * 描述
-		 */
-		description?: string;
-
-		/**
-		 * 主图
-		 */
-		mainImage?: string;
-
-		/**
-		 * 分类
-		 */
-		type?: number;
-
-		/**
-		 * 状态
-		 */
-		status?: number;
-
-		/**
-		 * 示例图
-		 */
-		exampleImages?: any;
-
-		/**
-		 * 库存
-		 */
-		stock?: number;
-
-		/**
-		 * 创建时间
-		 */
-		createTime?: string;
-
-		/**
-		 * 更新时间
-		 */
-		updateTime?: string;
-
-		/**
-		 * 昵称
-		 */
-		userName?: string;
-
-		/**
-		 * 任意键值
-		 */
-		[key: string]: any;
-	}
-
 	interface DictInfoEntity {
 		/**
 		 * ID
@@ -639,6 +572,195 @@ declare namespace Eps {
 		 * 姓名
 		 */
 		userName?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ShequCommentEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 帖子ID
+		 */
+		postId?: number;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+
+		/**
+		 * 用户昵称
+		 */
+		userNickName?: string;
+
+		/**
+		 * 用户头像
+		 */
+		userAvatar?: string;
+
+		/**
+		 * 评论内容
+		 */
+		content?: string;
+
+		/**
+		 * 父评论ID（回复评论用）
+		 */
+		parentId?: number;
+
+		/**
+		 * 回复的用户ID
+		 */
+		replyUserId?: number;
+
+		/**
+		 * 回复的用户昵称
+		 */
+		replyUserNickName?: string;
+
+		/**
+		 * 点赞数
+		 */
+		likeCount?: number;
+
+		/**
+		 * 状态 0-待审核 1-已发布 2-已删除
+		 */
+		status?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ShequPostEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+
+		/**
+		 * 用户昵称
+		 */
+		userNickName?: string;
+
+		/**
+		 * 用户头像
+		 */
+		userAvatar?: string;
+
+		/**
+		 * 帖子内容
+		 */
+		content?: string;
+
+		/**
+		 * 图片列表（JSON数组）
+		 */
+		images?: any;
+
+		/**
+		 * 定位地址
+		 */
+		location?: string;
+
+		/**
+		 * 经度
+		 */
+		longitude?: number;
+
+		/**
+		 * 纬度
+		 */
+		latitude?: number;
+
+		/**
+		 * 景点ID
+		 */
+		scenicId?: number;
+
+		/**
+		 * 景点名称
+		 */
+		scenicName?: string;
+
+		/**
+		 * 点赞数
+		 */
+		likeCount?: number;
+
+		/**
+		 * 评论数
+		 */
+		commentCount?: number;
+
+		/**
+		 * 浏览数
+		 */
+		viewCount?: number;
+
+		/**
+		 * 分享数
+		 */
+		shareCount?: number;
+
+		/**
+		 * 状态 0-待审核 1-已发布 2-已下架
+		 */
+		status?: number;
+
+		/**
+		 * 是否精华 0-否 1-是
+		 */
+		isEssence?: number;
+
+		/**
+		 * 是否置顶 0-否 1-是
+		 */
+		isTop?: number;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 审核备注
+		 */
+		auditRemark?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
 
 		/**
 		 * 任意键值
@@ -931,6 +1053,11 @@ declare namespace Eps {
 		nickName?: string;
 
 		/**
+		 * 用户名
+		 */
+		username?: string;
+
+		/**
 		 * 手机号
 		 */
 		phone?: string;
@@ -1016,11 +1143,6 @@ declare namespace Eps {
 		list: BaseSysUserEntity[];
 	}
 
-	interface DemoGoodsPageResponse {
-		pagination: PagePagination;
-		list: DemoGoodsEntity[];
-	}
-
 	interface DictInfoPageResponse {
 		pagination: PagePagination;
 		list: DictInfoEntity[];
@@ -1039,6 +1161,16 @@ declare namespace Eps {
 	interface RecycleDataPageResponse {
 		pagination: PagePagination;
 		list: RecycleDataEntity[];
+	}
+
+	interface ShequCommentPageResponse {
+		pagination: PagePagination;
+		list: ShequCommentEntity[];
+	}
+
+	interface ShequPostPageResponse {
+		pagination: PagePagination;
+		list: ShequPostEntity[];
 	}
 
 	interface SpaceInfoPageResponse {
@@ -1552,93 +1684,6 @@ declare namespace Eps {
 		request: Request;
 	}
 
-	interface DemoGoods {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<DemoGoodsEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<DemoGoodsEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<DemoGoodsPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface DemoTenant {
-		/**
-		 * 局部不使用多租户
-		 */
-		noTenant(data?: any): Promise<any>;
-
-		/**
-		 * 不使用多租户
-		 */
-		noUse(data?: any): Promise<any>;
-
-		/**
-		 * use
-		 */
-		use(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: { noTenant: string; noUse: string; use: string };
-
-		/**
-		 * 权限状态
-		 */
-		_permission: { noTenant: boolean; noUse: boolean; use: boolean };
-
-		request: Request;
-	}
-
 	interface DictInfo {
 		/**
 		 * 删除
@@ -1859,6 +1904,114 @@ declare namespace Eps {
 		 * 权限状态
 		 */
 		_permission: { restore: boolean; info: boolean; page: boolean };
+
+		request: Request;
+	}
+
+	interface ShequComment {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ShequCommentEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ShequCommentPageResponse>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: { delete: string; list: string; page: string };
+
+		/**
+		 * 权限状态
+		 */
+		_permission: { delete: boolean; list: boolean; page: boolean };
+
+		request: Request;
+	}
+
+	interface ShequPost {
+		/**
+		 * 审核帖子
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 设置精华
+		 */
+		setEssence(data?: any): Promise<any>;
+
+		/**
+		 * 设置置顶
+		 */
+		setTop(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ShequPostEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ShequPostEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ShequPostPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			setEssence: string;
+			setTop: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			setEssence: boolean;
+			setTop: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
 
 		request: Request;
 	}
@@ -2204,10 +2357,10 @@ declare namespace Eps {
 				user: BaseSysUser;
 			};
 		};
-		demo: { goods: DemoGoods; tenant: DemoTenant };
 		dict: { info: DictInfo; type: DictType };
 		plugin: { info: PluginInfo };
 		recycle: { data: RecycleData };
+		shequ: { comment: ShequComment; post: ShequPost };
 		space: { info: SpaceInfo; type: SpaceType };
 		task: { info: TaskInfo };
 		user: { address: UserAddress; info: UserInfo };
