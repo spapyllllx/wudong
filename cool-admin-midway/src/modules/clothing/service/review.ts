@@ -3,6 +3,7 @@ import { Init, Provide } from '@midwayjs/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Repository } from 'typeorm';
 import { transformerJson } from '../entity/common';
+import { ProductEntity } from '../entity/product';
 import { ProductReviewEntity } from '../entity/review';
 
 /**
@@ -12,6 +13,9 @@ import { ProductReviewEntity } from '../entity/review';
 export class ClothingReviewService extends BaseService {
   @InjectEntityModel(ProductReviewEntity)
   reviewEntity: Repository<ProductReviewEntity>;
+
+  @InjectEntityModel(ProductEntity)
+  productEntity: Repository<ProductEntity>;
 
   @Init()
   async init() {
@@ -37,6 +41,12 @@ export class ClothingReviewService extends BaseService {
     }
     if (images && (!Array.isArray(images) || images.length > 9)) {
       throw new CoolCommException('评价图片最多9张');
+    }
+    const product = await this.productEntity.findOne({
+      where: { id: productId, status: 'on_sale' },
+    });
+    if (!product) {
+      throw new CoolCommException('商品不存在或已下架');
     }
     const res = await this.reviewEntity.insert({
       userId,
