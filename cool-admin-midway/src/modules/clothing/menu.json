@@ -286,7 +286,7 @@
 				"router": "/clothing/review",
 				"perms": null,
 				"type": 1,
-				"icon": "icon-message",
+				"icon": "icon-menu",
 				"orderNum": 3,
 				"viewPath": "modules/clothing/views/review.vue",
 				"keepAlive": true,
