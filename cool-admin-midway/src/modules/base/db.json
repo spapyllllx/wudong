@@ -1,624 +1,102 @@
 {
   "base_sys_param": [
-    {
-      "keyName": "rich",
-      "name": "富文本参数",
-      "data": "<h3><strong>这是一个富文本</strong></h3><p>xxx</p><p>xxxxxxxxxx</p><p><br></p>",
-      "dataType": 1,
-      "remark": null
-    },
-    {
-      "keyName": "json",
-      "name": "JSON参数",
-      "data": "{\n  \"code\": 111233\n}",
-      "dataType": 0,
-      "remark": null
-    },
-    {
-      "keyName": "file",
-      "name": "文件",
-      "data": "",
-      "dataType": 2,
-      "remark": null
-    },
-    {
-      "keyName": "text",
-      "name": "测试",
-      "data": "这是一段字符串",
-      "dataType": 0,
-      "remark": null
-    }
+      {
+          "keyName": "rich",
+          "name": "富文本参数",
+          "data": "<h3><strong>这是一个富文本</strong></h3><p>xxx</p><p>xxxxxxxxxx</p><p><br></p>",
+          "dataType": 1,
+          "remark": null
+      },
+      {
+          "keyName": "json",
+          "name": "JSON参数",
+          "data": "{\n  \"code\": 111233\n}",
+          "dataType": 0,
+          "remark": null
+      },
+      {
+          "keyName": "file",
+          "name": "文件",
+          "data": "",
+          "dataType": 2,
+          "remark": null
+      },
+      {
+          "keyName": "text",
+          "name": "测试",
+          "data": "这是一段字符串",
+          "dataType": 0,
+          "remark": null
+      }
   ],
   "base_sys_conf": [
-    {
-      "cKey": "logKeep",
-      "cValue": "31"
-    },
-    {
-      "cKey": "recycleKeep",
-      "cValue": "31"
-    }
+      {
+          "cKey": "logKeep",
+          "cValue": "31"
+      },
+      {
+          "cKey": "recycleKeep",
+          "cValue": "31"
+      }
   ],
   "base_sys_department": [
-    {
-      "id": 1,
-      "name": "COOL",
-      "parentId": null,
-      "orderNum": 0
-    },
-    {
-      "id": 11,
-      "name": "开发",
-      "parentId": 12,
-      "orderNum": 2
-    },
-    {
-      "id": 12,
-      "name": "测试",
-      "parentId": 1,
-      "orderNum": 1
-    },
-    {
-      "id": 13,
-      "name": "游客",
-      "parentId": 1,
-      "orderNum": 3
-    }
+      {
+          "id": 1,
+          "name": "COOL",
+          "parentId": null,
+          "orderNum": 0
+      },
+      {
+          "id": 11,
+          "name": "开发",
+          "parentId": 12,
+          "orderNum": 2
+      },
+      {
+          "id": 12,
+          "name": "测试",
+          "parentId": 1,
+          "orderNum": 1
+      },
+      {
+          "id": 13,
+          "name": "游客",
+          "parentId": 1,
+          "orderNum": 3
+      }
   ],
   "base_sys_role": [
-    {
-      "id": 1,
-      "userId": "1",
-      "name": "超管",
-      "label": "admin",
-      "remark": "最高权限的角色",
-      "relevance": 1,
-      "menuIdList": "null",
-      "departmentIdList": "null"
-    }
+      {
+          "id": 1,
+          "userId": "1",
+          "name": "超管",
+          "label": "admin",
+          "remark": "最高权限的角色",
+          "relevance": 1,
+          "menuIdList": "null",
+          "departmentIdList": "null"
+      }
   ],
   "base_sys_user": [
-    {
-      "id": 1,
-      "departmentId": 1,
-      "name": "超级管理员",
-      "username": "admin",
-      "password": "e10adc3949ba59abbe56e057f20f883e",
-      "passwordV": 7,
-      "nickName": "管理员",
-      "phone": "18000000000",
-      "email": "team@cool-js.com",
-      "status": 1,
-      "remark": "拥有最高权限的用户",
-      "socketId": null
-    }
+      {
+          "id": 1,
+          "departmentId": 1,
+          "name": "超级管理员",
+          "username": "admin",
+          "password": "e10adc3949ba59abbe56e057f20f883e",
+          "passwordV": 7,
+          "nickName": "管理员",
+          "phone": "18000000000",
+          "email": "team@cool-js.com",
+          "status": 1,
+          "remark": "拥有最高权限的用户",
+          "socketId": null
+      }
   ],
   "base_sys_user_role": [
-    {
-      "userId": 1,
-      "roleId": 1
-    }
-  ],
-  "base_sys_role_menu": [
-    {
-      "roleId": 1,
-      "menuId": 1
-    },
-    {
-      "roleId": 1,
-      "menuId": 2
-    },
-    {
-      "roleId": 1,
-      "menuId": 8
-    },
-    {
-      "roleId": 1,
-      "menuId": 10
-    },
-    {
-      "roleId": 1,
-      "menuId": 11
-    },
-    {
-      "roleId": 1,
-      "menuId": 12
-    },
-    {
-      "roleId": 1,
-      "menuId": 13
-    },
-    {
-      "roleId": 1,
-      "menuId": 22
-    },
-    {
-      "roleId": 1,
-      "menuId": 23
-    },
-    {
-      "roleId": 1,
-      "menuId": 24
-    },
-    {
-      "roleId": 1,
-      "menuId": 25
-    },
-    {
-      "roleId": 1,
-      "menuId": 26
-    },
-    {
-      "roleId": 1,
-      "menuId": 27
-    },
-    {
-      "roleId": 1,
-      "menuId": 29
-    },
-    {
-      "roleId": 1,
-      "menuId": 30
-    },
-    {
-      "roleId": 1,
-      "menuId": 43
-    },
-    {
-      "roleId": 1,
-      "menuId": 45
-    },
-    {
-      "roleId": 1,
-      "menuId": 47
-    },
-    {
-      "roleId": 1,
-      "menuId": 48
-    },
-    {
-      "roleId": 1,
-      "menuId": 49
-    },
-    {
-      "roleId": 1,
-      "menuId": 59
-    },
-    {
-      "roleId": 1,
-      "menuId": 60
-    },
-    {
-      "roleId": 1,
-      "menuId": 61
-    },
-    {
-      "roleId": 1,
-      "menuId": 62
-    },
-    {
-      "roleId": 1,
-      "menuId": 63
-    },
-    {
-      "roleId": 1,
-      "menuId": 65
-    },
-    {
-      "roleId": 1,
-      "menuId": 78
-    },
-    {
-      "roleId": 1,
-      "menuId": 79
-    },
-    {
-      "roleId": 1,
-      "menuId": 80
-    },
-    {
-      "roleId": 1,
-      "menuId": 81
-    },
-    {
-      "roleId": 1,
-      "menuId": 82
-    },
-    {
-      "roleId": 1,
-      "menuId": 83
-    },
-    {
-      "roleId": 1,
-      "menuId": 84
-    },
-    {
-      "roleId": 1,
-      "menuId": 85
-    },
-    {
-      "roleId": 1,
-      "menuId": 86
-    },
-    {
-      "roleId": 1,
-      "menuId": 90
-    },
-    {
-      "roleId": 1,
-      "menuId": 96
-    },
-    {
-      "roleId": 1,
-      "menuId": 97
-    },
-    {
-      "roleId": 1,
-      "menuId": 98
-    },
-    {
-      "roleId": 1,
-      "menuId": 99
-    },
-    {
-      "roleId": 1,
-      "menuId": 100
-    },
-    {
-      "roleId": 1,
-      "menuId": 101
-    },
-    {
-      "roleId": 1,
-      "menuId": 105
-    },
-    {
-      "roleId": 1,
-      "menuId": 109
-    },
-    {
-      "roleId": 1,
-      "menuId": 110
-    },
-    {
-      "roleId": 1,
-      "menuId": 111
-    },
-    {
-      "roleId": 1,
-      "menuId": 112
-    },
-    {
-      "roleId": 1,
-      "menuId": 113
-    },
-    {
-      "roleId": 1,
-      "menuId": 114
-    },
-    {
-      "roleId": 1,
-      "menuId": 115
-    },
-    {
-      "roleId": 1,
-      "menuId": 116
-    },
-    {
-      "roleId": 1,
-      "menuId": 117
-    },
-    {
-      "roleId": 1,
-      "menuId": 118
-    },
-    {
-      "roleId": 1,
-      "menuId": 119
-    },
-    {
-      "roleId": 1,
-      "menuId": 120
-    },
-    {
-      "roleId": 1,
-      "menuId": 121
-    },
-    {
-      "roleId": 1,
-      "menuId": 122
-    },
-    {
-      "roleId": 1,
-      "menuId": 123
-    },
-    {
-      "roleId": 1,
-      "menuId": 124
-    },
-    {
-      "roleId": 1,
-      "menuId": 125
-    },
-    {
-      "roleId": 1,
-      "menuId": 126
-    },
-    {
-      "roleId": 1,
-      "menuId": 127
-    },
-    {
-      "roleId": 1,
-      "menuId": 128
-    },
-    {
-      "roleId": 1,
-      "menuId": 129
-    },
-    {
-      "roleId": 1,
-      "menuId": 130
-    },
-    {
-      "roleId": 1,
-      "menuId": 131
-    },
-    {
-      "roleId": 1,
-      "menuId": 132
-    },
-    {
-      "roleId": 1,
-      "menuId": 133
-    },
-    {
-      "roleId": 1,
-      "menuId": 134
-    },
-    {
-      "roleId": 1,
-      "menuId": 135
-    },
-    {
-      "roleId": 1,
-      "menuId": 136
-    },
-    {
-      "roleId": 1,
-      "menuId": 137
-    },
-    {
-      "roleId": 1,
-      "menuId": 138
-    },
-    {
-      "roleId": 1,
-      "menuId": 139
-    },
-    {
-      "roleId": 1,
-      "menuId": 140
-    },
-    {
-      "roleId": 1,
-      "menuId": 141
-    },
-    {
-      "roleId": 1,
-      "menuId": 142
-    },
-    {
-      "roleId": 1,
-      "menuId": 143
-    },
-    {
-      "roleId": 1,
-      "menuId": 144
-    },
-    {
-      "roleId": 1,
-      "menuId": 145
-    },
-    {
-      "roleId": 1,
-      "menuId": 146
-    },
-    {
-      "roleId": 1,
-      "menuId": 147
-    },
-    {
-      "roleId": 1,
-      "menuId": 148
-    },
-    {
-      "roleId": 1,
-      "menuId": 149
-    },
-    {
-      "roleId": 1,
-      "menuId": 150
-    },
-    {
-      "roleId": 1,
-      "menuId": 151
-    },
-    {
-      "roleId": 1,
-      "menuId": 152
-    },
-    {
-      "roleId": 1,
-      "menuId": 153
-    },
-    {
-      "roleId": 1,
-      "menuId": 154
-    },
-    {
-      "roleId": 1,
-      "menuId": 155
-    },
-    {
-      "roleId": 1,
-      "menuId": 156
-    },
-    {
-      "roleId": 1,
-      "menuId": 157
-    },
-    {
-      "roleId": 1,
-      "menuId": 158
-    },
-    {
-      "roleId": 1,
-      "menuId": 159
-    },
-    {
-      "roleId": 1,
-      "menuId": 160
-    },
-    {
-      "roleId": 1,
-      "menuId": 161
-    },
-    {
-      "roleId": 1,
-      "menuId": 162
-    },
-    {
-      "roleId": 1,
-      "menuId": 163
-    },
-    {
-      "roleId": 1,
-      "menuId": 164
-    },
-    {
-      "roleId": 1,
-      "menuId": 165
-    },
-    {
-      "roleId": 1,
-      "menuId": 166
-    },
-    {
-      "roleId": 1,
-      "menuId": 167
-    },
-    {
-      "roleId": 1,
-      "menuId": 168
-    },
-    {
-      "roleId": 1,
-      "menuId": 169
-    },
-    {
-      "roleId": 1,
-      "menuId": 170
-    },
-    {
-      "roleId": 1,
-      "menuId": 171
-    },
-    {
-      "roleId": 1,
-      "menuId": 172
-    },
-    {
-      "roleId": 1,
-      "menuId": 173
-    },
-    {
-      "roleId": 1,
-      "menuId": 174
-    },
-    {
-      "roleId": 1,
-      "menuId": 175
-    },
-    {
-      "roleId": 1,
-      "menuId": 176
-    },
-    {
-      "roleId": 1,
-      "menuId": 177
-    },
-    {
-      "roleId": 1,
-      "menuId": 178
-    },
-    {
-      "roleId": 1,
-      "menuId": 179
-    },
-    {
-      "roleId": 1,
-      "menuId": 180
-    },
-    {
-      "roleId": 1,
-      "menuId": 181
-    },
-    {
-      "roleId": 1,
-      "menuId": 182
-    },
-    {
-      "roleId": 1,
-      "menuId": 183
-    },
-    {
-      "roleId": 1,
-      "menuId": 184
-    },
-    {
-      "roleId": 1,
-      "menuId": 185
-    },
-    {
-      "roleId": 1,
-      "menuId": 186
-    },
-    {
-      "roleId": 1,
-      "menuId": 187
-    },
-    {
-      "roleId": 1,
-      "menuId": 188
-    },
-    {
-      "roleId": 1,
-      "menuId": 189
-    },
-    {
-      "roleId": 1,
-      "menuId": 190
-    },
-    {
-      "roleId": 1,
-      "menuId": 191
-    },
-    {
-      "roleId": 1,
-      "menuId": 192
-    },
-    {
-      "roleId": 1,
-      "menuId": 193
-    },
-    {
-      "roleId": 1,
-      "menuId": 194
-    },
-    {
-      "roleId": 1,
-      "menuId": 195
-    }
+      {
+          "userId": 1,
+          "roleId": 1
+      }
   ]
 }

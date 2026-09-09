@@ -16,7 +16,7 @@ export default {
         password: '123456',
         database: 'cool',
         // 自动建表 注意：线上部署的时候不要使用，有可能导致数据丢失
-        synchronize: true,
+        synchronize: false,
         // 打印日志
         logging: false,
         // 字符集
@@ -38,6 +38,6 @@ export default {
     // 判断是否初始化的方式
     initJudge: 'db',
     // 是否自动导入模块菜单
-    initMenu: true,
+    initMenu: false,
   } as CoolConfig,
 } as MidwayConfig;
