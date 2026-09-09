@@ -69,7 +69,7 @@ public class JwtInterceptor implements HandlerInterceptor {
             || uri.equals("/api/auth/sms-code")
             || uri.startsWith("/api/yi/products")
             || uri.startsWith("/api/yi/categories")
-            || uri.startsWith("/api/shi/restaurants")
+            || uri.startsWith("/api/shi/")
             || uri.startsWith("/api/zhu/homestays")
             || uri.startsWith("/api/xing/scenics")
             || uri.startsWith("/api/xing/routes")

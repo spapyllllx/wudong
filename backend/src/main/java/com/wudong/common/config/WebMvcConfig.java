@@ -37,7 +37,7 @@ public class WebMvcConfig implements WebMvcConfigurer {
                     "/api/auth/sms-code",
                     "/api/yi/products/**",
                     "/api/yi/categories",
-                    "/api/shi/restaurants/**",
+                    "/api/shi/**",
                     "/api/zhu/homestays/**",
                     "/api/xing/scenics/**",
                     "/api/xing/routes/**",
