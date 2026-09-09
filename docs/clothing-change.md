@@ -36,13 +36,14 @@ feat 实体 / feat 服务层 / feat admin 接口 / feat app 接口 / docs SQL / 
 10. **并发收藏**依赖 `uk_user_product` 唯一键兜底,重复 insert 按"已收藏"处理。
 11. **上传**:未新写上传服务,商品图/评价图直接复用框架 `/admin/base/comm/upload`、`/app/base/comm/upload`。
 
-## 三、验证记录(本地)
+## 三、验证记录(本地,2026-09-09 实测通过)
 
 - 库 `cool-admin-midway` 启动后自动建出 6 张表,`SHOW CREATE TABLE` 与交付 SQL 一致(差异仅注释级)
 - 分类种子 5 条自动导入(product_categories),`base_sys_conf` 写入 `init_db_clothing` 标记
-- 公开接口冒烟:category/list、product/list、product/detail、product/reviews 均正常返回
-- 需登录接口:C 端密码登录取 token 后验证 favorite toggle、my-favorites、review 通过(测试账号于验证后清理与否见团队约定)
-- 未调 admin 登录接口(已知:其空验证码会抛未捕获异常致进程退出,框架缺陷,联调走前端页面)
+- 公开接口实测:category/list(5 条)、product/list(含 rating/review_count 聚合)、product/detail(id=1,含 images/skus/craft_intro)、product/reviews、search(中文关键词)全部 HTTP 200、code 1000
+- 需登录接口实测(C 端密码登录,`user_info` 测试账号 13800000000):favorite toggle true→false、my-favorites(含 favorited_at)、review 提交(返回 id)全部通过;**注意:本框架 app 端 Authorization 需传裸 token(不带 Bearer 前缀),否则 401**
+- 数值类型实测:bigint/decimal 列 JSON 输出统一为 number,时间输出 `YYYY-MM-DD HH:mm:ss`
+- 未调 admin 登录接口(已知:其空验证码会抛未捕获异常致进程退出,框架缺陷,联调走前端页面);admin 写接口(商品 add/update/delete 含嵌套)留待管理后台页面联调时验证
 
 ## 四、后续 TODO
 
