@@ -183,6 +183,31 @@
 				]
 			},
 			{
+				"name": "订单管理",
+				"router": "/clothing/order",
+				"perms": null,
+				"type": 1,
+				"icon": "icon-menu",
+				"orderNum": 6,
+				"viewPath": "modules/clothing/views/order.vue",
+				"keepAlive": true,
+				"isShow": true,
+				"childMenus": [
+					{
+						"name": "查询",
+						"router": null,
+						"perms": "clothing:order:page,clothing:order:info",
+						"type": 2,
+						"icon": null,
+						"orderNum": 1,
+						"viewPath": null,
+						"keepAlive": false,
+						"isShow": true,
+						"childMenus": []
+					}
+				]
+			},
+			{
 				"name": "评价管理",
 				"router": "/clothing/review",
 				"perms": null,
