@@ -1,0 +1,36 @@
+# 依赖
+node_modules/
+.pnpm-store/
+
+# 构建产物
+dist/
+dist-ssr/
+*.local
+
+# 编辑器 / 系统
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# 日志
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+
+# 注意：auto-imports.d.ts / components.d.ts 由 unplugin-* 生成，
+# 但 `npm run build` 是先跑 vue-tsc 再跑 vite，全新克隆时若缺这两个文件类型检查会失败，
+# 因此保留在版本控制中。
+
+# 本地环境覆盖文件（.env.development / .env.production 需要提交）
+.env.local
+.env.*.local

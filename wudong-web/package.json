@@ -1,0 +1,28 @@
+{
+  "name": "wudong-web",
+  "version": "1.0.0",
+  "description": "乌东文旅平台用户端Web",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vue-tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "vue": "^3.4.21",
+    "vue-router": "^4.3.0",
+    "pinia": "^2.1.7",
+    "axios": "^1.6.8",
+    "element-plus": "^2.6.3",
+    "@element-plus/icons-vue": "^2.3.1"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.0.4",
+    "typescript": "^5.4.2",
+    "vue-tsc": "^2.0.6",
+    "vite": "^5.1.5",
+    "sass": "^1.71.1",
+    "unplugin-vue-components": "^0.26.0",
+    "unplugin-auto-import": "^0.17.5"
+  }
+}
