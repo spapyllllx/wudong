@@ -38,7 +38,13 @@ export class UserMiddleware implements IMiddleware<Context, NextFunction> {
       let { url } = ctx;
       url = url.replace(this.prefix, '').split('?')[0];
       if (_.startsWith(url, '/app/')) {
-        const token = ctx.get('Authorization');
+        let token = ctx.get('Authorization');
+
+        // 处理 Bearer 前缀
+        if (token && token.startsWith('Bearer ')) {
+          token = token.substring(7);
+        }
+
         try {
           ctx.user = jwt.verify(token, this.jwtConfig.secret);
 

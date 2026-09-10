@@ -1358,6 +1358,11 @@ declare namespace Eps {
 		nickName?: string;
 
 		/**
+		 * 用户名
+		 */
+		username?: string;
+
+		/**
 		 * 手机号
 		 */
 		phone?: string;
@@ -2936,6 +2941,8 @@ declare namespace Eps {
 	}
 
 	type Request = (options: RequestOptions) => Promise<any>;
+
+	type DictKey = "brand" | "occupation";
 
 	type Service = {
 		request: Request;

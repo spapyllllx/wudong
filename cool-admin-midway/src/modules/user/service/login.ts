@@ -3,6 +3,7 @@ import { BaseService, CoolCommException } from '@cool-midway/core';
 import { InjectEntityModel } from '@midwayjs/typeorm';
 import { Equal, Repository } from 'typeorm';
 import { UserInfoEntity } from '../entity/info';
+import { BaseSysUserEntity } from '../../base/entity/sys/user';
 import { UserWxService } from './wx';
 import * as jwt from 'jsonwebtoken';
 import { UserWxEntity } from '../entity/wx';
@@ -19,6 +20,9 @@ import { PluginService } from '../../plugin/service/info';
 export class UserLoginService extends BaseService {
   @InjectEntityModel(UserInfoEntity)
   userInfoEntity: Repository<UserInfoEntity>;
+
+  @InjectEntityModel(BaseSysUserEntity)
+  baseSysUserEntity: Repository<BaseSysUserEntity>;
 
   @InjectEntityModel(UserWxEntity)
   userWxEntity: Repository<UserWxEntity>;
@@ -259,19 +263,64 @@ export class UserLoginService extends BaseService {
 
   /**
    * 密码登录
-   * @param phone
+   * @param username
    * @param password
    */
-  async password(phone, password) {
-    const user = await this.userInfoEntity.findOneBy({ phone });
+  async password(username, password) {
+    const user = await this.userInfoEntity.findOneBy({ username });
 
     if (user && user.password == md5(password)) {
-      return this.token({
-        id: user.id,
-      });
+      return {
+        ...(await this.token({
+          id: user.id,
+        })),
+        user,
+      };
     } else {
-      throw new CoolCommException('账号或密码错误');
+      throw new CoolCommException('用户名或密码错误');
     }
+  }
+
+  /**
+   * 用户注册
+   * @param username
+   * @param password
+   * @param phone
+   */
+  async register(username: string, password: string, phone?: string) {
+    // 检查用户名是否已存在
+    const existUser = await this.userInfoEntity.findOneBy({ username });
+    if (existUser) {
+      throw new CoolCommException('用户名已存在');
+    }
+
+    // 检查手机号是否已被使用
+    if (phone) {
+      const existPhone = await this.userInfoEntity.findOneBy({ phone });
+      if (existPhone) {
+        throw new CoolCommException('手机号已被注册');
+      }
+    }
+
+    // 创建新用户
+    const user = new UserInfoEntity();
+    user.username = username;
+    user.password = md5(password);
+    user.phone = phone;
+    user.nickName = username; // 默认昵称为用户名
+    user.status = 1; // 正常状态
+    user.gender = 0; // 未知
+    user.loginType = 0;
+
+    await this.userInfoEntity.save(user);
+
+    // 返回token
+    return {
+      ...(await this.token({
+        id: user.id,
+      })),
+      user,
+    };
   }
 
   /**

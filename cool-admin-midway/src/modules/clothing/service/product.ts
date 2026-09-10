@@ -76,6 +76,9 @@ export class ClothingProductService extends BaseService {
     const hasMainFields = Object.keys(main).length > 0;
     const mgr = queryRunner.manager;
     let productId: number = id;
+    // 全量替换 SKU 前先记下原销量:SKU 弹窗只提交 skuName/price/stock/attrs,
+    // 不带 sales,若直接删了重建会把该 SKU 的累计销量清零
+    const prevSales = new Map<number, number>();
     if (id) {
       const exist = await this.productEntity.findOneBy({ id });
       if (!exist) throw new CoolCommException('商品不存在');
@@ -86,6 +89,10 @@ export class ClothingProductService extends BaseService {
       }
       // 子表为增量语义:请求携带 skus/images 数组才替换(便于管理端只编辑主字段)
       if (Array.isArray(param.skus)) {
+        const olds = await mgr.find(ProductSkuEntity, {
+          where: { productId: id },
+        });
+        for (const o of olds) prevSales.set(Number(o.id), Number(o.sales) || 0);
         await mgr.delete(ProductSkuEntity, { productId: id });
       }
       if (Array.isArray(param.images)) {
@@ -106,7 +113,15 @@ export class ClothingProductService extends BaseService {
       if (!s.skuName || s.price === null || s.price === undefined) {
         throw new CoolCommException('SKU名称与价格必填');
       }
-      await mgr.save(mgr.create(ProductSkuEntity, { ...s, productId }));
+      // sales 优先取请求值;未携带时沿用同 id 的原销量(新增 SKU 无 id,从 0 起算)
+      const keep = prevSales.get(Number(s.id));
+      const sales =
+        s.sales !== undefined && s.sales !== null
+          ? Number(s.sales)
+          : Number.isFinite(keep as number)
+            ? (keep as number)
+            : 0;
+      await mgr.save(mgr.create(ProductSkuEntity, { ...s, sales, productId }));
     }
     for (const img of images || []) {
       if (!img.url) throw new CoolCommException('图片URL必填');
@@ -114,17 +129,22 @@ export class ClothingProductService extends BaseService {
         mgr.create(ProductImageEntity, { url: img.url, sort: img.sort || 0, productId })
       );
     }
-    // SKU 保存后把总库存聚合为 SKU 库存之和(此前两处不同步,下单可扣成负数)
-    // 注:仅当本次携带非空 skus 时聚合;空数组(仅删 SKU/改图片)保留原手工总库存
+    // SKU 保存后把主表的总库存/总销量都聚合为 SKU 之和(此前只同步库存,
+    // 销量两边各写各的,管理端列表与前台卡片会与 SKU 弹窗对不上)
+    // 注:仅当本次携带非空 skus 时聚合;空数组(仅删 SKU/改图片)保留原手工值
     if (Array.isArray(param.skus) && skus.length) {
       const agg: any[] = await mgr.query(
-        `SELECT COALESCE(SUM(stock), 0) total FROM product_skus WHERE product_id = ?`,
+        `SELECT COALESCE(SUM(stock), 0) stock, COALESCE(SUM(sales), 0) sales
+         FROM product_skus WHERE product_id = ?`,
         [productId]
       );
       await mgr.update(
         ProductEntity,
         { id: productId },
-        { stock: Number(agg[0]?.total || 0) }
+        {
+          stock: Number(agg[0]?.stock || 0),
+          sales: Number(agg[0]?.sales || 0),
+        }
       );
     }
     return productId;

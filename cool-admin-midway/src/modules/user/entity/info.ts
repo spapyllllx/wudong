@@ -17,6 +17,10 @@ export class UserInfoEntity extends BaseEntity {
   nickName: string;
 
   @Index({ unique: true })
+  @Column({ comment: '用户名', nullable: true })
+  username: string;
+
+  @Index({ unique: true })
   @Column({ comment: '手机号', nullable: true })
   phone: string;
 
