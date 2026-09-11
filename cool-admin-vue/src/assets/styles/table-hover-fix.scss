@@ -1,0 +1,90 @@
+/**
+ * 表格行悬停放大问题 - 终极修复方案
+ * 使用最高优先级样式强制覆盖所有可能的缩放效果
+ */
+
+/* 方案1: 使用 !important 覆盖所有表格行样式 */
+.el-table tbody tr,
+.el-table tbody .el-table__row,
+.el-table__body-wrapper tbody tr,
+.el-table__body tbody tr,
+table.el-table__body tbody tr {
+  transform: none !important;
+  scale: none !important;
+  zoom: 1 !important;
+
+  /* 重置所有可能的 CSS 变量 */
+  --tw-scale-x: 1 !important;
+  --tw-scale-y: 1 !important;
+
+  /* 只允许背景色过渡 */
+  transition: background-color 0.2s ease !important;
+  will-change: auto !important;
+
+  /* 禁用所有可能的动画和变换 */
+  animation: none !important;
+
+  &:hover,
+  &.hover-row,
+  &.el-table__row--hover {
+    transform: none !important;
+    scale: none !important;
+    zoom: 1 !important;
+    --tw-scale-x: 1 !important;
+    --tw-scale-y: 1 !important;
+  }
+
+  &:active {
+    transform: none !important;
+    scale: none !important;
+  }
+
+  /* 确保单元格也不受影响 */
+  td, th {
+    transform: none !important;
+    scale: none !important;
+  }
+}
+
+/* 方案2: 全局禁用所有包含 el-table 的元素的 transform */
+[class*="el-table"] tr,
+[class*="el-table"] tbody,
+[class*="el-table__row"] {
+  transform: none !important;
+  scale: none !important;
+  --tw-scale-x: 1 !important;
+  --tw-scale-y: 1 !important;
+}
+
+/* 方案3: 确保表格容器也不会影响 */
+.cl-table,
+.cl-crud,
+.el-table__body-wrapper,
+.el-table__body {
+  tr, tbody {
+    transform: none !important;
+    scale: none !important;
+  }
+}
+
+/* 确保按钮完全可点击 */
+.el-table tbody tr td {
+  pointer-events: auto !important;
+
+  .el-button,
+  button,
+  a,
+  [class*="button"],
+  [class*="btn"] {
+    position: relative;
+    z-index: 1000 !important;
+    pointer-events: auto !important;
+  }
+}
+
+/* 额外保险：覆盖任何内联样式 */
+.el-table tbody tr[style*="transform"],
+.el-table tbody tr[style*="scale"] {
+  transform: none !important;
+  scale: none !important;
+}

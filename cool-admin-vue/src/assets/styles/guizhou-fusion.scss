@@ -545,9 +545,13 @@ body {
     tr {
       transition: background var(--gz-duration) var(--gz-ease);
       position: relative;
+      // 禁用任何 transform 效果，防止悬停时放大导致无法点击
+      transform: none !important;
 
       &:hover {
         background: rgba(27, 79, 114, 0.03);
+        // 确保悬停时不会有任何缩放或变形
+        transform: none !important;
 
         // 左侧高亮条
         &::before {

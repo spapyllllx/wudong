@@ -2178,6 +2178,21 @@ declare namespace Eps {
 		list: DictTypeEntity[];
 	}
 
+	interface HomestayHomestayPageResponse {
+		pagination: PagePagination;
+		list: HomestayEntity[];
+	}
+
+	interface HomestayRoom_typePageResponse {
+		pagination: PagePagination;
+		list: RoomTypeEntity[];
+	}
+
+	interface OrderOrderPageResponse {
+		pagination: PagePagination;
+		list: OrderEntity[];
+	}
+
 	interface PluginInfoPageResponse {
 		pagination: PagePagination;
 		list: PluginInfoEntity[];
@@ -2201,6 +2216,11 @@ declare namespace Eps {
 	interface RecycleDataPageResponse {
 		pagination: PagePagination;
 		list: RecycleDataEntity[];
+	}
+
+	interface RestaurantRestaurantPageResponse {
+		pagination: PagePagination;
+		list: RestaurantEntity[];
 	}
 
 	interface ShequCommentPageResponse {
@@ -2228,36 +2248,6 @@ declare namespace Eps {
 		list: TaskInfoEntity[];
 	}
 
-	interface UserAddressPageResponse {
-		pagination: PagePagination;
-		list: UserAddressEntity[];
-	}
-
-	interface UserInfoPageResponse {
-		pagination: PagePagination;
-		list: UserInfoEntity[];
-	}
-
-	interface OrderOrderPageResponse {
-		pagination: PagePagination;
-		list: OrderEntity[];
-	}
-
-	interface HomestayHomestayPageResponse {
-		pagination: PagePagination;
-		list: HomestayEntity[];
-	}
-
-	interface HomestayRoom_typePageResponse {
-		pagination: PagePagination;
-		list: RoomTypeEntity[];
-	}
-
-	interface RestaurantRestaurantPageResponse {
-		pagination: PagePagination;
-		list: RestaurantEntity[];
-	}
-
 	interface TicketAttractionPageResponse {
 		pagination: PagePagination;
 		list: AttractionEntity[];
@@ -2271,6 +2261,45 @@ declare namespace Eps {
 	interface TicketTicket_typePageResponse {
 		pagination: PagePagination;
 		list: TicketTypeEntity[];
+	}
+
+	interface UserAddressPageResponse {
+		pagination: PagePagination;
+		list: UserAddressEntity[];
+	}
+
+	interface UserInfoPageResponse {
+		pagination: PagePagination;
+		list: UserInfoEntity[];
+	}
+
+	interface AiConfig {
+		/**
+		 * init
+		 */
+		init(data?: any): Promise<any>;
+
+		/**
+		 * get
+		 */
+		get(data?: any): Promise<any>;
+
+		/**
+		 * set
+		 */
+		set(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: { init: string; get: string; set: string };
+
+		/**
+		 * 权限状态
+		 */
+		_permission: { init: boolean; get: boolean; set: boolean };
+
+		request: Request;
 	}
 
 	interface BaseCoding {
@@ -2889,6 +2918,201 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface HomestayHomestay {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HomestayEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HomestayEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HomestayHomestayPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HomestayRoom_type {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<RoomTypeEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<RoomTypeEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HomestayRoom_typePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface OrderOrder {
+		/**
+		 * 订单详情
+		 */
+		detail(data?: any): Promise<any>;
+
+		/**
+		 * 取消订单
+		 */
+		cancel(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 订单发货
+		 */
+		ship(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<OrderEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<OrderEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<OrderOrderPageResponse>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			detail: string;
+			cancel: string;
+			delete: string;
+			ship: string;
+			info: string;
+			list: string;
+			page: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			detail: boolean;
+			cancel: boolean;
+			delete: boolean;
+			ship: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface PluginInfo {
 		/**
 		 * 安装插件
@@ -3181,6 +3405,71 @@ declare namespace Eps {
 		 * 权限状态
 		 */
 		_permission: { restore: boolean; info: boolean; page: boolean };
+
+		request: Request;
+	}
+
+	interface RestaurantRestaurant {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<RestaurantEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<RestaurantEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<RestaurantRestaurantPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
 
 		request: Request;
 	}
@@ -3488,382 +3777,6 @@ declare namespace Eps {
 		request: Request;
 	}
 
-	interface UserAddress {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<UserAddressEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<UserAddressEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<UserAddressPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface UserInfo {
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<UserInfoEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<UserInfoEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<UserInfoPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface OrderOrder {
-		/**
-		 * 订单详情
-		 */
-		detail(data?: any): Promise<any>;
-
-		/**
-		 * 取消订单
-		 */
-		cancel(data?: any): Promise<any>;
-
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 订单发货
-		 */
-		ship(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<OrderEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<OrderEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<OrderOrderPageResponse>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			detail: string;
-			cancel: string;
-			delete: string;
-			ship: string;
-			info: string;
-			list: string;
-			page: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			detail: boolean;
-			cancel: boolean;
-			delete: boolean;
-			ship: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface HomestayHomestay {
-		/**
-		 * 更新状态
-		 */
-		updateStatus(data?: any): Promise<any>;
-
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<HomestayEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<HomestayEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<HomestayHomestayPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			updateStatus: string;
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			updateStatus: boolean;
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface HomestayRoom_type {
-		/**
-		 * 更新状态
-		 */
-		updateStatus(data?: any): Promise<any>;
-
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<RoomTypeEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<RoomTypeEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<HomestayRoom_typePageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			updateStatus: string;
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			updateStatus: boolean;
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
-	interface RestaurantRestaurant {
-		/**
-		 * 更新状态
-		 */
-		updateStatus(data?: any): Promise<any>;
-
-		/**
-		 * 删除
-		 */
-		delete(data?: any): Promise<any>;
-
-		/**
-		 * 修改
-		 */
-		update(data?: any): Promise<any>;
-
-		/**
-		 * 单个信息
-		 */
-		info(data?: any): Promise<RestaurantEntity>;
-
-		/**
-		 * 列表查询
-		 */
-		list(data?: any): Promise<RestaurantEntity[]>;
-
-		/**
-		 * 分页查询
-		 */
-		page(data?: any): Promise<RestaurantRestaurantPageResponse>;
-
-		/**
-		 * 新增
-		 */
-		add(data?: any): Promise<any>;
-
-		/**
-		 * 权限标识
-		 */
-		permission: {
-			updateStatus: string;
-			delete: string;
-			update: string;
-			info: string;
-			list: string;
-			page: string;
-			add: string;
-		};
-
-		/**
-		 * 权限状态
-		 */
-		_permission: {
-			updateStatus: boolean;
-			delete: boolean;
-			update: boolean;
-			info: boolean;
-			list: boolean;
-			page: boolean;
-			add: boolean;
-		};
-
-		request: Request;
-	}
-
 	interface TicketAttraction {
 		/**
 		 * 更新状态
@@ -4059,6 +3972,122 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface UserAddress {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<UserAddressEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<UserAddressEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<UserAddressPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface UserInfo {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<UserInfoEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<UserInfoEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<UserInfoPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface RequestOptions {
 		url: string;
 		method?: "OPTIONS" | "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "TRACE" | "CONNECT";
@@ -4076,6 +4105,7 @@ declare namespace Eps {
 	type Service = {
 		request: Request;
 
+		ai: { config: AiConfig };
 		base: {
 			coding: BaseCoding;
 			comm: BaseComm;
@@ -4090,20 +4120,20 @@ declare namespace Eps {
 			};
 		};
 		dict: { info: DictInfo; type: DictType };
+		homestay: { homestay: HomestayHomestay; room_type: HomestayRoom_type };
+		order: { order: OrderOrder };
 		plugin: { info: PluginInfo };
 		product: { category: ProductCategory; product: ProductProduct; review: ProductReview };
 		recycle: { data: RecycleData };
+		restaurant: { restaurant: RestaurantRestaurant };
 		shequ: { comment: ShequComment; post: ShequPost };
 		space: { info: SpaceInfo; type: SpaceType };
 		task: { info: TaskInfo };
-		user: { address: UserAddress; info: UserInfo };
-		order: { order: OrderOrder };
-		homestay: { homestay: HomestayHomestay; room_type: HomestayRoom_type };
-		restaurant: { restaurant: RestaurantRestaurant };
 		ticket: {
 			attraction: TicketAttraction;
 			ticket_order: TicketTicket_order;
 			ticket_type: TicketTicket_type;
 		};
+		user: { address: UserAddress; info: UserInfo };
 	};
 }

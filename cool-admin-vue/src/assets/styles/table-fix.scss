@@ -1,0 +1,58 @@
+/**
+ * 表格行悬停问题修复
+ * 禁用所有可能导致表格行放大的 transform 效果
+ */
+
+// 全局禁用表格行的 transform 效果 - 使用最高优先级
+.el-table,
+.el-table__body-wrapper,
+.el-table__body {
+  tbody,
+  .el-table__body {
+    tr,
+    .el-table__row,
+    .el-table__row--level-0 {
+      // 强制禁用任何 transform 效果
+      transform: none !important;
+      transition: background-color 0.2s ease !important;
+      will-change: auto !important;
+
+      &:hover,
+      &.hover-row {
+        transform: none !important;
+        scale: none !important;
+      }
+
+      &:active {
+        transform: none !important;
+        scale: none !important;
+      }
+
+      // 禁用所有可能的动画
+      animation: none !important;
+    }
+  }
+}
+
+// 确保按钮在表格行内可点击
+.el-table__body {
+  tr {
+    .el-button {
+      // 确保按钮有足够高的 z-index
+      position: relative;
+      z-index: 10;
+      pointer-events: auto !important;
+    }
+
+    // 操作列
+    td {
+      // 确保单元格不会阻止点击
+      pointer-events: auto !important;
+
+      // 操作列按钮组
+      .el-button + .el-button {
+        margin-left: 8px;
+      }
+    }
+  }
+}
