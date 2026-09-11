@@ -435,6 +435,342 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
+	interface HomestayEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 民宿名称
+		 */
+		name?: string;
+
+		/**
+		 * 封面图
+		 */
+		cover?: string;
+
+		/**
+		 * 民宿图片（多张）
+		 */
+		images?: string;
+
+		/**
+		 * 民宿简介
+		 */
+		description?: string;
+
+		/**
+		 * 详细地址
+		 */
+		address?: string;
+
+		/**
+		 * 省
+		 */
+		province?: string;
+
+		/**
+		 * 市
+		 */
+		city?: string;
+
+		/**
+		 * 区
+		 */
+		district?: string;
+
+		/**
+		 * 联系电话
+		 */
+		phone?: string;
+
+		/**
+		 * 最低价格
+		 */
+		minPrice?: number;
+
+		/**
+		 * 评分
+		 */
+		rating?: number;
+
+		/**
+		 * 标签
+		 */
+		tags?: string;
+
+		/**
+		 * 设施服务
+		 */
+		facilities?: string;
+
+		/**
+		 * 入住时间
+		 */
+		checkInTime?: string;
+
+		/**
+		 * 退房时间
+		 */
+		checkOutTime?: string;
+
+		/**
+		 * 状态 0-下架 1-上架
+		 */
+		status?: number;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 浏览量
+		 */
+		viewCount?: number;
+
+		/**
+		 * 订单量
+		 */
+		orderCount?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface RoomTypeEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 民宿ID
+		 */
+		homestayId?: number;
+
+		/**
+		 * 房型名称
+		 */
+		name?: string;
+
+		/**
+		 * 房型图片
+		 */
+		image?: string;
+
+		/**
+		 * 房型图片（多张）
+		 */
+		images?: string;
+
+		/**
+		 * 房型描述
+		 */
+		description?: string;
+
+		/**
+		 * 面积（平方米）
+		 */
+		area?: number;
+
+		/**
+		 * 床型
+		 */
+		bedType?: string;
+
+		/**
+		 * 最多入住人数
+		 */
+		maxGuests?: number;
+
+		/**
+		 * 价格/晚
+		 */
+		price?: number;
+
+		/**
+		 * 周末价格/晚
+		 */
+		weekendPrice?: number;
+
+		/**
+		 * 房间设施
+		 */
+		facilities?: string;
+
+		/**
+		 * 房间总数
+		 */
+		totalRooms?: number;
+
+		/**
+		 * 状态 0-下架 1-上架
+		 */
+		status?: number;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface OrderEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 订单号
+		 */
+		orderNo?: string;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+
+		/**
+		 * 订单总金额
+		 */
+		totalAmount?: number;
+
+		/**
+		 * 实付金额
+		 */
+		payAmount?: number;
+
+		/**
+		 * 运费
+		 */
+		freight?: number;
+
+		/**
+		 * 优惠金额
+		 */
+		discountAmount?: number;
+
+		/**
+		 * 订单状态 0-待付款 1-待发货 2-待收货 3-已完成 4-已取消 5-已关闭
+		 */
+		status?: number;
+
+		/**
+		 * 支付状态 0-未支付 1-已支付
+		 */
+		payStatus?: number;
+
+		/**
+		 * 支付方式 wechat-微信 alipay-支付宝
+		 */
+		payType?: string;
+
+		/**
+		 * 支付时间
+		 */
+		payTime?: string;
+
+		/**
+		 * 发货时间
+		 */
+		shipTime?: string;
+
+		/**
+		 * 完成时间
+		 */
+		finishTime?: string;
+
+		/**
+		 * 取消时间
+		 */
+		cancelTime?: string;
+
+		/**
+		 * 取消原因
+		 */
+		cancelReason?: string;
+
+		/**
+		 * 订单备注
+		 */
+		remark?: string;
+
+		/**
+		 * 收货人姓名
+		 */
+		receiverName?: string;
+
+		/**
+		 * 收货人电话
+		 */
+		receiverPhone?: string;
+
+		/**
+		 * 省
+		 */
+		receiverProvince?: string;
+
+		/**
+		 * 市
+		 */
+		receiverCity?: string;
+
+		/**
+		 * 区
+		 */
+		receiverDistrict?: string;
+
+		/**
+		 * 详细地址
+		 */
+		receiverAddress?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
 	interface PluginInfoEntity {
 		/**
 		 * ID
@@ -522,6 +858,247 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
+	interface ProductCategoryEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 分类名称
+		 */
+		name?: string;
+
+		/**
+		 * 父分类ID，0为一级分类
+		 */
+		parentId?: number;
+
+		/**
+		 * 分类图标
+		 */
+		icon?: string;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 状态 0-禁用 1-启用
+		 */
+		status?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ProductEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 分类ID
+		 */
+		categoryId?: number;
+
+		/**
+		 * 商品标题
+		 */
+		title?: string;
+
+		/**
+		 * 副标题
+		 */
+		subtitle?: string;
+
+		/**
+		 * 主图
+		 */
+		mainImage?: string;
+
+		/**
+		 * 图片列表（JSON数组）
+		 */
+		images?: any;
+
+		/**
+		 * 商品详情（富文本）
+		 */
+		detail?: string;
+
+		/**
+		 * 价格
+		 */
+		price?: number;
+
+		/**
+		 * 原价
+		 */
+		originalPrice?: number;
+
+		/**
+		 * 总库存
+		 */
+		stock?: number;
+
+		/**
+		 * 销量
+		 */
+		sales?: number;
+
+		/**
+		 * 评分（1-5）
+		 */
+		rating?: number;
+
+		/**
+		 * 评价数
+		 */
+		reviewCount?: number;
+
+		/**
+		 * 收藏数
+		 */
+		favoriteCount?: number;
+
+		/**
+		 * 浏览数
+		 */
+		viewCount?: number;
+
+		/**
+		 * 状态 0-下架 1-上架
+		 */
+		status?: number;
+
+		/**
+		 * 是否推荐 0-否 1-是
+		 */
+		isRecommend?: number;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface ProductReviewEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 商品ID
+		 */
+		productId?: number;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+
+		/**
+		 * 用户昵称
+		 */
+		userNickName?: string;
+
+		/**
+		 * 用户头像
+		 */
+		userAvatar?: string;
+
+		/**
+		 * 订单ID
+		 */
+		orderId?: number;
+
+		/**
+		 * 评分（1-5）
+		 */
+		rating?: number;
+
+		/**
+		 * 评价内容
+		 */
+		content?: string;
+
+		/**
+		 * 评价图片（JSON数组）
+		 */
+		images?: any;
+
+		/**
+		 * 购买的规格
+		 */
+		skuName?: string;
+
+		/**
+		 * 点赞数
+		 */
+		likeCount?: number;
+
+		/**
+		 * 状态 0-待审核 1-已发布 2-已删除
+		 */
+		status?: number;
+
+		/**
+		 * 商家回复
+		 */
+		replyContent?: string;
+
+		/**
+		 * 回复时间
+		 */
+		replyTime?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
 	interface RecycleDataEntity {
 		/**
 		 * ID
@@ -572,6 +1149,118 @@ declare namespace Eps {
 		 * 姓名
 		 */
 		userName?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface RestaurantEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 餐厅名称
+		 */
+		name?: string;
+
+		/**
+		 * 封面图
+		 */
+		cover?: string;
+
+		/**
+		 * 餐厅图片（多张）
+		 */
+		images?: string;
+
+		/**
+		 * 餐厅简介
+		 */
+		description?: string;
+
+		/**
+		 * 详细地址
+		 */
+		address?: string;
+
+		/**
+		 * 省
+		 */
+		province?: string;
+
+		/**
+		 * 市
+		 */
+		city?: string;
+
+		/**
+		 * 区
+		 */
+		district?: string;
+
+		/**
+		 * 联系电话
+		 */
+		phone?: string;
+
+		/**
+		 * 营业时间
+		 */
+		businessHours?: string;
+
+		/**
+		 * 人均消费
+		 */
+		avgPrice?: number;
+
+		/**
+		 * 评分
+		 */
+		rating?: number;
+
+		/**
+		 * 标签
+		 */
+		tags?: string;
+
+		/**
+		 * 设施服务
+		 */
+		facilities?: string;
+
+		/**
+		 * 状态 0-下架 1-上架
+		 */
+		status?: number;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 浏览量
+		 */
+		viewCount?: number;
+
+		/**
+		 * 订单量
+		 */
+		orderCount?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
 
 		/**
 		 * 任意键值
@@ -969,26 +1658,41 @@ declare namespace Eps {
 		[key: string]: any;
 	}
 
-	interface UserAddressEntity {
+	interface AttractionEntity {
 		/**
 		 * ID
 		 */
 		id?: number;
 
 		/**
-		 * 用户ID
+		 * 景点/活动名称
 		 */
-		userId?: number;
+		name?: string;
 
 		/**
-		 * 联系人
+		 * 封面图
 		 */
-		contact?: string;
+		cover?: string;
 
 		/**
-		 * 手机号
+		 * 景点图片（多张）
 		 */
-		phone?: string;
+		images?: string;
+
+		/**
+		 * 景点简介
+		 */
+		description?: string;
+
+		/**
+		 * 详细介绍
+		 */
+		detailContent?: string;
+
+		/**
+		 * 详细地址
+		 */
+		address?: string;
 
 		/**
 		 * 省
@@ -1006,14 +1710,335 @@ declare namespace Eps {
 		district?: string;
 
 		/**
-		 * 地址
+		 * 联系电话
+		 */
+		phone?: string;
+
+		/**
+		 * 开放时间
+		 */
+		openTime?: string;
+
+		/**
+		 * 最低价格
+		 */
+		minPrice?: number;
+
+		/**
+		 * 评分
+		 */
+		rating?: number;
+
+		/**
+		 * 标签
+		 */
+		tags?: string;
+
+		/**
+		 * 游玩贴士
+		 */
+		tips?: string;
+
+		/**
+		 * 交通指南
+		 */
+		traffic?: string;
+
+		/**
+		 * 类型 1-景点 2-活动
+		 */
+		type?: number;
+
+		/**
+		 * 状态 0-下架 1-上架
+		 */
+		status?: number;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 浏览量
+		 */
+		viewCount?: number;
+
+		/**
+		 * 订单量
+		 */
+		orderCount?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface TicketOrderEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 订单号
+		 */
+		orderNo?: string;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+
+		/**
+		 * 景点ID
+		 */
+		attractionId?: number;
+
+		/**
+		 * 景点名称
+		 */
+		attractionName?: string;
+
+		/**
+		 * 票型ID
+		 */
+		ticketTypeId?: number;
+
+		/**
+		 * 票型名称
+		 */
+		ticketTypeName?: string;
+
+		/**
+		 * 购买数量
+		 */
+		quantity?: number;
+
+		/**
+		 * 使用日期
+		 */
+		useDate?: string;
+
+		/**
+		 * 联系人
+		 */
+		contactName?: string;
+
+		/**
+		 * 联系电话
+		 */
+		contactPhone?: string;
+
+		/**
+		 * 身份证号
+		 */
+		contactIdCard?: string;
+
+		/**
+		 * 订单总金额
+		 */
+		totalAmount?: number;
+
+		/**
+		 * 实付金额
+		 */
+		payAmount?: number;
+
+		/**
+		 * 备注
+		 */
+		remark?: string;
+
+		/**
+		 * 状态 0-待付款 1-待使用 2-已使用 3-已完成 4-已取消 5-已退款
+		 */
+		status?: number;
+
+		/**
+		 * 支付状态 0-未支付 1-已支付
+		 */
+		payStatus?: number;
+
+		/**
+		 * 支付时间
+		 */
+		payTime?: string;
+
+		/**
+		 * 使用时间
+		 */
+		useTime?: string;
+
+		/**
+		 * 退款时间
+		 */
+		refundTime?: string;
+
+		/**
+		 * 退款原因
+		 */
+		refundReason?: string;
+
+		/**
+		 * 取消原因
+		 */
+		cancelReason?: string;
+
+		/**
+		 * 二维码
+		 */
+		qrCode?: string;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface TicketTypeEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 景点ID
+		 */
+		attractionId?: number;
+
+		/**
+		 * 票型名称
+		 */
+		name?: string;
+
+		/**
+		 * 票型描述
+		 */
+		description?: string;
+
+		/**
+		 * 价格
+		 */
+		price?: number;
+
+		/**
+		 * 原价
+		 */
+		originalPrice?: number;
+
+		/**
+		 * 库存
+		 */
+		stock?: number;
+
+		/**
+		 * 有效天数
+		 */
+		validDays?: number;
+
+		/**
+		 * 退改规则
+		 */
+		refundRule?: string;
+
+		/**
+		 * 使用规则
+		 */
+		useRule?: string;
+
+		/**
+		 * 状态 0-下架 1-上架
+		 */
+		status?: number;
+
+		/**
+		 * 排序
+		 */
+		sort?: number;
+
+		/**
+		 * 创建时间
+		 */
+		createTime?: string;
+
+		/**
+		 * 更新时间
+		 */
+		updateTime?: string;
+
+		/**
+		 * 任意键值
+		 */
+		[key: string]: any;
+	}
+
+	interface UserAddressEntity {
+		/**
+		 * ID
+		 */
+		id?: number;
+
+		/**
+		 * 用户ID
+		 */
+		userId?: number;
+
+		/**
+		 * 收货人姓名
+		 */
+		receiverName?: string;
+
+		/**
+		 * 收货人电话
+		 */
+		receiverPhone?: string;
+
+		/**
+		 * 省
+		 */
+		province?: string;
+
+		/**
+		 * 市
+		 */
+		city?: string;
+
+		/**
+		 * 区
+		 */
+		district?: string;
+
+		/**
+		 * 详细地址
 		 */
 		address?: string;
 
 		/**
-		 * 是否默认
+		 * 是否默认 0-否 1-是
 		 */
-		isDefault?: boolean;
+		isDefault?: number;
 
 		/**
 		 * 创建时间
@@ -1158,6 +2183,21 @@ declare namespace Eps {
 		list: PluginInfoEntity[];
 	}
 
+	interface ProductCategoryPageResponse {
+		pagination: PagePagination;
+		list: ProductCategoryEntity[];
+	}
+
+	interface ProductProductPageResponse {
+		pagination: PagePagination;
+		list: ProductEntity[];
+	}
+
+	interface ProductReviewPageResponse {
+		pagination: PagePagination;
+		list: ProductReviewEntity[];
+	}
+
 	interface RecycleDataPageResponse {
 		pagination: PagePagination;
 		list: RecycleDataEntity[];
@@ -1196,6 +2236,41 @@ declare namespace Eps {
 	interface UserInfoPageResponse {
 		pagination: PagePagination;
 		list: UserInfoEntity[];
+	}
+
+	interface OrderOrderPageResponse {
+		pagination: PagePagination;
+		list: OrderEntity[];
+	}
+
+	interface HomestayHomestayPageResponse {
+		pagination: PagePagination;
+		list: HomestayEntity[];
+	}
+
+	interface HomestayRoom_typePageResponse {
+		pagination: PagePagination;
+		list: RoomTypeEntity[];
+	}
+
+	interface RestaurantRestaurantPageResponse {
+		pagination: PagePagination;
+		list: RestaurantEntity[];
+	}
+
+	interface TicketAttractionPageResponse {
+		pagination: PagePagination;
+		list: AttractionEntity[];
+	}
+
+	interface TicketTicket_orderPageResponse {
+		pagination: PagePagination;
+		list: TicketOrderEntity[];
+	}
+
+	interface TicketTicket_typePageResponse {
+		pagination: PagePagination;
+		list: TicketTypeEntity[];
 	}
 
 	interface BaseCoding {
@@ -1879,6 +2954,208 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface ProductCategory {
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductCategoryEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ProductCategoryEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ProductCategoryPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface ProductProduct {
+		/**
+		 * 更新商品状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 设置推荐
+		 */
+		setRecommend(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ProductEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ProductProductPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			setRecommend: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			setRecommend: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface ProductReview {
+		/**
+		 * 审核评价
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 回复评价
+		 */
+		replyReview(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<ProductReviewEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<ProductReviewEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<ProductReviewPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			replyReview: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			replyReview: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface RecycleData {
 		/**
 		 * 恢复数据
@@ -2327,6 +3604,461 @@ declare namespace Eps {
 		request: Request;
 	}
 
+	interface OrderOrder {
+		/**
+		 * 订单详情
+		 */
+		detail(data?: any): Promise<any>;
+
+		/**
+		 * 取消订单
+		 */
+		cancel(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 订单发货
+		 */
+		ship(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<OrderEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<OrderEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<OrderOrderPageResponse>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			detail: string;
+			cancel: string;
+			delete: string;
+			ship: string;
+			info: string;
+			list: string;
+			page: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			detail: boolean;
+			cancel: boolean;
+			delete: boolean;
+			ship: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HomestayHomestay {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<HomestayEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<HomestayEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HomestayHomestayPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface HomestayRoom_type {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<RoomTypeEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<RoomTypeEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<HomestayRoom_typePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface RestaurantRestaurant {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<RestaurantEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<RestaurantEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<RestaurantRestaurantPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface TicketAttraction {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<AttractionEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<AttractionEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<TicketAttractionPageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface TicketTicket_order {
+		/**
+		 * 核销门票
+		 */
+		verify(data?: any): Promise<any>;
+
+		/**
+		 * 退款
+		 */
+		refund(data?: any): Promise<any>;
+
+		/**
+		 * 取消订单
+		 */
+		cancel(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<TicketOrderEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<TicketOrderEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<TicketTicket_orderPageResponse>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			verify: string;
+			refund: string;
+			cancel: string;
+			delete: string;
+			info: string;
+			list: string;
+			page: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			verify: boolean;
+			refund: boolean;
+			cancel: boolean;
+			delete: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+		};
+
+		request: Request;
+	}
+
+	interface TicketTicket_type {
+		/**
+		 * 更新状态
+		 */
+		updateStatus(data?: any): Promise<any>;
+
+		/**
+		 * 删除
+		 */
+		delete(data?: any): Promise<any>;
+
+		/**
+		 * 修改
+		 */
+		update(data?: any): Promise<any>;
+
+		/**
+		 * 单个信息
+		 */
+		info(data?: any): Promise<TicketTypeEntity>;
+
+		/**
+		 * 列表查询
+		 */
+		list(data?: any): Promise<TicketTypeEntity[]>;
+
+		/**
+		 * 分页查询
+		 */
+		page(data?: any): Promise<TicketTicket_typePageResponse>;
+
+		/**
+		 * 新增
+		 */
+		add(data?: any): Promise<any>;
+
+		/**
+		 * 权限标识
+		 */
+		permission: {
+			updateStatus: string;
+			delete: string;
+			update: string;
+			info: string;
+			list: string;
+			page: string;
+			add: string;
+		};
+
+		/**
+		 * 权限状态
+		 */
+		_permission: {
+			updateStatus: boolean;
+			delete: boolean;
+			update: boolean;
+			info: boolean;
+			list: boolean;
+			page: boolean;
+			add: boolean;
+		};
+
+		request: Request;
+	}
+
 	interface RequestOptions {
 		url: string;
 		method?: "OPTIONS" | "GET" | "HEAD" | "POST" | "PUT" | "DELETE" | "TRACE" | "CONNECT";
@@ -2359,10 +4091,19 @@ declare namespace Eps {
 		};
 		dict: { info: DictInfo; type: DictType };
 		plugin: { info: PluginInfo };
+		product: { category: ProductCategory; product: ProductProduct; review: ProductReview };
 		recycle: { data: RecycleData };
 		shequ: { comment: ShequComment; post: ShequPost };
 		space: { info: SpaceInfo; type: SpaceType };
 		task: { info: TaskInfo };
 		user: { address: UserAddress; info: UserInfo };
+		order: { order: OrderOrder };
+		homestay: { homestay: HomestayHomestay; room_type: HomestayRoom_type };
+		restaurant: { restaurant: RestaurantRestaurant };
+		ticket: {
+			attraction: TicketAttraction;
+			ticket_order: TicketTicket_order;
+			ticket_type: TicketTicket_type;
+		};
 	};
 }

@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 200" width="200" height="200">
+  <defs>
+    <pattern id="batik-pattern" x="0" y="0" width="50" height="50" patternUnits="userSpaceOnUse">
+      <!-- 蜡染几何纹样 -->
+      <circle cx="25" cy="25" r="3" fill="#3d5a80" opacity="0.3"/>
+      <path d="M 15 25 L 25 15 L 35 25 L 25 35 Z" fill="none" stroke="#3d5a80" stroke-width="1" opacity="0.4"/>
+      <circle cx="10" cy="10" r="2" fill="#2a9d8f" opacity="0.3"/>
+      <circle cx="40" cy="10" r="2" fill="#2a9d8f" opacity="0.3"/>
+      <circle cx="10" cy="40" r="2" fill="#2a9d8f" opacity="0.3"/>
+      <circle cx="40" cy="40" r="2" fill="#2a9d8f" opacity="0.3"/>
+    </pattern>
+  </defs>
+  <rect width="200" height="200" fill="url(#batik-pattern)"/>
+</svg>

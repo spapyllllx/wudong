@@ -1,0 +1,26 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 60" width="400" height="60" preserveAspectRatio="none">
+  <!-- 云纹波浪分隔线 -->
+  <defs>
+    <pattern id="cloud-wave" x="0" y="0" width="100" height="60" patternUnits="userSpaceOnUse">
+      <!-- 波浪曲线 -->
+      <path d="M 0 30 Q 12.5 15, 25 30 T 50 30 T 75 30 T 100 30" 
+            fill="none" 
+            stroke="#98c1d9" 
+            stroke-width="2" 
+            opacity="0.5"/>
+      <path d="M 0 35 Q 12.5 20, 25 35 T 50 35 T 75 35 T 100 35" 
+            fill="none" 
+            stroke="#5a7ba3" 
+            stroke-width="2" 
+            opacity="0.3"/>
+      
+      <!-- 云纹装饰 -->
+      <circle cx="12.5" cy="25" r="3" fill="#3d5a80" opacity="0.2"/>
+      <circle cx="37.5" cy="25" r="3" fill="#3d5a80" opacity="0.2"/>
+      <circle cx="62.5" cy="25" r="3" fill="#3d5a80" opacity="0.2"/>
+      <circle cx="87.5" cy="25" r="3" fill="#3d5a80" opacity="0.2"/>
+    </pattern>
+  </defs>
+  
+  <rect width="400" height="60" fill="url(#cloud-wave)"/>
+</svg>

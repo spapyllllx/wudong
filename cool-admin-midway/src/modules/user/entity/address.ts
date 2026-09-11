@@ -10,12 +10,12 @@ export class UserAddressEntity extends BaseEntity {
   @Column({ comment: '用户ID' })
   userId: number;
 
-  @Column({ comment: '联系人' })
-  contact: string;
+  @Column({ comment: '收货人姓名' })
+  receiverName: string;
 
   @Index()
-  @Column({ comment: '手机号', length: 11 })
-  phone: string;
+  @Column({ comment: '收货人手机号', length: 11 })
+  receiverPhone: string;
 
   @Column({ comment: '省' })
   province: string;

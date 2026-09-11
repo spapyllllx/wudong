@@ -202,7 +202,7 @@ export class ShequPostService extends BaseService {
     const total = countResult[0]?.total || 0;
 
     // 检查当前用户是否点赞
-    const userId = this.ctx.user?.userId;
+    const userId = this.ctx.user?.id;
     if (userId && list.length > 0) {
       const postIds = list.map((item: any) => item.id);
       const likedIds = await this.checkUserLike(postIds, userId);
@@ -235,7 +235,7 @@ export class ShequPostService extends BaseService {
     await this.increaseViewCount(id);
 
     // 检查当前用户是否点赞
-    const userId = this.ctx.user?.userId;
+    const userId = this.ctx.user?.id;
     let isLiked = false;
     if (userId) {
       const likedIds = await this.checkUserLike([id], userId);

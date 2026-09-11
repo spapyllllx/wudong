@@ -18,12 +18,13 @@
         <aside class="filter-sidebar">
           <div class="filter-section">
             <h3>分类</h3>
-            <el-checkbox-group v-model="filters.categories">
-              <el-checkbox label="服饰">服饰</el-checkbox>
-              <el-checkbox label="饰品">饰品</el-checkbox>
-              <el-checkbox label="工艺品">工艺品</el-checkbox>
-              <el-checkbox label="其他">其他</el-checkbox>
-            </el-checkbox-group>
+            <el-radio-group v-model="filters.selectedCategory">
+              <el-radio label="">全部</el-radio>
+              <el-radio label="服饰">服饰</el-radio>
+              <el-radio label="饰品">饰品</el-radio>
+              <el-radio label="工艺品">工艺品</el-radio>
+              <el-radio label="食品">食品</el-radio>
+            </el-radio-group>
           </div>
 
           <div class="filter-section">
@@ -96,8 +97,10 @@
 </template>
 
 <script setup lang="ts">
-import { ref, reactive, onMounted } from 'vue'
+import { ref, reactive, onMounted, watch } from 'vue'
 import { useRouter } from 'vue-router'
+import { ElMessage } from 'element-plus'
+import { getProductList } from '@/api/product'
 
 const router = useRouter()
 
@@ -109,17 +112,114 @@ const total = ref(0)
 const productList = ref<any[]>([])
 
 const filters = reactive({
-  categories: [],
-  priceRange: 'all'
+  categories: [] as string[],
+  priceRange: 'all',
+  selectedCategoryId: undefined as number | undefined,
+  selectedCategory: '' // 单选分类
 })
+
+// 分类映射（一级分类ID，根据SQL插入顺序）
+const categoryMap: Record<string, number> = {
+  '服饰': 1,
+  '饰品': 2,
+  '工艺品': 3,
+  '食品': 4
+}
+
+// 添加调试日志
+const debugLog = (message: string, data?: any) => {
+  console.log(`[商品列表] ${message}`, data)
+}
+
+// 加载商品数据
+async function loadProducts() {
+  loading.value = true
+  try {
+    // 使用单选的分类
+    let categoryId = undefined
+    if (filters.selectedCategory) {
+      categoryId = categoryMap[filters.selectedCategory]
+      debugLog('选中分类', { name: filters.selectedCategory, id: categoryId })
+    }
+
+    // 解析价格区间
+    let minPrice = undefined
+    let maxPrice = undefined
+    if (filters.priceRange && filters.priceRange !== 'all') {
+      const priceRange = filters.priceRange.split('-')
+      minPrice = priceRange[0] ? Number(priceRange[0]) : undefined
+      maxPrice = priceRange[1] ? Number(priceRange[1]) : undefined
+      debugLog('价格区间', { minPrice, maxPrice })
+    }
+
+    debugLog('请求参数', {
+      page: currentPage.value,
+      size: pageSize.value,
+      categoryId,
+      minPrice,
+      maxPrice,
+      sort: sortType.value
+    })
+
+    const response = await getProductList({
+      page: currentPage.value,
+      size: pageSize.value,
+      categoryId,
+      minPrice,
+      maxPrice,
+      sort: sortType.value === 'default' ? undefined : sortType.value
+    })
+
+    debugLog('接口返回', response)
+
+    productList.value = response.list.map(item => {
+      debugLog('商品数据', item)
+      return {
+        id: item.id,
+        name: item.title,
+        // 使用本地占位图或直接使用数据
+        image: item.mainImage || item.main_image || '/placeholder.png',
+        desc: item.subtitle || '暂无描述',
+        price: item.price,
+        sales: item.sales
+      }
+    })
+
+    // 确保 total 是数字类型
+    total.value = Number(response.pagination.total) || 0
+  } catch (error: any) {
+    console.error('加载商品失败:', error)
+    ElMessage.error(error.message || '加载商品失败')
+  } finally {
+    loading.value = false
+  }
+}
 
 function handlePageChange(page: number) {
   currentPage.value = page
-  // TODO: 加载商品数据
+  loadProducts()
 }
 
+// 监听排序变化
+watch(sortType, () => {
+  currentPage.value = 1
+  loadProducts()
+})
+
+// 监听分类筛选变化（改为 radio）
+watch(() => filters.selectedCategory, () => {
+  currentPage.value = 1
+  loadProducts()
+})
+
+// 监听价格区间变化
+watch(() => filters.priceRange, () => {
+  currentPage.value = 1
+  loadProducts()
+})
+
 onMounted(() => {
-  // TODO: 加载商品数据
+  loadProducts()
 })
 </script>
 

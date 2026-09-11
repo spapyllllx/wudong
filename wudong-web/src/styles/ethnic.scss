@@ -1,0 +1,285 @@
+// ===================================
+// 民族风格装饰样式
+// 贵州苗族侗族元素
+// ===================================
+
+// 民族纹样叠加层
+@mixin ethnic-pattern-overlay($pattern: 'batik', $opacity: 0.05) {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url('/assets/images/patterns/miao-#{$pattern}.svg');
+    background-size: 200px;
+    background-repeat: repeat;
+    opacity: $opacity;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// 苗族蝴蝶装饰
+@mixin butterfly-decoration($position: 'top-right', $size: 120px, $opacity: 0.1) {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    width: $size;
+    height: $size;
+    background-image: url('/assets/images/patterns/miao-butterfly.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: $opacity;
+    pointer-events: none;
+    z-index: 0;
+    
+    @if $position == 'top-right' {
+      top: 0;
+      right: 0;
+    } @else if $position == 'top-left' {
+      top: 0;
+      left: 0;
+    } @else if $position == 'bottom-right' {
+      bottom: 0;
+      right: 0;
+    } @else if $position == 'bottom-left' {
+      bottom: 0;
+      left: 0;
+    }
+  }
+}
+
+// 侗族鼓楼剪影
+@mixin drumtower-silhouette($position: 'right', $opacity: 0.08) {
+  position: relative;
+  
+  &::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    width: 150px;
+    height: 200px;
+    background-image: url('/assets/images/patterns/dong-drumtower.svg');
+    background-size: contain;
+    background-repeat: no-repeat;
+    opacity: $opacity;
+    pointer-events: none;
+    z-index: 0;
+    
+    @if $position == 'right' {
+      right: 5%;
+    } @else {
+      left: 5%;
+    }
+  }
+}
+
+// 云纹波浪分隔线
+@mixin wave-divider($height: 60px) {
+  height: $height;
+  background-image: url('/assets/images/patterns/wave-cloud.svg');
+  background-size: auto 100%;
+  background-repeat: repeat-x;
+  background-position: center;
+}
+
+// 民族风卡片
+@mixin ethnic-card($variant: 'default') {
+  position: relative;
+  background: $bg-white;
+  border-radius: $radius-md;
+  overflow: hidden;
+  box-shadow: $shadow;
+  transition: all $transition;
+  
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: $shadow-lg;
+  }
+  
+  @if $variant == 'miao' {
+    border-top: 3px solid $accent-red;
+    @include butterfly-decoration('top-right', 80px, 0.06);
+  } @else if $variant == 'dong' {
+    border-top: 3px solid $primary;
+    @include drumtower-silhouette('right', 0.06);
+  }
+}
+
+// 蜡染纹理背景
+.batik-texture-bg {
+  @include ethnic-pattern-overlay('batik', 0.03);
+}
+
+// 刺绣纹理背景
+.embroidery-texture-bg {
+  @include ethnic-pattern-overlay('embroidery', 0.04);
+}
+
+// 苗族风格卡片
+.card-miao {
+  @include ethnic-card('miao');
+}
+
+// 侗族风格卡片
+.card-dong {
+  @include ethnic-card('dong');
+}
+
+// 民族风格按钮装饰
+.btn-ethnic {
+  position: relative;
+  overflow: hidden;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+    transition: left 0.5s;
+  }
+  
+  &:hover::before {
+    left: 100%;
+  }
+}
+
+// 银饰光泽效果
+.silver-shine {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(
+      45deg,
+      transparent 30%,
+      rgba(192, 192, 192, 0.3) 50%,
+      transparent 70%
+    );
+    transform: rotate(45deg);
+    animation: silver-shine 3s infinite;
+  }
+}
+
+@keyframes silver-shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+// 蝴蝶飞舞动画
+.butterfly-float {
+  animation: butterfly-float 3s ease-in-out infinite;
+}
+
+@keyframes butterfly-float {
+  0%, 100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+  75% {
+    transform: translateY(-5px) rotate(-2deg);
+  }
+}
+
+// 民族风分隔线
+.ethnic-divider {
+  position: relative;
+  text-align: center;
+  margin: $spacing-xl 0;
+  
+  &::before,
+  &::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    width: 40%;
+    height: 2px;
+    background: linear-gradient(
+      to right,
+      transparent,
+      $primary-light,
+      transparent
+    );
+  }
+  
+  &::before {
+    left: 0;
+  }
+  
+  &::after {
+    right: 0;
+  }
+  
+  span {
+    position: relative;
+    display: inline-block;
+    padding: 0 $spacing-md;
+    background: $bg-white;
+    color: $text-secondary;
+    font-size: $font-size-sm;
+  }
+}
+
+// 渐变遮罩（用于图片上的文字背景）
+.gradient-mask {
+  position: relative;
+  
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(
+      to bottom,
+      rgba(0, 0, 0, 0) 0%,
+      rgba(0, 0, 0, 0.7) 100%
+    );
+    pointer-events: none;
+  }
+}
+
+// 民族风标签
+.tag-ethnic {
+  display: inline-flex;
+  align-items: center;
+  padding: 4px 12px;
+  border-radius: $radius-full;
+  font-size: $font-size-xs;
+  font-weight: 500;
+  
+  &.tag-miao {
+    background: linear-gradient(135deg, $accent-red 0%, $accent-orange 100%);
+    color: white;
+  }
+  
+  &.tag-dong {
+    background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
+    color: white;
+  }
+  
+  &.tag-heritage {
+    background: linear-gradient(135deg, $accent-yellow 0%, $accent-orange 100%);
+    color: $text-primary;
+    
+    &::before {
+      content: '🏮';
+      margin-right: 4px;
+    }
+  }
+}

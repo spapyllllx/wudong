@@ -1,525 +1,326 @@
 <template>
-  <div class="homestay-list">
-    <!-- 住宿特色横幅 -->
-    <div class="homestay-hero">
-      <div class="container">
-        <h1 class="hero-title">
-          <span class="title-icon">🏡</span>
-          贵州民宿
-          <span class="title-badge">特色住宿</span>
-        </h1>
-        <p class="hero-subtitle">吊脚楼 · 侗寨客栈 · 苗寨民居 · 山水田园</p>
-      </div>
-    </div>
-
+  <div class="homestay-list-page">
     <div class="container">
-      <!-- 筛选标签 -->
-      <div class="filter-bar">
-        <div class="filter-group">
-          <span class="filter-label">类型：</span>
-          <div class="filter-tags">
-            <span
-              v-for="type in types"
-              :key="type.value"
-              class="filter-tag"
-              :class="{ active: activeType === type.value }"
-              @click="activeType = type.value"
-            >
-              {{ type.label }}
-            </span>
-          </div>
+      <h1 class="page-title">贵州特色民宿</h1>
+
+      <!-- 筛选区 -->
+      <div class="filter-section">
+        <div class="filter-item">
+          <span class="filter-label">排序：</span>
+          <el-radio-group v-model="filters.sort" @change="handleFilterChange">
+            <el-radio-button label="default">综合</el-radio-button>
+            <el-radio-button label="rating">评分</el-radio-button>
+            <el-radio-button label="popular">人气</el-radio-button>
+            <el-radio-button label="price-asc">价格↑</el-radio-button>
+            <el-radio-button label="price-desc">价格↓</el-radio-button>
+          </el-radio-group>
         </div>
-        <div class="filter-group">
+
+        <div class="filter-item">
           <span class="filter-label">价格：</span>
-          <div class="filter-tags">
-            <span
-              v-for="price in priceRanges"
-              :key="price.value"
-              class="filter-tag"
-              :class="{ active: activePrice === price.value }"
-              @click="activePrice = price.value"
-            >
-              {{ price.label }}
-            </span>
-          </div>
+          <el-radio-group v-model="filters.priceRange" @change="handleFilterChange">
+            <el-radio-button label="">全部</el-radio-button>
+            <el-radio-button label="0-200">200元以下</el-radio-button>
+            <el-radio-button label="200-400">200-400元</el-radio-button>
+            <el-radio-button label="400-600">400-600元</el-radio-button>
+            <el-radio-button label="600">600元以上</el-radio-button>
+          </el-radio-group>
         </div>
       </div>
 
       <!-- 民宿列表 -->
-      <div v-loading="loading" class="homestay-grid">
+      <div v-loading="loading" class="homestay-list">
         <div
           v-for="homestay in homestayList"
           :key="homestay.id"
           class="homestay-card"
-          @click="router.push(`/homestay/${homestay.id}`)"
+          @click="goToDetail(homestay.id)"
         >
-          <div class="homestay-images">
-            <el-image :src="homestay.cover" fit="cover">
-              <template #error>
-                <div class="image-slot">
-                  <el-icon><Picture /></el-icon>
-                </div>
-              </template>
-            </el-image>
-            <div class="image-badge" v-if="homestay.featured">
-              <span>🏆 精选</span>
-            </div>
-            <div class="image-count">
-              <el-icon><Picture /></el-icon>
-              <span>{{ homestay.imageCount }}</span>
+          <div class="card-cover">
+            <el-image :src="homestay.cover" fit="cover" />
+            <div class="card-tags">
+              <el-tag v-for="tag in getTags(homestay.tags)" :key="tag" size="small">
+                {{ tag }}
+              </el-tag>
             </div>
           </div>
-          <div class="homestay-info">
-            <div class="homestay-header">
-              <h3 class="homestay-name">{{ homestay.name }}</h3>
-              <div class="homestay-rating">
-                <el-icon color="#f4a261"><Star /></el-icon>
-                <span>{{ homestay.rating }}</span>
+
+          <div class="card-body">
+            <h3 class="homestay-name">{{ homestay.name }}</h3>
+            <p class="homestay-desc">{{ homestay.description }}</p>
+
+            <div class="homestay-info">
+              <div class="info-item">
+                <el-icon><LocationFilled /></el-icon>
+                <span>{{ homestay.district }}</span>
+              </div>
+              <div class="info-item">
+                <el-icon><Clock /></el-icon>
+                <span>{{ homestay.checkInTime }} 入住</span>
               </div>
             </div>
-            <p class="homestay-location">
-              <el-icon><LocationInformation /></el-icon>
-              <span>{{ homestay.location }}</span>
-            </p>
-            <p class="homestay-desc">{{ homestay.desc }}</p>
-            <div class="homestay-tags">
-              <span v-for="tag in homestay.tags" :key="tag" class="tag">
-                {{ tag }}
-              </span>
-            </div>
-            <div class="homestay-footer">
-              <div class="price">
-                <span class="price-label">¥</span>
-                <span class="price-value">{{ homestay.price }}</span>
-                <span class="price-unit">/晚起</span>
+
+            <div class="card-footer">
+              <div class="price-info">
+                <span class="min-price">¥{{ homestay.minPrice }}</span>
+                <span class="price-label">起/晚</span>
               </div>
-              <el-button type="primary" size="small" round>
-                预订
-              </el-button>
+              <div class="rating-info">
+                <el-rate v-model="homestay.rating" disabled show-score />
+                <span class="order-count">{{ homestay.orderCount }}人预订</span>
+              </div>
             </div>
           </div>
         </div>
-      </div>
 
-      <!-- 空状态 -->
-      <el-empty v-if="!loading && homestayList.length === 0" description="暂无民宿" />
+        <!-- 空状态 -->
+        <el-empty v-if="homestayList.length === 0 && !loading" description="暂无民宿" />
+
+        <!-- 分页 -->
+        <div v-if="total > 0" class="pagination">
+          <el-pagination
+            v-model:current-page="currentPage"
+            :page-size="pageSize"
+            :total="total"
+            layout="prev, pager, next"
+            @current-change="loadHomestayList"
+          />
+        </div>
+      </div>
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
-import { Picture, Star, LocationInformation } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import { LocationFilled, Clock } from '@element-plus/icons-vue'
+import { getHomestayList } from '@/api/homestay'
+import type { Homestay } from '@/api/homestay'
 
 const router = useRouter()
 
 const loading = ref(false)
-const activeType = ref('all')
-const activePrice = ref('all')
+const homestayList = ref<Homestay[]>([])
+const currentPage = ref(1)
+const pageSize = ref(10)
+const total = ref(0)
 
-const types = [
-  { label: '全部', value: 'all' },
-  { label: '吊脚楼', value: 'diaojiaolou' },
-  { label: '侗寨客栈', value: 'dongzhai' },
-  { label: '苗寨民居', value: 'miaozhai' },
-  { label: '田园民宿', value: 'tianyuan' }
-]
+const filters = ref({
+  sort: 'default',
+  priceRange: ''
+})
 
-const priceRanges = [
-  { label: '全部', value: 'all' },
-  { label: '¥0-200', value: '0-200' },
-  { label: '¥200-500', value: '200-500' },
-  { label: '¥500-1000', value: '500-1000' },
-  { label: '¥1000+', value: '1000+' }
-]
+// 获取标签数组
+function getTags(tags: string) {
+  return tags ? tags.split(',').slice(0, 3) : []
+}
 
-// 模拟数据
-const homestayList = ref([])
+// 加载民宿列表
+async function loadHomestayList() {
+  loading.value = true
+  try {
+    const result = await getHomestayList({
+      page: currentPage.value,
+      size: pageSize.value,
+      ...filters.value
+    })
+    homestayList.value = result.list
+    total.value = result.pagination.total
+  } catch (error: any) {
+    console.error('加载民宿列表失败:', error)
+    ElMessage.error(error.message || '加载民宿列表失败')
+  } finally {
+    loading.value = false
+  }
+}
+
+// 筛选变化
+function handleFilterChange() {
+  currentPage.value = 1
+  loadHomestayList()
+}
+
+// 跳转到详情
+function goToDetail(id: number) {
+  router.push(`/homestay/${id}`)
+}
+
+onMounted(() => {
+  loadHomestayList()
+})
 </script>
 
 <style scoped lang="scss">
 @import '@/styles/variables.scss';
 @import '@/styles/mixins.scss';
 
-.homestay-list {
-  background: linear-gradient(180deg,
-    rgba(90, 123, 163, 0.05) 0%,
-    $bg 30%
-  );
-  min-height: 100vh;
-}
-
-// 住宿特色横幅
-.homestay-hero {
-  background: linear-gradient(135deg,
-    rgba(61, 90, 128, 0.9) 0%,
-    rgba(90, 123, 163, 0.9) 100%
-  );
-  padding: $spacing-2xl 0;
-  margin-bottom: $spacing-xl;
-  position: relative;
-  overflow: hidden;
-
-  &::before {
-    content: '🏡';
-    position: absolute;
-    top: 10%;
-    right: 5%;
-    font-size: 180px;
-    opacity: 0.1;
-    animation: sway 8s ease-in-out infinite;
-  }
-
-  &::after {
-    content: '🌄';
-    position: absolute;
-    bottom: 10%;
-    left: 10%;
-    font-size: 120px;
-    opacity: 0.08;
-    animation: sway 10s ease-in-out infinite;
-    animation-delay: -3s;
-  }
-
-  .container {
-    position: relative;
-    z-index: 1;
-    text-align: center;
-  }
-}
-
-.hero-title {
-  font-size: 48px;
-  font-weight: 800;
-  color: white;
-  margin-bottom: $spacing-md;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: $spacing-md;
-  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-
-  .title-icon {
-    font-size: 56px;
-    animation: pulse 2s ease-in-out infinite;
-  }
-
-  .title-badge {
-    display: inline-block;
-    font-size: $font-size-sm;
-    font-weight: 600;
-    background: rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(10px);
-    padding: $spacing-xs $spacing-md;
-    border-radius: $radius-full;
-    border: 2px solid rgba(255, 255, 255, 0.5);
-  }
-}
-
-.hero-subtitle {
-  font-size: $font-size-xl;
-  color: rgba(255, 255, 255, 0.95);
-  font-weight: 500;
-  letter-spacing: 2px;
-}
-
-@keyframes sway {
-  0%, 100% {
-    transform: translate(0, 0) rotate(0deg);
-  }
-  50% {
-    transform: translate(20px, -20px) rotate(5deg);
-  }
-}
-
-@keyframes pulse {
-  0%, 100% {
-    transform: scale(1);
-  }
-  50% {
-    transform: scale(1.1);
-  }
-}
-
-// 筛选栏
-.filter-bar {
-  background: $bg-white;
-  padding: $spacing-lg;
-  border-radius: $radius-xl;
-  margin-bottom: $spacing-xl;
-  box-shadow: $shadow-md;
-  border: 2px solid rgba(61, 90, 128, 0.1);
-}
-
-.filter-group {
-  display: flex;
-  align-items: center;
-  gap: $spacing-md;
-
-  &:not(:last-child) {
-    margin-bottom: $spacing-md;
-    padding-bottom: $spacing-md;
-    border-bottom: 1px solid $divider;
-  }
-}
-
-.filter-label {
-  font-size: $font-size;
-  font-weight: 600;
-  color: $text-primary;
-  white-space: nowrap;
-}
-
-.filter-tags {
-  display: flex;
-  gap: $spacing-sm;
-  flex-wrap: wrap;
-}
-
-.filter-tag {
-  padding: $spacing-xs $spacing-md;
+.homestay-list-page {
   background: $bg;
-  border: 2px solid transparent;
-  border-radius: $radius-full;
-  font-size: $font-size-sm;
-  font-weight: 500;
-  color: $text-secondary;
-  cursor: pointer;
-  transition: all $transition;
+  min-height: 100vh;
+  padding: $spacing-2xl 0;
+}
 
-  &:hover {
-    background: rgba(61, 90, 128, 0.08);
-    color: $primary;
-  }
+.page-title {
+  font-size: 28px;
+  font-weight: 600;
+  margin-bottom: $spacing-xl;
+}
 
-  &.active {
-    background: linear-gradient(135deg, $primary 0%, $primary-light 100%);
-    color: white;
-    border-color: $primary;
-    box-shadow: 0 2px 8px rgba(61, 90, 128, 0.3);
+// 筛选区
+.filter-section {
+  background: white;
+  padding: $spacing-lg;
+  border-radius: $radius-lg;
+  margin-bottom: $spacing-xl;
+
+  .filter-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: $spacing-md;
+
+    &:last-child {
+      margin-bottom: 0;
+    }
+
+    .filter-label {
+      font-weight: 500;
+      margin-right: $spacing-md;
+      min-width: 60px;
+    }
   }
 }
 
 // 民宿列表
-.homestay-grid {
+.homestay-list {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: $spacing-2xl;
-  padding-bottom: $spacing-2xl;
-}
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: $spacing-xl;
 
-.homestay-card {
-  background: $bg-white;
-  border-radius: $radius-xl;
-  overflow: hidden;
-  cursor: pointer;
-  transition: all $transition-slow;
-  border: 2px solid transparent;
-  box-shadow: $shadow-sm;
-  display: grid;
-  grid-template-columns: 320px 1fr;
-  position: relative;
+  .homestay-card {
+    background: white;
+    border-radius: $radius-lg;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s;
 
-  // 顶部装饰条
-  &::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg,
-      $primary 0%,
-      $primary-light 50%,
-      $accent-yellow 100%
-    );
-    opacity: 0;
-    transition: opacity $transition;
-    z-index: 2;
-  }
-
-  &:hover {
-    transform: translateY(-6px);
-    box-shadow: 0 16px 32px rgba(61, 90, 128, 0.25);
-    border-color: rgba(61, 90, 128, 0.2);
-
-    &::before {
-      opacity: 1;
+    &:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
     }
 
-    .homestay-images .el-image {
-      transform: scale(1.1);
+    .card-cover {
+      position: relative;
+      height: 200px;
+      overflow: hidden;
+
+      .el-image {
+        width: 100%;
+        height: 100%;
+      }
+
+      .card-tags {
+        position: absolute;
+        bottom: $spacing-sm;
+        left: $spacing-sm;
+        display: flex;
+        gap: $spacing-xs;
+      }
+    }
+
+    .card-body {
+      padding: $spacing-lg;
+
+      .homestay-name {
+        font-size: $font-size-lg;
+        font-weight: 600;
+        margin-bottom: $spacing-sm;
+        @include ellipsis(1);
+      }
+
+      .homestay-desc {
+        color: $text-secondary;
+        font-size: $font-size-sm;
+        margin-bottom: $spacing-md;
+        @include ellipsis(2);
+        min-height: 40px;
+      }
+
+      .homestay-info {
+        display: flex;
+        flex-direction: column;
+        gap: $spacing-xs;
+        margin-bottom: $spacing-md;
+
+        .info-item {
+          display: flex;
+          align-items: center;
+          gap: $spacing-xs;
+          color: $text-secondary;
+          font-size: $font-size-sm;
+        }
+      }
+
+      .card-footer {
+        @include flex-between;
+        padding-top: $spacing-md;
+        border-top: 1px solid $border;
+
+        .price-info {
+          .min-price {
+            font-size: 24px;
+            font-weight: 600;
+            color: $danger;
+          }
+
+          .price-label {
+            color: $text-secondary;
+            font-size: $font-size-sm;
+            margin-left: $spacing-xs;
+          }
+        }
+
+        .rating-info {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-end;
+          gap: $spacing-xs;
+
+          .order-count {
+            color: $text-secondary;
+            font-size: $font-size-sm;
+          }
+        }
+      }
     }
   }
-}
 
-.homestay-images {
-  width: 320px;
-  height: 240px;
-  overflow: hidden;
-  background: linear-gradient(135deg,
-    rgba(61, 90, 128, 0.1) 0%,
-    $divider 100%
-  );
-  position: relative;
-
-  .el-image {
-    width: 100%;
-    height: 100%;
-    transition: transform $transition-slow;
-  }
-
-  .image-slot {
+  .pagination {
+    grid-column: 1 / -1;
     @include flex-center;
-    width: 100%;
-    height: 100%;
-    font-size: 48px;
-    color: $text-disabled;
-  }
-
-  .image-badge {
-    position: absolute;
-    top: $spacing-md;
-    left: $spacing-md;
-    background: linear-gradient(135deg,
-      rgba(244, 162, 97, 0.95) 0%,
-      rgba(230, 57, 70, 0.95) 100%
-    );
-    color: white;
-    padding: $spacing-xs $spacing-md;
-    border-radius: $radius-full;
-    font-size: $font-size-xs;
-    font-weight: 600;
-    backdrop-filter: blur(10px);
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-  }
-
-  .image-count {
-    position: absolute;
-    bottom: $spacing-md;
-    right: $spacing-md;
-    background: rgba(0, 0, 0, 0.6);
-    backdrop-filter: blur(10px);
-    color: white;
-    padding: $spacing-xs $spacing-sm;
-    border-radius: $radius;
-    font-size: $font-size-xs;
-    display: flex;
-    align-items: center;
-    gap: 4px;
-  }
-}
-
-.homestay-info {
-  padding: $spacing-lg;
-  display: flex;
-  flex-direction: column;
-}
-
-.homestay-header {
-  @include flex-between;
-  margin-bottom: $spacing-sm;
-}
-
-.homestay-name {
-  font-size: $font-size-xl;
-  font-weight: 700;
-  color: $text-primary;
-  transition: color $transition;
-
-  .homestay-card:hover & {
-    color: $primary;
-  }
-}
-
-.homestay-rating {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: $font-size;
-  font-weight: 600;
-  color: $accent-yellow;
-}
-
-.homestay-location {
-  display: flex;
-  align-items: center;
-  gap: 4px;
-  font-size: $font-size-sm;
-  color: $text-secondary;
-  margin-bottom: $spacing-sm;
-}
-
-.homestay-desc {
-  font-size: $font-size-sm;
-  color: $text-secondary;
-  margin-bottom: $spacing-md;
-  line-height: $line-height-relaxed;
-}
-
-.homestay-tags {
-  display: flex;
-  gap: $spacing-sm;
-  margin-bottom: $spacing-md;
-  flex-wrap: wrap;
-
-  .tag {
-    font-size: $font-size-xs;
-    color: $primary;
-    background: rgba(61, 90, 128, 0.1);
-    padding: $spacing-xs $spacing-sm;
-    border-radius: $radius-sm;
-    font-weight: 500;
-  }
-}
-
-.homestay-footer {
-  @include flex-between;
-  align-items: center;
-  margin-top: auto;
-  padding-top: $spacing-md;
-  border-top: 1px solid $divider;
-}
-
-.price {
-  display: flex;
-  align-items: baseline;
-  gap: 2px;
-
-  .price-label {
-    font-size: $font-size;
-    color: $accent-red;
-    font-weight: 600;
-  }
-
-  .price-value {
-    font-size: 28px;
-    color: $accent-red;
-    font-weight: 800;
-  }
-
-  .price-unit {
-    font-size: $font-size-xs;
-    color: $text-secondary;
-    font-weight: 500;
-  }
-}
-
-@include lg {
-  .homestay-grid {
-    grid-template-columns: 1fr;
+    margin-top: $spacing-xl;
   }
 }
 
 @include md {
-  .homestay-card {
+  .homestay-list {
     grid-template-columns: 1fr;
   }
 
-  .homestay-images {
-    width: 100%;
-    height: 280px;
+  .filter-section {
+    .filter-item {
+      flex-direction: column;
+      align-items: flex-start;
+
+      .filter-label {
+        margin-bottom: $spacing-sm;
+      }
+
+      .el-radio-group {
+        width: 100%;
+      }
+    }
   }
 }
 </style>

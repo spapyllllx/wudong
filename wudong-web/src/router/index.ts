@@ -33,6 +33,13 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/user/Address.vue'),
     meta: { title: '地址管理', requiresAuth: true }
   },
+  // 搜索模块
+  {
+    path: '/search',
+    name: 'Search',
+    component: () => import('@/views/Search.vue'),
+    meta: { title: '搜索结果' }
+  },
   // 社区模块
   {
     path: '/community',
@@ -71,7 +78,13 @@ const routes: RouteRecordRaw[] = [
     component: () => import('@/views/product/Cart.vue'),
     meta: { title: '购物车', requiresAuth: true }
   },
-  // 订单模块（骨架）
+  // 订单模块
+  {
+    path: '/order/center',
+    name: 'OrderCenter',
+    component: () => import('@/views/order/Center.vue'),
+    meta: { title: '订单中心', requiresAuth: true }
+  },
   {
     path: '/order/confirm',
     name: 'OrderConfirm',
@@ -85,12 +98,12 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '我的订单', requiresAuth: true }
   },
   {
-    path: '/order/:id',
+    path: '/order/detail',
     name: 'OrderDetail',
     component: () => import('@/views/order/Detail.vue'),
     meta: { title: '订单详情', requiresAuth: true }
   },
-  // 餐饮模块（骨架）
+  // 餐饮模块
   {
     path: '/restaurant',
     name: 'RestaurantList',
@@ -98,12 +111,18 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '餐饮' }
   },
   {
+    path: '/restaurant/booking',
+    name: 'RestaurantBooking',
+    component: () => import('@/views/restaurant/Booking.vue'),
+    meta: { title: '我的预订', requiresAuth: true }
+  },
+  {
     path: '/restaurant/:id',
     name: 'RestaurantDetail',
     component: () => import('@/views/restaurant/Detail.vue'),
     meta: { title: '餐厅详情' }
   },
-  // 住宿模块（骨架）
+  // 住宿模块
   {
     path: '/homestay',
     name: 'HomestayList',
@@ -111,17 +130,41 @@ const routes: RouteRecordRaw[] = [
     meta: { title: '住宿' }
   },
   {
+    path: '/homestay/order',
+    name: 'HomestayOrder',
+    component: () => import('@/views/homestay/Order.vue'),
+    meta: { title: '住宿订单', requiresAuth: true }
+  },
+  {
+    path: '/homestay/order/detail',
+    name: 'HomestayOrderDetail',
+    component: () => import('@/views/homestay/OrderDetail.vue'),
+    meta: { title: '订单详情', requiresAuth: true }
+  },
+  {
     path: '/homestay/:id',
     name: 'HomestayDetail',
     component: () => import('@/views/homestay/Detail.vue'),
     meta: { title: '民宿详情' }
   },
-  // 票务模块（骨架）
+  // 票务模块
   {
     path: '/ticket',
     name: 'TicketList',
     component: () => import('@/views/ticket/List.vue'),
     meta: { title: '票务' }
+  },
+  {
+    path: '/ticket/order',
+    name: 'TicketOrder',
+    component: () => import('@/views/ticket/Order.vue'),
+    meta: { title: '我的门票', requiresAuth: true }
+  },
+  {
+    path: '/ticket/order/detail',
+    name: 'TicketOrderDetail',
+    component: () => import('@/views/ticket/OrderDetail.vue'),
+    meta: { title: '订单详情', requiresAuth: true }
   },
   {
     path: '/ticket/:id',

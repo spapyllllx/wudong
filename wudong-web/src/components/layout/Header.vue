@@ -32,7 +32,7 @@
 
         <!-- 用户区域 -->
         <div class="user-area">
-          <!-- 购物车 -->
+          <!-- 购物车 - 暂时只支持商品 -->
           <router-link to="/cart" class="icon-btn cart-icon">
             <el-badge :value="cartCount" :hidden="cartCount === 0">
               <el-icon :size="22"><ShoppingCart /></el-icon>
@@ -40,8 +40,8 @@
             <span class="icon-label">购物车</span>
           </router-link>
 
-          <!-- 订单 -->
-          <router-link to="/order/list" class="icon-btn order-icon">
+          <!-- 订单中心 - 整合所有订单 -->
+          <router-link to="/order/center" class="icon-btn order-icon">
             <el-icon :size="22"><Document /></el-icon>
             <span class="icon-label">订单</span>
           </router-link>
@@ -55,7 +55,7 @@
               <template #dropdown>
                 <el-dropdown-menu>
                   <el-dropdown-item command="profile">个人中心</el-dropdown-item>
-                  <el-dropdown-item command="orders">我的订单</el-dropdown-item>
+                  <el-dropdown-item command="orders">订单中心</el-dropdown-item>
                   <el-dropdown-item command="address">地址管理</el-dropdown-item>
                   <el-dropdown-item divided command="logout">退出登录</el-dropdown-item>
                 </el-dropdown-menu>
@@ -102,7 +102,7 @@ function handleCommand(command: string) {
       router.push('/user')
       break
     case 'orders':
-      router.push('/order/list')
+      router.push('/order/center')
       break
     case 'address':
       router.push('/user/address')
