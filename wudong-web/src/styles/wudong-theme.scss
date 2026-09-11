@@ -1,0 +1,746 @@
+/**
+ * WUDONG TOURISM - USER FRONTEND THEME
+ * 乌东文旅用户端 - 贵州风情设计
+ *
+ * 设计理念：
+ * - 不刻意追求"设计感"，而是自然融入贵州元素
+ * - 用色彩和纹理讲故事，而非堆砌装饰
+ * - 保持现代感，但带有手工温度
+ * - 让设计服务于内容，而非喧宾夺主
+ */
+
+// ============================================
+// 1. 色彩系统 - 从贵州风景中提取
+// ============================================
+:root {
+  // 主色调 - 黔山蓝（贵州山脉的远景色）
+  --wd-primary: #2C5F7B;
+  --wd-primary-hover: #1F4A5E;
+  --wd-primary-light: rgba(44, 95, 123, 0.08);
+
+  // 强调色 - 苗红（不是大红，是带点土气的传统红）
+  --wd-accent: #B8504A;
+  --wd-accent-hover: #9D3E39;
+  --wd-accent-light: rgba(184, 80, 74, 0.1);
+
+  // 辅助色 - 从自然中来
+  --wd-green: #5A8B5F;        // 竹林绿
+  --wd-yellow: #D4A574;       // 糯米黄
+  --wd-blue: #4A7C9C;         // 苗服蓝
+  --wd-brown: #8B7355;        // 木楼褐
+
+  // 中性色 - 温暖的灰
+  --wd-gray-50: #FAFAF9;
+  --wd-gray-100: #F5F5F3;
+  --wd-gray-200: #E8E7E5;
+  --wd-gray-300: #D4D3D0;
+  --wd-gray-400: #A8A7A3;
+  --wd-gray-500: #7A7976;
+  --wd-gray-600: #5A5956;
+  --wd-gray-700: #3D3C3A;
+  --wd-gray-800: #252422;
+  --wd-gray-900: #1A1917;
+
+  // 背景色
+  --wd-bg: #FAFAF9;
+  --wd-surface: #FFFFFF;
+  --wd-surface-hover: rgba(44, 95, 123, 0.02);
+
+  // 文字颜色
+  --wd-text-primary: #252422;
+  --wd-text-secondary: #5A5956;
+  --wd-text-tertiary: #A8A7A3;
+
+  // 边框
+  --wd-border: rgba(0, 0, 0, 0.08);
+  --wd-border-dark: rgba(0, 0, 0, 0.12);
+
+  // 阴影 - 柔和自然
+  --wd-shadow-xs: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --wd-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.06);
+  --wd-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.08);
+  --wd-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.1);
+  --wd-shadow-hover: 0 12px 32px rgba(0, 0, 0, 0.12);
+
+  // 圆角 - 适度柔和
+  --wd-radius-sm: 6px;
+  --wd-radius-md: 10px;
+  --wd-radius-lg: 14px;
+  --wd-radius-xl: 18px;
+
+  // 动画
+  --wd-transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+// ============================================
+// 2. 字体系统 - 亲和力优先
+// ============================================
+body {
+  font-family:
+    -apple-system,
+    BlinkMacSystemFont,
+    'PingFang SC',
+    'Hiragino Sans GB',
+    'Microsoft YaHei',
+    'WenQuanYi Micro Hei',
+    sans-serif;
+  font-size: 15px;
+  line-height: 1.6;
+  color: var(--wd-text-primary);
+  background: var(--wd-bg);
+  -webkit-font-smoothing: antialiased;
+}
+
+// ============================================
+// 3. 全局样式 - 细微的纹理感
+// ============================================
+
+// 页面容器 - 淡淡的纸张质感
+.page-container {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      radial-gradient(circle at 20% 80%, rgba(44, 95, 123, 0.02) 0%, transparent 50%),
+      radial-gradient(circle at 80% 20%, rgba(184, 80, 74, 0.015) 0%, transparent 50%);
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// ============================================
+// 4. 头部导航 - 不做作的设计
+// ============================================
+.header-nav {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(16px) saturate(180%);
+  border-bottom: 1px solid var(--wd-border);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  transition: var(--wd-transition);
+
+  // 滚动后的样式
+  &.scrolled {
+    background: rgba(255, 255, 255, 0.98);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  }
+
+  .nav-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 20px;
+    font-weight: 600;
+    color: var(--wd-primary);
+    letter-spacing: 0.02em;
+
+    // 不用渐变，用纯色更耐看
+    &:hover {
+      color: var(--wd-primary-hover);
+    }
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 8px;
+    margin-left: auto;
+
+    a {
+      padding: 8px 16px;
+      border-radius: var(--wd-radius-md);
+      color: var(--wd-text-secondary);
+      font-weight: 500;
+      transition: var(--wd-transition);
+      position: relative;
+
+      // 不用下划线，用背景色
+      &:hover {
+        background: var(--wd-surface-hover);
+        color: var(--wd-text-primary);
+      }
+
+      &.active {
+        color: var(--wd-primary);
+        background: var(--wd-primary-light);
+
+        // 底部小点装饰
+        &::after {
+          content: '';
+          position: absolute;
+          bottom: 4px;
+          left: 50%;
+          transform: translateX(-50%);
+          width: 4px;
+          height: 4px;
+          background: var(--wd-primary);
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+}
+
+// ============================================
+// 5. 卡片组件 - 有呼吸感的设计
+// ============================================
+.card {
+  background: var(--wd-surface);
+  border: 1px solid var(--wd-border);
+  border-radius: var(--wd-radius-lg);
+  overflow: hidden;
+  transition: var(--wd-transition);
+  box-shadow: var(--wd-shadow-sm);
+
+  &:hover {
+    box-shadow: var(--wd-shadow-hover);
+    transform: translateY(-2px);
+    border-color: var(--wd-border-dark);
+  }
+
+  // 图片容器
+  .card-image {
+    position: relative;
+    overflow: hidden;
+    background: var(--wd-gray-100);
+
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: transform 0.4s ease;
+    }
+
+    &:hover img {
+      transform: scale(1.05);
+    }
+
+    // 渐变遮罩 - 增加深度
+    &::after {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      height: 40%;
+      background: linear-gradient(to top, rgba(0,0,0,0.2), transparent);
+      opacity: 0;
+      transition: opacity 0.3s;
+    }
+
+    &:hover::after {
+      opacity: 1;
+    }
+  }
+
+  // 内容区域
+  .card-content {
+    padding: 20px;
+  }
+
+  .card-title {
+    font-size: 17px;
+    font-weight: 600;
+    color: var(--wd-text-primary);
+    margin-bottom: 8px;
+    line-height: 1.4;
+
+    // 限制行数
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+
+  .card-desc {
+    font-size: 14px;
+    color: var(--wd-text-secondary);
+    line-height: 1.6;
+    margin-bottom: 12px;
+  }
+
+  .card-meta {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    font-size: 13px;
+    color: var(--wd-text-tertiary);
+
+    .meta-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+
+      .icon {
+        width: 16px;
+        height: 16px;
+        opacity: 0.7;
+      }
+    }
+  }
+}
+
+// ============================================
+// 6. 按钮系统 - 实用为主
+// ============================================
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 10px 20px;
+  border-radius: var(--wd-radius-md);
+  font-size: 15px;
+  font-weight: 500;
+  border: none;
+  cursor: pointer;
+  transition: var(--wd-transition);
+  white-space: nowrap;
+
+  &:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  // 主按钮
+  &--primary {
+    background: var(--wd-primary);
+    color: white;
+    box-shadow: 0 2px 6px rgba(44, 95, 123, 0.2);
+
+    &:hover:not(:disabled) {
+      background: var(--wd-primary-hover);
+      box-shadow: 0 4px 12px rgba(44, 95, 123, 0.3);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      transform: translateY(0);
+    }
+  }
+
+  // 强调按钮
+  &--accent {
+    background: var(--wd-accent);
+    color: white;
+    box-shadow: 0 2px 6px rgba(184, 80, 74, 0.2);
+
+    &:hover:not(:disabled) {
+      background: var(--wd-accent-hover);
+      box-shadow: 0 4px 12px rgba(184, 80, 74, 0.3);
+      transform: translateY(-1px);
+    }
+  }
+
+  // 次要按钮
+  &--secondary {
+    background: var(--wd-gray-100);
+    color: var(--wd-text-primary);
+
+    &:hover:not(:disabled) {
+      background: var(--wd-gray-200);
+    }
+  }
+
+  // 轮廓按钮
+  &--outline {
+    background: transparent;
+    border: 1.5px solid var(--wd-border-dark);
+    color: var(--wd-text-primary);
+
+    &:hover:not(:disabled) {
+      background: var(--wd-surface-hover);
+      border-color: var(--wd-primary);
+      color: var(--wd-primary);
+    }
+  }
+
+  // 文字按钮
+  &--text {
+    background: transparent;
+    color: var(--wd-primary);
+    padding: 8px 12px;
+
+    &:hover:not(:disabled) {
+      background: var(--wd-primary-light);
+    }
+  }
+}
+
+// ============================================
+// 7. 标签 - 简单直接
+// ============================================
+.tag {
+  display: inline-block;
+  padding: 4px 10px;
+  border-radius: var(--wd-radius-sm);
+  font-size: 12px;
+  font-weight: 500;
+  background: var(--wd-gray-100);
+  color: var(--wd-text-secondary);
+  border: 1px solid transparent;
+
+  &--primary {
+    background: var(--wd-primary-light);
+    color: var(--wd-primary);
+    border-color: rgba(44, 95, 123, 0.15);
+  }
+
+  &--accent {
+    background: var(--wd-accent-light);
+    color: var(--wd-accent);
+    border-color: rgba(184, 80, 74, 0.15);
+  }
+
+  &--success {
+    background: rgba(90, 139, 95, 0.1);
+    color: var(--wd-green);
+    border-color: rgba(90, 139, 95, 0.15);
+  }
+}
+
+// ============================================
+// 8. 表单元素 - 清晰易用
+// ============================================
+.form-group {
+  margin-bottom: 20px;
+
+  label {
+    display: block;
+    margin-bottom: 8px;
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--wd-text-primary);
+  }
+
+  input,
+  textarea,
+  select {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1.5px solid var(--wd-border);
+    border-radius: var(--wd-radius-md);
+    font-size: 15px;
+    color: var(--wd-text-primary);
+    background: var(--wd-surface);
+    transition: var(--wd-transition);
+
+    &::placeholder {
+      color: var(--wd-text-tertiary);
+    }
+
+    &:hover {
+      border-color: var(--wd-border-dark);
+    }
+
+    &:focus {
+      outline: none;
+      border-color: var(--wd-primary);
+      box-shadow: 0 0 0 3px var(--wd-primary-light);
+    }
+  }
+
+  textarea {
+    resize: vertical;
+    min-height: 100px;
+  }
+}
+
+// ============================================
+// 9. 图片画廊 - 呼吸感的网格
+// ============================================
+.gallery-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 20px;
+
+  @media (max-width: 768px) {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 12px;
+  }
+}
+
+// ============================================
+// 10. 分隔线 - 带点装饰的
+// ============================================
+.divider {
+  height: 1px;
+  background: var(--wd-border);
+  margin: 32px 0;
+  position: relative;
+
+  // 中间装饰点
+  &--dot::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 6px;
+    height: 6px;
+    background: var(--wd-gray-300);
+    border-radius: 50%;
+  }
+
+  // 文字分隔
+  &--text {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: transparent;
+    height: auto;
+
+    &::before,
+    &::after {
+      content: '';
+      flex: 1;
+      height: 1px;
+      background: var(--wd-border);
+    }
+
+    span {
+      font-size: 13px;
+      color: var(--wd-text-tertiary);
+      white-space: nowrap;
+    }
+  }
+}
+
+// ============================================
+// 11. 价格显示 - 清晰醒目
+// ============================================
+.price {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 4px;
+  font-weight: 600;
+  color: var(--wd-accent);
+
+  .currency {
+    font-size: 0.8em;
+  }
+
+  .amount {
+    font-size: 1.4em;
+  }
+
+  .unit {
+    font-size: 0.75em;
+    font-weight: 400;
+    color: var(--wd-text-secondary);
+  }
+
+  // 原价（删除线）
+  &--original {
+    color: var(--wd-text-tertiary);
+    text-decoration: line-through;
+    font-weight: 400;
+  }
+}
+
+// ============================================
+// 12. 页脚 - 简单实用
+// ============================================
+.footer {
+  background: var(--wd-gray-50);
+  border-top: 1px solid var(--wd-border);
+  padding: 40px 24px 24px;
+  margin-top: 80px;
+
+  .footer-content {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .footer-links {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 32px;
+    margin-bottom: 32px;
+
+    .link-group {
+      h4 {
+        font-size: 15px;
+        font-weight: 600;
+        color: var(--wd-text-primary);
+        margin-bottom: 12px;
+      }
+
+      a {
+        display: block;
+        padding: 6px 0;
+        font-size: 14px;
+        color: var(--wd-text-secondary);
+        transition: color 0.2s;
+
+        &:hover {
+          color: var(--wd-primary);
+        }
+      }
+    }
+  }
+
+  .footer-bottom {
+    padding-top: 24px;
+    border-top: 1px solid var(--wd-border);
+    text-align: center;
+    font-size: 13px;
+    color: var(--wd-text-tertiary);
+  }
+}
+
+// ============================================
+// 13. 加载状态 - 简洁的
+// ============================================
+.loading {
+  display: inline-block;
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--wd-border);
+  border-top-color: var(--wd-primary);
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+// ============================================
+// 14. 空状态 - 友好的
+// ============================================
+.empty-state {
+  text-align: center;
+  padding: 60px 20px;
+  color: var(--wd-text-tertiary);
+
+  .empty-icon {
+    font-size: 48px;
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+
+  .empty-text {
+    font-size: 15px;
+    margin-bottom: 20px;
+  }
+}
+
+// ============================================
+// 15. 评分显示 - 视觉化的
+// ============================================
+.rating {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+
+  .stars {
+    display: flex;
+    gap: 2px;
+    color: var(--wd-yellow);
+  }
+
+  .score {
+    font-size: 14px;
+    font-weight: 600;
+    color: var(--wd-text-primary);
+  }
+
+  .count {
+    font-size: 13px;
+    color: var(--wd-text-tertiary);
+  }
+}
+
+// ============================================
+// 16. 面包屑 - 不显眼但有用
+// ============================================
+.breadcrumb {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 14px;
+  margin-bottom: 24px;
+
+  a {
+    color: var(--wd-text-secondary);
+    transition: color 0.2s;
+
+    &:hover {
+      color: var(--wd-primary);
+    }
+  }
+
+  .separator {
+    color: var(--wd-text-tertiary);
+  }
+
+  .current {
+    color: var(--wd-text-primary);
+    font-weight: 500;
+  }
+}
+
+// ============================================
+// 17. 响应式工具类
+// ============================================
+@media (max-width: 768px) {
+  body {
+    font-size: 14px;
+  }
+
+  .container {
+    padding: 0 16px;
+  }
+
+  .hide-mobile {
+    display: none !important;
+  }
+}
+
+@media (min-width: 769px) {
+  .show-mobile {
+    display: none !important;
+  }
+}
+
+// ============================================
+// 18. 实用工具类
+// ============================================
+.text-primary { color: var(--wd-text-primary); }
+.text-secondary { color: var(--wd-text-secondary); }
+.text-tertiary { color: var(--wd-text-tertiary); }
+
+.bg-surface { background: var(--wd-surface); }
+.bg-gray { background: var(--wd-gray-50); }
+
+.shadow-sm { box-shadow: var(--wd-shadow-sm); }
+.shadow-md { box-shadow: var(--wd-shadow-md); }
+.shadow-lg { box-shadow: var(--wd-shadow-lg); }
+
+.rounded-sm { border-radius: var(--wd-radius-sm); }
+.rounded-md { border-radius: var(--wd-radius-md); }
+.rounded-lg { border-radius: var(--wd-radius-lg); }
+
+.mb-8 { margin-bottom: 8px; }
+.mb-16 { margin-bottom: 16px; }
+.mb-24 { margin-bottom: 24px; }
+.mb-32 { margin-bottom: 32px; }
+
+.mt-8 { margin-top: 8px; }
+.mt-16 { margin-top: 16px; }
+.mt-24 { margin-top: 24px; }
+.mt-32 { margin-top: 32px; }

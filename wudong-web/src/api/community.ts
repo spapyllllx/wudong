@@ -157,3 +157,13 @@ export function getMyLikeList(page: number = 1, size: number = 10) {
     size
   })
 }
+
+/**
+ * 获取相关推荐帖子
+ */
+export function getRecommendPosts(postId: number, limit: number = 5) {
+  return request.get<Post[]>('/app/shequ/community/recommendPosts', {
+    postId,
+    limit
+  })
+}

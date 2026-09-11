@@ -1,0 +1,86 @@
+/**
+ * 彻底修复表格行悬停放大问题
+ * 覆盖所有可能导致缩放的样式源
+ */
+
+// 禁用所有 Tailwind 缩放类在表格行上的效果
+.el-table,
+.el-table__body-wrapper,
+.el-table__body,
+.el-table__body-wrapper table,
+table.el-table__body {
+  tbody,
+  .el-table__body {
+    tr,
+    .el-table__row,
+    .el-table__row--level-0,
+    .el-table__row--striped {
+      // 强制重置所有 transform 相关属性
+      transform: none !important;
+      scale: 1 !important;
+
+      // 重置 Tailwind 缩放变量
+      --tw-scale-x: 1 !important;
+      --tw-scale-y: 1 !important;
+
+      // 只保留背景色过渡
+      transition: background-color 0.2s ease !important;
+      will-change: auto !important;
+
+      &:hover,
+      &.hover-row,
+      &.el-table__row--hover {
+        transform: none !important;
+        scale: 1 !important;
+        --tw-scale-x: 1 !important;
+        --tw-scale-y: 1 !important;
+      }
+
+      &:active,
+      &.active {
+        transform: none !important;
+        scale: 1 !important;
+        --tw-scale-x: 1 !important;
+        --tw-scale-y: 1 !important;
+      }
+
+      // 禁用所有动画
+      animation: none !important;
+
+      // 确保单元格也不受影响
+      td,
+      th,
+      .cell {
+        transform: none !important;
+        scale: 1 !important;
+      }
+    }
+  }
+}
+
+// 额外保险：全局禁用表格相关元素的缩放类
+[class*="el-table"] {
+  &[class*="hover"] {
+    transform: none !important;
+    scale: 1 !important;
+  }
+}
+
+// 确保按钮在表格行内完全可点击
+.el-table__body {
+  tr {
+    td {
+      // 确保单元格不会阻止点击事件
+      pointer-events: auto !important;
+
+      .el-button,
+      button,
+      a {
+        // 确保按钮有最高优先级
+        position: relative;
+        z-index: 100;
+        pointer-events: auto !important;
+      }
+    }
+  }
+}

@@ -1,0 +1,667 @@
+/**
+ * APPLE STYLE ADMIN THEME
+ * 灵感来源：macOS Big Sur / iOS Design Language
+ * 核心：毛玻璃、柔和阴影、微妙动画、极致细节
+ */
+
+// ============================================
+// 1. 色彩系统 - Apple 式配色
+// ============================================
+:root {
+  // 登录页专属 - 紫色系
+  --apple-login-primary: #667eea;
+  --apple-login-secondary: #764ba2;
+  --apple-login-gradient: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+
+  // 后台主题 - 蓝色系（类似 macOS 系统蓝）
+  --apple-primary: #007AFF;
+  --apple-primary-hover: #0051D5;
+  --apple-primary-active: #004DB3;
+  --apple-primary-light: rgba(0, 122, 255, 0.1);
+
+  // 辅助色
+  --apple-success: #34C759;
+  --apple-warning: #FF9500;
+  --apple-danger: #FF3B30;
+  --apple-info: #5AC8FA;
+
+  // 中性色 - 浅色模式
+  --apple-bg: #F5F5F7;
+  --apple-bg-secondary: #FAFAFA;
+  --apple-surface: #FFFFFF;
+  --apple-surface-hover: rgba(0, 0, 0, 0.04);
+
+  // 文字颜色
+  --apple-text-primary: rgba(0, 0, 0, 0.85);
+  --apple-text-secondary: rgba(0, 0, 0, 0.6);
+  --apple-text-tertiary: rgba(0, 0, 0, 0.4);
+  --apple-text-placeholder: rgba(0, 0, 0, 0.3);
+
+  // 边框和分割线
+  --apple-border: rgba(0, 0, 0, 0.1);
+  --apple-divider: rgba(0, 0, 0, 0.08);
+
+  // 阴影系统 - Apple 式多层阴影
+  --apple-shadow-xs: 0 1px 2px rgba(0, 0, 0, 0.04);
+  --apple-shadow-sm:
+    0 2px 8px rgba(0, 0, 0, 0.04),
+    0 1px 2px rgba(0, 0, 0, 0.06);
+  --apple-shadow-md:
+    0 4px 16px rgba(0, 0, 0, 0.08),
+    0 2px 4px rgba(0, 0, 0, 0.04);
+  --apple-shadow-lg:
+    0 8px 24px rgba(0, 0, 0, 0.12),
+    0 4px 8px rgba(0, 0, 0, 0.04);
+  --apple-shadow-xl:
+    0 16px 48px rgba(0, 0, 0, 0.15),
+    0 8px 16px rgba(0, 0, 0, 0.08);
+
+  // 内阴影 - 用于输入框等
+  --apple-shadow-inset: inset 0 1px 3px rgba(0, 0, 0, 0.1);
+
+  // 发光阴影 - 用于焦点状态
+  --apple-glow-primary: 0 0 0 4px rgba(0, 122, 255, 0.1);
+  --apple-glow-success: 0 0 0 4px rgba(52, 199, 89, 0.1);
+  --apple-glow-danger: 0 0 0 4px rgba(255, 59, 48, 0.1);
+
+  // 圆角 - Apple 偏爱大圆角
+  --apple-radius-xs: 6px;
+  --apple-radius-sm: 8px;
+  --apple-radius-md: 12px;
+  --apple-radius-lg: 16px;
+  --apple-radius-xl: 20px;
+  --apple-radius-2xl: 24px;
+  --apple-radius-full: 9999px;
+
+  // 间距系统
+  --apple-space-xs: 4px;
+  --apple-space-sm: 8px;
+  --apple-space-md: 12px;
+  --apple-space-lg: 16px;
+  --apple-space-xl: 20px;
+  --apple-space-2xl: 24px;
+  --apple-space-3xl: 32px;
+  --apple-space-4xl: 40px;
+
+  // 动画时序 - Apple 的缓动函数
+  --apple-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --apple-ease-in: cubic-bezier(0.4, 0, 1, 1);
+  --apple-ease-out: cubic-bezier(0, 0, 0.2, 1);
+  --apple-ease-bounce: cubic-bezier(0.68, -0.55, 0.265, 1.55);
+
+  --apple-duration-fast: 0.15s;
+  --apple-duration-base: 0.2s;
+  --apple-duration-slow: 0.3s;
+}
+
+// ============================================
+// 2. 全局样式重置
+// ============================================
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--apple-bg);
+  color: var(--apple-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Text', 'Segoe UI', 'Helvetica Neue', sans-serif;
+  font-size: 14px;
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+}
+
+// ============================================
+// 3. 布局系统
+// ============================================
+
+// 顶栏
+.app-topbar {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 1px solid var(--apple-border);
+  box-shadow: var(--apple-shadow-sm);
+  transition: all var(--apple-duration-base) var(--apple-ease);
+}
+
+// 侧边栏
+.app-sidebar {
+  background: var(--apple-surface);
+  border-right: 1px solid var(--apple-border);
+  box-shadow: var(--apple-shadow-sm);
+
+  // 菜单项
+  .menu-item {
+    border-radius: var(--apple-radius-md);
+    padding: 10px 16px;
+    margin: 4px 12px;
+    color: var(--apple-text-primary);
+    font-weight: 500;
+    transition: all var(--apple-duration-base) var(--apple-ease);
+
+    &:hover {
+      background: var(--apple-surface-hover);
+      transform: translateX(2px);
+    }
+
+    &.is-active {
+      background: var(--apple-primary-light);
+      color: var(--apple-primary);
+      font-weight: 600;
+    }
+  }
+}
+
+// 主内容区
+.app-main {
+  background: var(--apple-bg);
+  padding: var(--apple-space-2xl);
+  min-height: 100vh;
+}
+
+// ============================================
+// 4. 卡片组件
+// ============================================
+.el-card {
+  background: var(--apple-surface);
+  border: 1px solid var(--apple-border);
+  border-radius: var(--apple-radius-xl);
+  box-shadow: var(--apple-shadow-sm);
+  overflow: hidden;
+  transition: all var(--apple-duration-base) var(--apple-ease);
+
+  &:hover {
+    box-shadow: var(--apple-shadow-md);
+    transform: translateY(-2px);
+  }
+
+  .el-card__header {
+    background: var(--apple-surface);
+    border-bottom: 1px solid var(--apple-divider);
+    padding: 20px 24px;
+    font-weight: 600;
+    font-size: 17px;
+    letter-spacing: -0.02em;
+    color: var(--apple-text-primary);
+  }
+
+  .el-card__body {
+    padding: 24px;
+    color: var(--apple-text-secondary);
+  }
+}
+
+// 毛玻璃卡片变体
+.el-card.glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow:
+    var(--apple-shadow-md),
+    inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+// ============================================
+// 5. 按钮系统
+// ============================================
+.el-button {
+  border-radius: var(--apple-radius-md);
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: -0.01em;
+  padding: 10px 20px;
+  transition: all var(--apple-duration-base) var(--apple-ease);
+  border: none;
+
+  // 主按钮
+  &--primary {
+    background: var(--apple-primary);
+    color: white;
+    box-shadow:
+      0 2px 8px rgba(0, 122, 255, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    &:hover {
+      background: var(--apple-primary-hover);
+      box-shadow:
+        0 4px 12px rgba(0, 122, 255, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      background: var(--apple-primary-active);
+      box-shadow:
+        0 1px 4px rgba(0, 122, 255, 0.3),
+        inset 0 1px 2px rgba(0, 0, 0, 0.1);
+      transform: translateY(0);
+    }
+  }
+
+  // 默认按钮
+  &--default {
+    background: var(--apple-surface);
+    color: var(--apple-text-primary);
+    border: 1px solid var(--apple-border);
+    box-shadow: var(--apple-shadow-xs);
+
+    &:hover {
+      background: var(--apple-surface-hover);
+      box-shadow: var(--apple-shadow-sm);
+      transform: translateY(-1px);
+    }
+  }
+
+  // 成功按钮
+  &--success {
+    background: var(--apple-success);
+    color: white;
+    box-shadow:
+      0 2px 8px rgba(52, 199, 89, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  // 危险按钮
+  &--danger {
+    background: var(--apple-danger);
+    color: white;
+    box-shadow:
+      0 2px 8px rgba(255, 59, 48, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  // 文字按钮
+  &.is-text {
+    color: var(--apple-primary);
+
+    &:hover {
+      background: var(--apple-primary-light);
+    }
+  }
+}
+
+// ============================================
+// 6. 表单元素
+// ============================================
+.el-form {
+  .el-form-item {
+    margin-bottom: var(--apple-space-xl);
+
+    .el-form-item__label {
+      color: var(--apple-text-secondary);
+      font-weight: 600;
+      font-size: 13px;
+      letter-spacing: -0.01em;
+      margin-bottom: var(--apple-space-sm);
+    }
+  }
+}
+
+// 输入框
+.el-input {
+  .el-input__wrapper {
+    background: var(--apple-surface);
+    border: 1px solid var(--apple-border);
+    border-radius: var(--apple-radius-md);
+    padding: 10px 16px;
+    box-shadow: var(--apple-shadow-inset);
+    transition: all var(--apple-duration-base) var(--apple-ease);
+
+    &:hover {
+      background: var(--apple-bg-secondary);
+      border-color: rgba(0, 122, 255, 0.3);
+    }
+
+    &.is-focus {
+      background: var(--apple-surface);
+      border-color: var(--apple-primary);
+      box-shadow: var(--apple-glow-primary), var(--apple-shadow-xs);
+    }
+
+    .el-input__inner {
+      color: var(--apple-text-primary);
+      font-weight: 500;
+      font-size: 15px;
+
+      &::placeholder {
+        color: var(--apple-text-placeholder);
+      }
+    }
+  }
+}
+
+// 选择器
+.el-select {
+  .el-select__wrapper {
+    background: var(--apple-surface);
+    border: 1px solid var(--apple-border);
+    border-radius: var(--apple-radius-md);
+    box-shadow: var(--apple-shadow-inset);
+
+    &:hover {
+      border-color: rgba(0, 122, 255, 0.3);
+    }
+
+    &.is-focused {
+      border-color: var(--apple-primary);
+      box-shadow: var(--apple-glow-primary);
+    }
+  }
+}
+
+// 开关
+.el-switch {
+  &.is-checked {
+    .el-switch__core {
+      background: var(--apple-primary);
+      border-color: var(--apple-primary);
+    }
+  }
+
+  .el-switch__core {
+    border-radius: var(--apple-radius-full);
+    transition: all var(--apple-duration-base) var(--apple-ease);
+  }
+}
+
+// ============================================
+// 7. 表格组件
+// ============================================
+.el-table {
+  background: var(--apple-surface);
+  border: 1px solid var(--apple-border);
+  border-radius: var(--apple-radius-xl);
+  overflow: hidden;
+  box-shadow: var(--apple-shadow-sm);
+
+  // 表头
+  thead {
+    background: var(--apple-bg-secondary);
+
+    th.el-table__cell {
+      background: transparent;
+      color: var(--apple-text-secondary);
+      font-weight: 600;
+      font-size: 12px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      border-bottom: 1px solid var(--apple-divider);
+    }
+  }
+
+  // 表格行
+  tbody {
+    tr {
+      transition: background var(--apple-duration-fast) var(--apple-ease);
+
+      &:hover {
+        background: var(--apple-surface-hover);
+      }
+    }
+
+    td.el-table__cell {
+      border-bottom: 1px solid var(--apple-divider);
+      color: var(--apple-text-primary);
+      font-weight: 500;
+    }
+  }
+
+  // 斑马纹
+  &--striped {
+    .el-table__body tr.el-table__row--striped td {
+      background: rgba(0, 0, 0, 0.02);
+    }
+  }
+}
+
+// ============================================
+// 8. 对话框/弹窗
+// ============================================
+.el-dialog {
+  border-radius: var(--apple-radius-2xl);
+  box-shadow: var(--apple-shadow-xl);
+  border: 1px solid var(--apple-border);
+  overflow: hidden;
+
+  .el-dialog__header {
+    background: var(--apple-surface);
+    border-bottom: 1px solid var(--apple-divider);
+    padding: 20px 24px;
+
+    .el-dialog__title {
+      font-weight: 600;
+      font-size: 18px;
+      letter-spacing: -0.02em;
+      color: var(--apple-text-primary);
+    }
+  }
+
+  .el-dialog__body {
+    padding: 24px;
+    background: var(--apple-surface);
+    color: var(--apple-text-secondary);
+  }
+
+  .el-dialog__footer {
+    padding: 16px 24px;
+    background: var(--apple-bg-secondary);
+    border-top: 1px solid var(--apple-divider);
+  }
+}
+
+// 遮罩层
+.el-overlay {
+  backdrop-filter: blur(10px) saturate(150%);
+  background: rgba(0, 0, 0, 0.3);
+}
+
+// ============================================
+// 9. 消息提示
+// ============================================
+.el-message {
+  border-radius: var(--apple-radius-xl);
+  border: 1px solid var(--apple-border);
+  box-shadow: var(--apple-shadow-lg);
+  padding: 16px 20px;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px) saturate(180%);
+
+  &--success {
+    border-color: var(--apple-success);
+
+    .el-message__icon {
+      color: var(--apple-success);
+    }
+  }
+
+  &--warning {
+    border-color: var(--apple-warning);
+
+    .el-message__icon {
+      color: var(--apple-warning);
+    }
+  }
+
+  &--error {
+    border-color: var(--apple-danger);
+
+    .el-message__icon {
+      color: var(--apple-danger);
+    }
+  }
+}
+
+// ============================================
+// 10. 标签/徽章
+// ============================================
+.el-tag {
+  border-radius: var(--apple-radius-sm);
+  border: none;
+  font-weight: 600;
+  font-size: 12px;
+  letter-spacing: -0.01em;
+  padding: 4px 12px;
+
+  &--primary {
+    background: var(--apple-primary-light);
+    color: var(--apple-primary);
+  }
+
+  &--success {
+    background: rgba(52, 199, 89, 0.1);
+    color: var(--apple-success);
+  }
+
+  &--warning {
+    background: rgba(255, 149, 0, 0.1);
+    color: var(--apple-warning);
+  }
+
+  &--danger {
+    background: rgba(255, 59, 48, 0.1);
+    color: var(--apple-danger);
+  }
+}
+
+// ============================================
+// 11. 分页器
+// ============================================
+.el-pagination {
+  .el-pager {
+    li {
+      border-radius: var(--apple-radius-sm);
+      font-weight: 500;
+      transition: all var(--apple-duration-base) var(--apple-ease);
+
+      &:hover {
+        background: var(--apple-surface-hover);
+      }
+
+      &.is-active {
+        background: var(--apple-primary);
+        color: white;
+        font-weight: 600;
+      }
+    }
+  }
+
+  button {
+    border-radius: var(--apple-radius-sm);
+
+    &:hover {
+      background: var(--apple-surface-hover);
+    }
+  }
+}
+
+// ============================================
+// 12. 加载动画
+// ============================================
+.el-loading-spinner {
+  .circular {
+    animation: rotate 2s linear infinite;
+  }
+
+  @keyframes rotate {
+    100% { transform: rotate(360deg); }
+  }
+}
+
+// ============================================
+// 13. 滚动条美化
+// ============================================
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: var(--apple-radius-full);
+
+  &:hover {
+    background: rgba(0, 0, 0, 0.3);
+  }
+}
+
+// ============================================
+// 14. 动画库
+// ============================================
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-in-right {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes scale-in {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+// ============================================
+// 15. 实用工具类
+// ============================================
+.apple-glass {
+  background: rgba(255, 255, 255, 0.8);
+  backdrop-filter: blur(20px) saturate(180%);
+  border: 1px solid rgba(255, 255, 255, 0.3);
+}
+
+.apple-shadow-sm {
+  box-shadow: var(--apple-shadow-sm);
+}
+
+.apple-shadow-md {
+  box-shadow: var(--apple-shadow-md);
+}
+
+.apple-shadow-lg {
+  box-shadow: var(--apple-shadow-lg);
+}
+
+.apple-hover-lift {
+  transition: transform var(--apple-duration-base) var(--apple-ease);
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+}
+
+.apple-interactive {
+  cursor: pointer;
+  transition: all var(--apple-duration-base) var(--apple-ease);
+
+  &:hover {
+    background: var(--apple-surface-hover);
+  }
+
+  &:active {
+    transform: scale(0.98);
+  }
+}

@@ -1,0 +1,783 @@
+/**
+ * GUIZHOU × APPLE FUSION DESIGN SYSTEM
+ * 贵州乌东文旅 - 未来与传统的融合
+ *
+ * 设计理念：
+ * - Apple 的极简主义 + 贵州的民族图腾
+ * - 现代科技感 + 传统手工艺温度
+ * - 毛玻璃效果 + 蜡染纹样
+ */
+
+// ============================================
+// 1. 色彩系统 - 贵州民族色 × Apple 质感
+// ============================================
+:root {
+  // 主色调 - 靛蓝（苗族蜡染的灵魂色）
+  --gz-primary: #1B4F72;           // 深靛蓝
+  --gz-primary-light: #2E7CB5;     // 浅靛蓝
+  --gz-primary-lighter: rgba(27, 79, 114, 0.1);
+
+  // 辅助色 - 朱砂红（传统吉祥色）
+  --gz-accent: #C23934;            // 朱砂红
+  --gz-accent-light: #E74C3C;      // 亮红
+  --gz-accent-lighter: rgba(194, 57, 52, 0.1);
+
+  // 点缀色 - 银饰光泽
+  --gz-silver: #A8B2B8;            // 苗银色
+  --gz-gold: #C9A063;              // 古铜金
+
+  // 自然色 - 梯田与山水
+  --gz-green: #27AE60;             // 梯田绿
+  --gz-wood: #8B6F47;              // 木褐色
+  --gz-stone: #7F8C8D;             // 石板灰
+
+  // 中性色 - 保持 Apple 的简约
+  --gz-bg: #F8F9FA;
+  --gz-surface: #FFFFFF;
+  --gz-surface-secondary: #FAFBFC;
+
+  // 文字颜色
+  --gz-text-primary: rgba(27, 47, 60, 0.9);
+  --gz-text-secondary: rgba(27, 47, 60, 0.6);
+  --gz-text-tertiary: rgba(27, 47, 60, 0.4);
+
+  // 边框
+  --gz-border: rgba(27, 79, 114, 0.12);
+  --gz-divider: rgba(27, 79, 114, 0.08);
+
+  // 渐变 - 民族风渐变
+  --gz-gradient-primary: linear-gradient(135deg, #1B4F72 0%, #2E7CB5 100%);
+  --gz-gradient-accent: linear-gradient(135deg, #C23934 0%, #E74C3C 100%);
+  --gz-gradient-heritage: linear-gradient(135deg, #8B6F47 0%, #C9A063 30%, #1B4F72 100%);
+
+  // 阴影 - 更柔和的层次
+  --gz-shadow-sm:
+    0 2px 8px rgba(27, 79, 114, 0.06),
+    0 1px 2px rgba(0, 0, 0, 0.04);
+  --gz-shadow-md:
+    0 4px 16px rgba(27, 79, 114, 0.1),
+    0 2px 4px rgba(0, 0, 0, 0.06);
+  --gz-shadow-lg:
+    0 8px 24px rgba(27, 79, 114, 0.15),
+    0 4px 8px rgba(0, 0, 0, 0.08);
+  --gz-shadow-xl:
+    0 16px 48px rgba(27, 79, 114, 0.2),
+    0 8px 16px rgba(0, 0, 0, 0.1);
+
+  // 发光效果 - 银饰光泽
+  --gz-glow-primary: 0 0 0 4px rgba(27, 79, 114, 0.12);
+  --gz-glow-accent: 0 0 0 4px rgba(194, 57, 52, 0.12);
+
+  // 圆角 - 保持 Apple 风格
+  --gz-radius-sm: 8px;
+  --gz-radius-md: 12px;
+  --gz-radius-lg: 16px;
+  --gz-radius-xl: 20px;
+  --gz-radius-2xl: 24px;
+
+  // 动画 - Apple 的缓动
+  --gz-ease: cubic-bezier(0.4, 0, 0.2, 1);
+  --gz-duration: 0.3s;
+}
+
+// ============================================
+// 2. 蜡染纹样 - SVG 图案定义
+// ============================================
+
+// 苗族蝴蝶纹
+@mixin batik-butterfly-pattern {
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 20c-3 0-5 2-5 5 0 2 1 3 2 4-2 1-4 3-4 6 0 4 3 7 7 7s7-3 7-7c0-3-2-5-4-6 1-1 2-2 2-4 0-3-2-5-5-5z' fill='%231B4F72' fill-opacity='0.03'/%3E%3C/svg%3E");
+  background-size: 60px 60px;
+}
+
+// 侗族几何纹
+@mixin batik-geometric-pattern {
+  background-image:
+    url("data:image/svg+xml,%3Csvg width='40' height='40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 20h10v10H0zM30 20h10v10H30zM10 0h10v10H10zM10 30h10v10H10z' fill='%231B4F72' fill-opacity='0.04'/%3E%3C/svg%3E");
+  background-size: 40px 40px;
+}
+
+// 梯田纹理
+@mixin terraced-pattern {
+  background:
+    linear-gradient(to bottom, transparent 0%, transparent 48%, rgba(27, 79, 114, 0.02) 48%, rgba(27, 79, 114, 0.02) 52%, transparent 52%),
+    linear-gradient(to bottom, transparent 0%, transparent 68%, rgba(27, 79, 114, 0.015) 68%, rgba(27, 79, 114, 0.015) 72%, transparent 72%),
+    linear-gradient(to bottom, transparent 0%, transparent 88%, rgba(27, 79, 114, 0.01) 88%, rgba(27, 79, 114, 0.01) 92%, transparent 92%);
+}
+
+// ============================================
+// 3. 全局样式 - 贵州质感
+// ============================================
+
+body {
+  background: var(--gz-bg);
+  color: var(--gz-text-primary);
+  font-family: -apple-system, BlinkMacSystemFont, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+  position: relative;
+
+  // 背景装饰 - 淡淡的蜡染纹样
+  &::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    @include batik-butterfly-pattern;
+    opacity: 0.3;
+    pointer-events: none;
+    z-index: 0;
+  }
+}
+
+// ============================================
+// 4. 登录页 - 贵州山水意境
+// ============================================
+
+.page-login {
+  // 背景：靛蓝渐变 + 梯田层次
+  background: linear-gradient(135deg, #1B4F72 0%, #2E7CB5 50%, #27AE60 100%);
+  position: relative;
+
+  // 山水层次感
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    @include terraced-pattern;
+    opacity: 0.6;
+  }
+
+  // 蜡染装饰
+  &::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 50%;
+    height: 100%;
+    @include batik-geometric-pattern;
+    opacity: 0.15;
+  }
+
+  .box {
+    background: rgba(255, 255, 255, 0.95);
+    backdrop-filter: blur(40px) saturate(180%);
+    border: 1px solid rgba(27, 79, 114, 0.2);
+    border-radius: var(--gz-radius-2xl);
+    box-shadow: var(--gz-shadow-xl);
+    position: relative;
+
+    // 顶部装饰条 - 民族纹样
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: var(--gz-gradient-heritage);
+      border-radius: var(--gz-radius-2xl) var(--gz-radius-2xl) 0 0;
+    }
+
+    // 侧边银饰装饰
+    &::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      right: -20px;
+      width: 40px;
+      height: 120px;
+      background: linear-gradient(180deg, transparent, var(--gz-silver), transparent);
+      opacity: 0.3;
+      border-radius: 20px;
+      transform: translateY(-50%);
+    }
+
+    .logo {
+      .icon {
+        background: var(--gz-gradient-primary);
+        border: 2px solid rgba(27, 79, 114, 0.3);
+        box-shadow:
+          0 4px 16px rgba(27, 79, 114, 0.3),
+          inset 0 1px 0 rgba(255, 255, 255, 0.3);
+
+        // 银饰光泽动画
+        &::before {
+          background: linear-gradient(45deg, transparent, rgba(168, 178, 184, 0.4), transparent);
+        }
+      }
+
+      span {
+        background: var(--gz-gradient-primary);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        font-weight: 700;
+        letter-spacing: 0.02em;
+      }
+    }
+
+    .desc {
+      color: var(--gz-text-secondary);
+      position: relative;
+
+      // 装饰性分隔符 - 民族图腾
+      &::before,
+      &::after {
+        content: '◆';
+        color: var(--gz-accent);
+        margin: 0 8px;
+        opacity: 0.5;
+        font-size: 10px;
+      }
+    }
+  }
+}
+
+// ============================================
+// 5. 后台布局 - 传统建筑美学
+// ============================================
+
+// 顶栏 - 侗族鼓楼的横梁感
+.app-topbar {
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(40px) saturate(180%);
+  border-bottom: 2px solid var(--gz-border);
+  box-shadow: var(--gz-shadow-sm);
+  position: relative;
+
+  // 顶部装饰条
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: var(--gz-gradient-heritage);
+  }
+}
+
+// 侧边栏 - 木质纹理感
+.app-sidebar {
+  background: var(--gz-surface);
+  border-right: 1px solid var(--gz-border);
+  position: relative;
+
+  // 木纹质感
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(to bottom,
+      transparent 0%,
+      rgba(139, 111, 71, 0.02) 50%,
+      transparent 100%
+    );
+    pointer-events: none;
+  }
+
+  .menu-item {
+    border-radius: var(--gz-radius-md);
+    transition: all var(--gz-duration) var(--gz-ease);
+    position: relative;
+
+    // 悬浮时的银饰光泽
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 3px;
+      height: 0;
+      background: var(--gz-accent);
+      border-radius: 0 2px 2px 0;
+      transform: translateY(-50%);
+      transition: height var(--gz-duration) var(--gz-ease);
+    }
+
+    &:hover {
+      background: rgba(27, 79, 114, 0.06);
+      transform: translateX(4px);
+
+      &::before {
+        height: 60%;
+      }
+    }
+
+    &.is-active {
+      background: var(--gz-primary-lighter);
+      color: var(--gz-primary);
+      font-weight: 600;
+
+      &::before {
+        height: 80%;
+      }
+    }
+  }
+}
+
+// ============================================
+// 6. 卡片组件 - 蜡染装饰
+// ============================================
+
+.el-card {
+  background: var(--gz-surface);
+  border: 1px solid var(--gz-border);
+  border-radius: var(--gz-radius-xl);
+  box-shadow: var(--gz-shadow-sm);
+  position: relative;
+  transition: all var(--gz-duration) var(--gz-ease);
+  overflow: hidden;
+
+  // 右上角民族纹样装饰
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 80px;
+    height: 80px;
+    @include batik-butterfly-pattern;
+    opacity: 0.4;
+    pointer-events: none;
+  }
+
+  &:hover {
+    box-shadow: var(--gz-shadow-md);
+    transform: translateY(-2px);
+    border-color: rgba(27, 79, 114, 0.2);
+  }
+
+  .el-card__header {
+    background: linear-gradient(to right,
+      rgba(27, 79, 114, 0.02) 0%,
+      transparent 100%
+    );
+    border-bottom: 1px solid var(--gz-divider);
+    position: relative;
+
+    // 左侧装饰线
+    &::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 50%;
+      width: 4px;
+      height: 20px;
+      background: var(--gz-accent);
+      border-radius: 0 2px 2px 0;
+      transform: translateY(-50%);
+    }
+  }
+}
+
+// 特殊卡片 - 重点展示
+.el-card.featured {
+  border: 2px solid var(--gz-primary);
+  box-shadow:
+    var(--gz-shadow-md),
+    0 0 0 4px var(--gz-primary-lighter);
+
+  &::after {
+    content: '精选';
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    background: var(--gz-gradient-accent);
+    color: white;
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 600;
+    box-shadow: 0 2px 8px rgba(194, 57, 52, 0.3);
+  }
+}
+
+// ============================================
+// 7. 按钮系统 - 民族图腾感
+// ============================================
+
+.el-button {
+  border-radius: var(--gz-radius-md);
+  font-weight: 600;
+  transition: all var(--gz-duration) var(--gz-ease);
+  position: relative;
+  overflow: hidden;
+
+  // 主按钮 - 靛蓝
+  &--primary {
+    background: var(--gz-gradient-primary);
+    border: none;
+    color: white;
+    box-shadow:
+      0 2px 8px rgba(27, 79, 114, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+
+    // 银饰光泽
+    &::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg,
+        transparent,
+        rgba(168, 178, 184, 0.3),
+        transparent
+      );
+      transition: left 0.6s;
+    }
+
+    &:hover {
+      box-shadow:
+        0 4px 12px rgba(27, 79, 114, 0.4),
+        inset 0 1px 0 rgba(255, 255, 255, 0.3);
+      transform: translateY(-1px);
+
+      &::before {
+        left: 100%;
+      }
+    }
+  }
+
+  // 强调按钮 - 朱砂红
+  &--danger {
+    background: var(--gz-gradient-accent);
+    border: none;
+    color: white;
+    box-shadow:
+      0 2px 8px rgba(194, 57, 52, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+
+  // 成功按钮 - 梯田绿
+  &--success {
+    background: var(--gz-green);
+    border: none;
+    color: white;
+    box-shadow:
+      0 2px 8px rgba(39, 174, 96, 0.3),
+      inset 0 1px 0 rgba(255, 255, 255, 0.2);
+  }
+}
+
+// ============================================
+// 8. 表单元素 - 手工艺质感
+// ============================================
+
+.el-input {
+  .el-input__wrapper {
+    background: var(--gz-surface);
+    border: 1.5px solid var(--gz-border);
+    border-radius: var(--gz-radius-md);
+    box-shadow:
+      inset 0 1px 3px rgba(27, 79, 114, 0.08),
+      0 1px 2px rgba(0, 0, 0, 0.02);
+    transition: all var(--gz-duration) var(--gz-ease);
+
+    &:hover {
+      border-color: var(--gz-primary-light);
+      background: var(--gz-surface-secondary);
+    }
+
+    &.is-focus {
+      border-color: var(--gz-primary);
+      box-shadow:
+        var(--gz-glow-primary),
+        inset 0 1px 3px rgba(27, 79, 114, 0.08);
+    }
+
+    .el-input__inner {
+      color: var(--gz-text-primary);
+      font-weight: 500;
+
+      &::placeholder {
+        color: var(--gz-text-tertiary);
+      }
+    }
+  }
+}
+
+// ============================================
+// 9. 表格组件 - 梯田层次
+// ============================================
+
+.el-table {
+  background: var(--gz-surface);
+  border: 1px solid var(--gz-border);
+  border-radius: var(--gz-radius-xl);
+  overflow: hidden;
+
+  thead {
+    background: linear-gradient(to bottom,
+      rgba(27, 79, 114, 0.04),
+      rgba(27, 79, 114, 0.02)
+    );
+
+    th.el-table__cell {
+      color: var(--gz-text-secondary);
+      font-weight: 700;
+      border-bottom: 2px solid var(--gz-border);
+      position: relative;
+
+      // 装饰性分隔
+      &::after {
+        content: '';
+        position: absolute;
+        right: 0;
+        top: 50%;
+        width: 1px;
+        height: 50%;
+        background: var(--gz-divider);
+        transform: translateY(-50%);
+      }
+
+      &:last-child::after {
+        display: none;
+      }
+    }
+  }
+
+  tbody {
+    tr {
+      transition: background var(--gz-duration) var(--gz-ease);
+      position: relative;
+      // 禁用任何 transform 效果，防止悬停时放大导致无法点击
+      transform: none !important;
+
+      &:hover {
+        background: rgba(27, 79, 114, 0.03);
+        // 确保悬停时不会有任何缩放或变形
+        transform: none !important;
+
+        // 左侧高亮条
+        &::before {
+          content: '';
+          position: absolute;
+          left: 0;
+          top: 0;
+          bottom: 0;
+          width: 3px;
+          background: var(--gz-accent);
+          border-radius: 0 2px 2px 0;
+        }
+      }
+    }
+
+    td.el-table__cell {
+      border-bottom: 1px solid var(--gz-divider);
+    }
+  }
+}
+
+// ============================================
+// 10. 标签 - 民族色彩
+// ============================================
+
+.el-tag {
+  border-radius: var(--gz-radius-sm);
+  border: none;
+  font-weight: 600;
+  padding: 4px 12px;
+
+  &--primary {
+    background: var(--gz-primary-lighter);
+    color: var(--gz-primary);
+  }
+
+  &--success {
+    background: rgba(39, 174, 96, 0.12);
+    color: var(--gz-green);
+  }
+
+  &--danger {
+    background: var(--gz-accent-lighter);
+    color: var(--gz-accent);
+  }
+
+  &--warning {
+    background: rgba(201, 160, 99, 0.15);
+    color: var(--gz-gold);
+  }
+}
+
+// ============================================
+// 11. 对话框 - 窗花装饰
+// ============================================
+
+.el-dialog {
+  border-radius: var(--gz-radius-2xl);
+  overflow: hidden;
+  border: 2px solid var(--gz-border);
+  box-shadow: var(--gz-shadow-xl);
+
+  // 顶部装饰带
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 4px;
+    background: var(--gz-gradient-heritage);
+  }
+
+  .el-dialog__header {
+    background: linear-gradient(to right,
+      rgba(27, 79, 114, 0.03),
+      transparent
+    );
+    border-bottom: 1px solid var(--gz-divider);
+    padding: 24px;
+    position: relative;
+
+    // 民族纹样装饰
+    &::after {
+      content: '';
+      position: absolute;
+      right: 60px;
+      top: 50%;
+      width: 40px;
+      height: 40px;
+      @include batik-butterfly-pattern;
+      opacity: 0.15;
+      transform: translateY(-50%);
+    }
+
+    .el-dialog__title {
+      font-weight: 700;
+      font-size: 18px;
+      color: var(--gz-text-primary);
+    }
+  }
+}
+
+// ============================================
+// 12. 消息提示 - 银饰光泽
+// ============================================
+
+.el-message {
+  border-radius: var(--gz-radius-lg);
+  border: 1.5px solid var(--gz-border);
+  background: rgba(255, 255, 255, 0.98);
+  backdrop-filter: blur(20px) saturate(180%);
+  box-shadow: var(--gz-shadow-lg);
+
+  &--success {
+    border-color: var(--gz-green);
+    background: rgba(39, 174, 96, 0.05);
+  }
+
+  &--error {
+    border-color: var(--gz-accent);
+    background: rgba(194, 57, 52, 0.05);
+  }
+}
+
+// ============================================
+// 13. 动画 - 传统舞蹈的流动感
+// ============================================
+
+@keyframes gz-fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(20px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@keyframes gz-silver-shine {
+  0%, 100% {
+    background-position: -200% center;
+  }
+  50% {
+    background-position: 200% center;
+  }
+}
+
+// ============================================
+// 14. 滚动条 - 银饰质感
+// ============================================
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(27, 79, 114, 0.04);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, var(--gz-primary-light), var(--gz-primary));
+  border-radius: 4px;
+
+  &:hover {
+    background: var(--gz-primary);
+  }
+}
+
+// ============================================
+// 15. 实用工具类
+// ============================================
+
+// 民族装饰边框
+.gz-border-heritage {
+  border: 2px solid transparent;
+  background:
+    linear-gradient(white, white) padding-box,
+    var(--gz-gradient-heritage) border-box;
+}
+
+// 蜡染背景
+.gz-batik-bg {
+  position: relative;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    @include batik-butterfly-pattern;
+    opacity: 0.08;
+    pointer-events: none;
+  }
+}
+
+// 梯田纹理
+.gz-terraced-bg {
+  @include terraced-pattern;
+}
+
+// 银饰光泽动画
+.gz-silver-shine {
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg,
+      transparent,
+      rgba(168, 178, 184, 0.4),
+      transparent
+    );
+    background-size: 200% 100%;
+    animation: gz-silver-shine 3s infinite;
+  }
+}
+
+// 强调卡片
+.gz-highlight-card {
+  border-left: 4px solid var(--gz-accent);
+  box-shadow:
+    var(--gz-shadow-md),
+    -4px 0 0 var(--gz-accent-lighter);
+}
