@@ -1,0 +1,495 @@
+/**
+ * BRUTAL ADMIN THEME
+ * 反主流后台美学 - 粗野主义 × 新拟物 × 赛博朋克
+ * 设计理念：触感、灵魂、叛逆
+ */
+
+// ============================================
+// 1. 色彩系统 - 打破常规
+// ============================================
+:root {
+  // 主色调：霓虹紫 × 电子蓝
+  --brutal-primary: #6C5CE7;
+  --brutal-secondary: #00D4FF;
+  --brutal-accent: #FD79A8;
+  --brutal-warning: #FDCB6E;
+  --brutal-danger: #FF6B6B;
+  --brutal-success: #55EFC4;
+
+  // 中性色：混凝土质感
+  --brutal-black: #0A0E27;
+  --brutal-gray-900: #1A1F3A;
+  --brutal-gray-800: #252B48;
+  --brutal-gray-700: #313856;
+  --brutal-gray-600: #4A5173;
+  --brutal-gray-500: #6B738E;
+  --brutal-gray-400: #9CA3B8;
+  --brutal-gray-300: #C8CCDB;
+  --brutal-white: #F8F9FA;
+
+  // 渐变系统
+  --brutal-gradient-1: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  --brutal-gradient-2: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+  --brutal-gradient-3: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
+  --brutal-gradient-neon: linear-gradient(135deg, #6C5CE7 0%, #00D4FF 100%);
+
+  // 阴影系统：夸张的深度
+  --brutal-shadow-sm: 0 2px 8px rgba(0, 0, 0, 0.15);
+  --brutal-shadow-md: 0 4px 16px rgba(0, 0, 0, 0.2), 0 2px 4px rgba(0, 0, 0, 0.1);
+  --brutal-shadow-lg: 0 8px 32px rgba(0, 0, 0, 0.25), 0 4px 8px rgba(0, 0, 0, 0.15);
+  --brutal-shadow-xl: 0 16px 48px rgba(0, 0, 0, 0.3), 0 8px 16px rgba(0, 0, 0, 0.2);
+  --brutal-shadow-brutal: 8px 8px 0 rgba(0, 0, 0, 0.9);
+  --brutal-shadow-neon: 0 0 20px rgba(108, 92, 231, 0.6), 0 0 40px rgba(0, 212, 255, 0.3);
+
+  // 边框：粗暴而直接
+  --brutal-border-width: 3px;
+  --brutal-border-color: var(--brutal-black);
+  --brutal-border: var(--brutal-border-width) solid var(--brutal-border-color);
+
+  // 圆角：对比鲜明
+  --brutal-radius-none: 0;
+  --brutal-radius-sm: 4px;
+  --brutal-radius-md: 12px;
+  --brutal-radius-lg: 20px;
+  --brutal-radius-full: 9999px;
+
+  // 动画：流畅而张扬
+  --brutal-transition-fast: 0.15s cubic-bezier(0.4, 0, 0.2, 1);
+  --brutal-transition-base: 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  --brutal-transition-slow: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  --brutal-transition-bounce: 0.6s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+
+// ============================================
+// 2. 全局样式重置
+// ============================================
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background: var(--brutal-gray-900);
+  color: var(--brutal-white);
+  font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+  letter-spacing: -0.01em;
+}
+
+// ============================================
+// 3. 登录页面 - 打破传统
+// ============================================
+.page-login {
+  background: var(--brutal-black);
+  position: relative;
+  overflow: hidden;
+
+  // 动态背景网格
+  &::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image:
+      linear-gradient(rgba(108, 92, 231, 0.03) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(108, 92, 231, 0.03) 1px, transparent 1px);
+    background-size: 50px 50px;
+    animation: grid-move 20s linear infinite;
+  }
+
+  @keyframes grid-move {
+    0% { transform: translate(0, 0); }
+    100% { transform: translate(50px, 50px); }
+  }
+
+  // 霓虹光晕
+  &::after {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: radial-gradient(circle, rgba(108, 92, 231, 0.1) 0%, transparent 70%);
+    animation: glow-pulse 8s ease-in-out infinite;
+  }
+
+  @keyframes glow-pulse {
+    0%, 100% { opacity: 0.5; transform: scale(1); }
+    50% { opacity: 1; transform: scale(1.1); }
+  }
+
+  .box {
+    position: relative;
+    z-index: 10;
+    background: var(--brutal-gray-900);
+    border: var(--brutal-border);
+    border-radius: var(--brutal-radius-lg);
+    padding: 60px 50px;
+    box-shadow: var(--brutal-shadow-brutal), var(--brutal-shadow-neon);
+    backdrop-filter: blur(10px);
+    transform: translateY(0);
+    transition: all var(--brutal-transition-bounce);
+
+    &:hover {
+      transform: translateY(-8px) rotate(-0.5deg);
+      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.9), var(--brutal-shadow-neon);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 12px;
+
+      .icon {
+        width: 60px;
+        height: 60px;
+        background: var(--brutal-gradient-neon);
+        border: var(--brutal-border);
+        border-radius: var(--brutal-radius-md);
+        padding: 8px;
+        box-shadow: var(--brutal-shadow-brutal);
+        position: relative;
+        overflow: hidden;
+
+        &::before {
+          content: '';
+          position: absolute;
+          top: -50%;
+          left: -50%;
+          width: 200%;
+          height: 200%;
+          background: linear-gradient(45deg, transparent, rgba(255,255,255,0.3), transparent);
+          transform: rotate(45deg);
+          animation: shine 3s infinite;
+        }
+
+        @keyframes shine {
+          0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+          100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        img {
+          width: 100%;
+          height: 100%;
+          object-fit: contain;
+          filter: drop-shadow(0 0 8px rgba(255, 255, 255, 0.8));
+        }
+      }
+
+      span {
+        font-size: 32px;
+        font-weight: 900;
+        background: var(--brutal-gradient-neon);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+        background-clip: text;
+        text-shadow: 0 0 30px rgba(108, 92, 231, 0.5);
+        letter-spacing: -0.02em;
+        text-transform: uppercase;
+      }
+    }
+
+    .desc {
+      font-size: 14px;
+      color: var(--brutal-gray-400);
+      margin-bottom: 40px;
+      font-weight: 500;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+  }
+
+  .bg {
+    position: absolute;
+    bottom: -100px;
+    right: -100px;
+    opacity: 0.03;
+    transform: rotate(15deg);
+    filter: blur(2px);
+  }
+
+  .copyright {
+    position: absolute;
+    bottom: 40px;
+    right: 40px;
+    color: var(--brutal-gray-500);
+    font-size: 12px;
+    font-weight: 600;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    text-decoration: none;
+    border: 2px solid var(--brutal-gray-700);
+    padding: 8px 16px;
+    border-radius: var(--brutal-radius-full);
+    transition: all var(--brutal-transition-base);
+
+    &:hover {
+      color: var(--brutal-primary);
+      border-color: var(--brutal-primary);
+      box-shadow: 0 0 20px rgba(108, 92, 231, 0.4);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// ============================================
+// 4. 主布局 - 空间层次
+// ============================================
+.app-layout {
+  background: var(--brutal-black);
+
+  &__left {
+    background: var(--brutal-gray-900);
+    border-right: var(--brutal-border);
+    position: relative;
+
+    &::after {
+      content: '';
+      position: absolute;
+      top: 0;
+      right: 0;
+      width: 1px;
+      height: 100%;
+      background: var(--brutal-gradient-neon);
+      opacity: 0.3;
+    }
+  }
+
+  &__right {
+    background: var(--brutal-black);
+  }
+}
+
+// ============================================
+// 5. 表单元素 - 触感重塑
+// ============================================
+.el-form {
+  .el-form-item {
+    margin-bottom: 28px;
+
+    .el-form-item__label {
+      color: var(--brutal-white);
+      font-weight: 700;
+      font-size: 13px;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+      margin-bottom: 12px;
+      padding: 0;
+      line-height: 1;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+
+  .el-input {
+    .el-input__wrapper {
+      background: var(--brutal-gray-800);
+      border: var(--brutal-border);
+      border-radius: var(--brutal-radius-sm);
+      box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3);
+      padding: 14px 16px;
+      transition: all var(--brutal-transition-base);
+
+      &:hover {
+        border-color: var(--brutal-primary);
+      }
+
+      &.is-focus {
+        border-color: var(--brutal-primary);
+        box-shadow:
+          inset 0 2px 4px rgba(0, 0, 0, 0.3),
+          0 0 0 3px rgba(108, 92, 231, 0.1),
+          0 0 20px rgba(108, 92, 231, 0.3);
+        transform: translateY(-1px);
+      }
+
+      .el-input__inner {
+        color: var(--brutal-white);
+        font-weight: 500;
+        font-size: 15px;
+
+        &::placeholder {
+          color: var(--brutal-gray-500);
+          font-weight: 400;
+        }
+      }
+    }
+  }
+}
+
+// ============================================
+// 6. 按钮系统 - 大胆表达
+// ============================================
+.el-button {
+  border: var(--brutal-border);
+  border-radius: var(--brutal-radius-sm);
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  padding: 14px 32px;
+  font-size: 14px;
+  transition: all var(--brutal-transition-base);
+  position: relative;
+  overflow: hidden;
+
+  &::before {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.1);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+  }
+
+  &:active::before {
+    width: 300px;
+    height: 300px;
+  }
+
+  &--primary {
+    background: var(--brutal-gradient-neon);
+    border-color: var(--brutal-black);
+    color: var(--brutal-white);
+    box-shadow: var(--brutal-shadow-brutal);
+
+    &:hover {
+      transform: translate(-4px, -4px);
+      box-shadow: 12px 12px 0 rgba(0, 0, 0, 0.9), var(--brutal-shadow-neon);
+    }
+
+    &:active {
+      transform: translate(0, 0);
+      box-shadow: 4px 4px 0 rgba(0, 0, 0, 0.9);
+    }
+  }
+
+  &--default {
+    background: var(--brutal-gray-800);
+    border-color: var(--brutal-gray-600);
+    color: var(--brutal-white);
+
+    &:hover {
+      background: var(--brutal-gray-700);
+      border-color: var(--brutal-primary);
+      transform: translateY(-2px);
+    }
+  }
+}
+
+// ============================================
+// 7. 卡片/表格 - 深度与层次
+// ============================================
+.el-card {
+  background: var(--brutal-gray-900);
+  border: var(--brutal-border);
+  border-radius: var(--brutal-radius-md);
+  box-shadow: var(--brutal-shadow-brutal);
+  overflow: hidden;
+  transition: all var(--brutal-transition-base);
+
+  &:hover {
+    transform: translate(-2px, -2px);
+    box-shadow: 10px 10px 0 rgba(0, 0, 0, 0.9);
+  }
+
+  .el-card__header {
+    background: var(--brutal-gray-800);
+    border-bottom: var(--brutal-border);
+    padding: 20px 24px;
+    font-weight: 700;
+    font-size: 16px;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: var(--brutal-white);
+  }
+
+  .el-card__body {
+    padding: 24px;
+    color: var(--brutal-gray-300);
+  }
+}
+
+.el-table {
+  background: var(--brutal-gray-900);
+  color: var(--brutal-white);
+  border: var(--brutal-border);
+  border-radius: var(--brutal-radius-md);
+
+  th.el-table__cell {
+    background: var(--brutal-gray-800);
+    color: var(--brutal-white);
+    font-weight: 700;
+    font-size: 12px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    border-bottom: var(--brutal-border);
+  }
+
+  tr {
+    background: var(--brutal-gray-900);
+
+    &:hover {
+      background: var(--brutal-gray-800) !important;
+    }
+  }
+
+  td.el-table__cell {
+    border-bottom: 1px solid var(--brutal-gray-800);
+    color: var(--brutal-gray-300);
+  }
+}
+
+// ============================================
+// 8. 动画效果库
+// ============================================
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+
+@keyframes rotate-gradient {
+  0% { filter: hue-rotate(0deg); }
+  100% { filter: hue-rotate(360deg); }
+}
+
+@keyframes pulse-glow {
+  0%, 100% { box-shadow: 0 0 20px rgba(108, 92, 231, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(108, 92, 231, 0.6); }
+}
+
+// ============================================
+// 9. 实用工具类
+// ============================================
+.brutal-hover-lift {
+  transition: transform var(--brutal-transition-base);
+
+  &:hover {
+    transform: translateY(-4px);
+  }
+}
+
+.brutal-shadow-brutal {
+  box-shadow: var(--brutal-shadow-brutal);
+}
+
+.brutal-neon-text {
+  background: var(--brutal-gradient-neon);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.brutal-glass {
+  background: rgba(26, 31, 58, 0.6);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}

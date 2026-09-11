@@ -422,4 +422,47 @@ export class ShequPostService extends BaseService {
       }
     };
   }
+
+  /**
+   * 获取相关推荐帖子
+   */
+  async getRecommendPosts(postId: number, limit: number = 5) {
+    // 获取当前帖子信息
+    const currentPost = await this.shequPostEntity.findOne({ where: { id: postId } });
+
+    if (!currentPost) {
+      throw new Error('帖子不存在');
+    }
+
+    // 推荐策略：
+    // 1. 优先推荐相同景点的其他帖子
+    // 2. 其次推荐热门帖子（点赞+评论数高）
+    // 3. 排除当前帖子
+    const sql = `
+      SELECT
+        a.*
+      FROM
+        shequ_post a
+      WHERE a.status = 1 AND a.id != ?
+      ORDER BY
+        CASE WHEN a.scenicId = ? AND a.scenicId IS NOT NULL THEN 0 ELSE 1 END,
+        (a.likeCount + a.commentCount * 2) DESC,
+        a.createTime DESC
+      LIMIT ?
+    `;
+
+    const list = await this.nativeQuery(sql, [postId, currentPost.scenicId || 0, limit]);
+
+    // 检查当前用户是否点赞
+    const userId = this.ctx.user?.id;
+    if (userId && list.length > 0) {
+      const postIds = list.map((item: any) => item.id);
+      const likedIds = await this.checkUserLike(postIds, userId);
+      list.forEach((item: any) => {
+        item.isLiked = likedIds.includes(item.id);
+      });
+    }
+
+    return list;
+  }
 }

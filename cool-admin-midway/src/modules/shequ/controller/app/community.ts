@@ -175,4 +175,17 @@ export class AppShequCommunityController extends BaseController {
     const result = await this.shequPostService.getMyLikeList(userId, page, size);
     return this.ok(result);
   }
+
+  /**
+   * 相关推荐帖子 - 允许游客访问
+   */
+  @CoolTag(TagTypes.IGNORE_TOKEN)
+  @Get('/recommendPosts', { summary: '相关推荐帖子' })
+  async recommendPosts(
+    @Query('postId') postId: number,
+    @Query('limit') limit: number = 5
+  ) {
+    const result = await this.shequPostService.getRecommendPosts(postId, limit);
+    return this.ok(result);
+  }
 }

@@ -180,10 +180,42 @@
             <template #header>
               <h4>相关推荐</h4>
             </template>
-            <div class="recommend-list">
-              <div class="recommend-item" v-for="i in 5" :key="i">
-                <div class="skeleton" style="width: 100%; height: 80px;"></div>
+            <div v-loading="loadingRecommend" class="recommend-list">
+              <div
+                v-for="item in recommendPosts"
+                :key="item.id"
+                class="recommend-item"
+                @click="goToPost(item.id)"
+              >
+                <div class="recommend-cover">
+                  <el-image
+                    v-if="item.images && item.images.length > 0"
+                    :src="item.images[0]"
+                    fit="cover"
+                  />
+                  <div v-else class="no-image">
+                    <el-icon><Picture /></el-icon>
+                  </div>
+                </div>
+                <div class="recommend-info">
+                  <p class="recommend-content">{{ item.content }}</p>
+                  <div class="recommend-meta">
+                    <span class="meta-item">
+                      <el-icon><View /></el-icon>
+                      {{ formatCount(item.viewCount) }}
+                    </span>
+                    <span class="meta-item">
+                      <el-icon><Star /></el-icon>
+                      {{ formatCount(item.likeCount) }}
+                    </span>
+                  </div>
+                </div>
               </div>
+              <el-empty
+                v-if="!loadingRecommend && recommendPosts.length === 0"
+                description="暂无推荐"
+                :image-size="80"
+              />
             </div>
           </el-card>
         </aside>
@@ -203,7 +235,8 @@ import {
   Share,
   Star,
   StarFilled,
-  ArrowLeft
+  ArrowLeft,
+  Picture
 } from '@element-plus/icons-vue'
 import {
   getPostDetail,
@@ -213,6 +246,7 @@ import {
   publishComment,
   likeComment,
   unlikeComment,
+  getRecommendPosts,
   type Post,
   type Comment
 } from '@/api/community'
@@ -225,9 +259,11 @@ const userStore = useUserStore()
 
 const loading = ref(false)
 const loadingComments = ref(false)
+const loadingRecommend = ref(false)
 const publishingComment = ref(false)
 const post = ref<Post>({} as Post)
 const comments = ref<Comment[]>([])
+const recommendPosts = ref<Post[]>([])
 const commentText = ref('')
 const commentInputRef = ref()
 
@@ -256,6 +292,30 @@ async function fetchComments() {
   } finally {
     loadingComments.value = false
   }
+}
+
+// 获取推荐帖子
+async function fetchRecommendPosts() {
+  loadingRecommend.value = true
+  try {
+    const id = Number(route.params.id)
+    recommendPosts.value = await getRecommendPosts(id, 5)
+  } catch (error: any) {
+    console.error('获取推荐失败:', error)
+  } finally {
+    loadingRecommend.value = false
+  }
+}
+
+// 跳转到帖子详情
+function goToPost(postId: number) {
+  router.push(`/community/${postId}`)
+  // 重新加载数据
+  fetchPostDetail()
+  fetchComments()
+  fetchRecommendPosts()
+  // 滚动到顶部
+  window.scrollTo({ top: 0, behavior: 'smooth' })
 }
 
 // 点赞帖子
@@ -351,6 +411,7 @@ function focusCommentInput() {
 onMounted(() => {
   fetchPostDetail()
   fetchComments()
+  fetchRecommendPosts()
 })
 </script>
 
@@ -581,11 +642,72 @@ onMounted(() => {
 }
 
 .recommend-item {
+  display: flex;
+  gap: $spacing-md;
+  padding: $spacing-sm;
+  border-radius: $radius;
   cursor: pointer;
-  transition: transform $transition;
+  transition: all $transition;
+  border: 1px solid transparent;
 
   &:hover {
+    background: $bg;
+    border-color: $divider;
     transform: translateX(4px);
+  }
+}
+
+.recommend-cover {
+  width: 80px;
+  height: 80px;
+  border-radius: $radius;
+  overflow: hidden;
+  flex-shrink: 0;
+  background: $divider;
+
+  .el-image {
+    width: 100%;
+    height: 100%;
+  }
+
+  .no-image {
+    width: 100%;
+    height: 100%;
+    @include flex-center;
+    color: $text-placeholder;
+    font-size: 24px;
+  }
+}
+
+.recommend-info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.recommend-content {
+  font-size: $font-size-sm;
+  line-height: 1.6;
+  color: $text-primary;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: $spacing-xs;
+}
+
+.recommend-meta {
+  @include flex-start;
+  gap: $spacing-md;
+  font-size: $font-size-xs;
+  color: $text-secondary;
+
+  .meta-item {
+    @include flex-start;
+    gap: 4px;
   }
 }
 
