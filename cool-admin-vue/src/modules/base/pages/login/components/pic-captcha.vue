@@ -42,7 +42,7 @@ async function refresh() {
 		.captcha({
 			height: 45,
 			width: 150,
-			color: '#667eea'
+			color: '#1B4F72'
 		})
 		.then(({ captchaId, data }) => {
 			if (data) {

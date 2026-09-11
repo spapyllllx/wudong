@@ -33,6 +33,7 @@ onMounted(() => {
 </script>
 
 <style lang="scss">
+@import '@/styles/wudong-theme.scss';
 @import '@/styles/global.scss';
 
 .app {
